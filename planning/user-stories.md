@@ -24,15 +24,19 @@
 
 - (MVP ✅) As a user, I want to be able to see the entire email chain when I view a ticket, starting with the most recent response.
 
-- As a user, I want to be able to assign tickets.
+- (MVP ✅) As a user, I want to be able to assign tickets that are currently unassigned (in triage).
 
-- As a user, I want to be able to unassign tickets, and transfer a ticket to another agent.
+- (MVP ✅) As a user, I want to be able to unassign ticket I am assigned to, and unassign a ticket someone is assigned to (put ticket in triage where they are open and unassigned).
 
-- As a user, I want to be able to respond to a CS request in a ticket I am assigned (email response).
+- (MVP ✅) As a user, I want to be able to transfer my ticket to another agent.
+
+- (MVP ✅) As a user, I want to be able to respond to a CS request in a ticket I am assigned (email response).
 
 - (MVP ✅) As a user, I want to be able to respond to customer requests.
 
 - As a user, I want to be able to mark a ticket as resolved, to close and archive the ticket.
+
+- As a user, I want to be able to delete a ticket (in cases of spam emails).
 
 - STRETCH: As a user, I want to be able to search for tickets based on keywords.
 

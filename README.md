@@ -5,6 +5,7 @@ SmartAgent is a customer support ticket management application, paired with an A
 
 <!-- ## Features ✅ -->
 
+
 ## Getting Started ✨
 To run this project locally, clone this repository and navigate to the root directory.
 
