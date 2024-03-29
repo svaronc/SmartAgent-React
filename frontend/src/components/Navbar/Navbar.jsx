@@ -1,18 +1,28 @@
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useContext } from "react";
 function Navbar() {
+  const { logout, isAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.delete("http://localhost:3000/logout");
+      console.log(response.data);
+      logout();
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
-    <nav>
+    isAuthenticated && (<nav>
       <div className="navbar bg-base-100">
         <div className="flex-1">
           <a className="btn btn-ghost text-xl">SmartAgent</a>
         </div>
         <div className="flex-none gap-2">
-          <div className="form-control">
-            <input
-              type="text"
-              placeholder="Search"
-              className="input input-bordered w-24 md:w-auto"
-            />
-          </div>
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
@@ -40,13 +50,13 @@ function Navbar() {
                 <a>Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                <button onClick={handleLogout}>Logout</button>
               </li>
             </ul>
           </div>
         </div>
       </div>
-    </nav>
+    </nav>)
   );
 }
 

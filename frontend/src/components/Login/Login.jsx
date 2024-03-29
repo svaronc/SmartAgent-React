@@ -1,11 +1,13 @@
-import login from "../../assets/login.svg";
-import { FcGoogle } from "react-icons/fc";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
+import { FcGoogle } from "react-icons/fc";
 import "./styles.css";
-import { useState } from "react";
+import loginImg from "../../assets/loginImg.svg";
 
 function Login() {
+  const {login} = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -18,6 +20,7 @@ function Login() {
     });
     console.log(response.data);
     navigate("/main");
+    login();
   } catch (error) {
     console.error(error);
   }
@@ -28,7 +31,7 @@ function Login() {
         {/* Left side */}
       <div className="relative background__card rounded-s-2xl ">
           <img
-            src={login}
+            src={loginImg}
             alt="login image"
             className="h-[90%] hidden rounded-r-2xl lg:block object-cover"
           />
