@@ -1,3 +1,3 @@
 class Request < ApplicationRecord
-  has__many :tickets
+  has_many :tickets
 end
