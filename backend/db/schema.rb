@@ -10,54 +10,55 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_29_004203) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_29_192957) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "agents", force: :cascade do |t|
-    t.string "username"
-    t.string "role"
+    t.string "email", null: false
+    t.string "username", null: false
+    t.string "password_digest", null: false
+    t.bigint "role_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "password_digest"
-  end
-
-  create_table "customers", force: :cascade do |t|
-    t.string "email"
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["role_id"], name: "index_agents_on_role_id"
   end
 
   create_table "requests", force: :cascade do |t|
-    t.string "from_email"
-    t.string "to_email"
-    t.text "body"
+    t.string "from_email", null: false
+    t.string "customer_name", null: false
+    t.string "title", null: false
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "role", null: false
+    t.string "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "statuses", force: :cascade do |t|
-    t.string "description"
+    t.string "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "tickets", force: :cascade do |t|
-    t.bigint "agent_id", null: false
-    t.bigint "customer_id", null: false
-    t.bigint "request_id", null: false
-    t.bigint "status_id", null: false
+    t.bigint "agent_id"
+    t.bigint "request_id"
+    t.bigint "status_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["agent_id"], name: "index_tickets_on_agent_id"
-    t.index ["customer_id"], name: "index_tickets_on_customer_id"
     t.index ["request_id"], name: "index_tickets_on_request_id"
     t.index ["status_id"], name: "index_tickets_on_status_id"
   end
 
+  add_foreign_key "agents", "roles"
   add_foreign_key "tickets", "agents"
-  add_foreign_key "tickets", "customers"
   add_foreign_key "tickets", "requests"
   add_foreign_key "tickets", "statuses"
 end
