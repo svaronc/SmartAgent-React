@@ -48,6 +48,6 @@ class RequestsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def request_params
-      params.require(:request).permit(:from_email, :to_email, :body, :created_at)
+      params.require(:request).permit(:from_email, :customer_name, :body, :created_at, :title)
     end
 end
