@@ -1,7 +1,9 @@
+import Sidebar from "../Sidebar/Sidebar"
+
 function MainPage() {
   return (
-    <div>
-      Yess we login successfully
+    <div className="h-screen">
+      <Sidebar/>
     </div>
   )
 }

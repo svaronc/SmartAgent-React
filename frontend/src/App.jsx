@@ -1,5 +1,6 @@
 import { BrowserRouter, useRoutes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Hero from "./components/Hero/Hero";
 import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar/Navbar";
@@ -10,7 +11,7 @@ const AppRoutes = () => {
   let routes = useRoutes([
     { path: "/", element: <Hero /> },
     { path: "/login", element: <Login /> },
-    { path: "/main", element: <MainPage/> },
+    { path: "/main", element: <PrivateRoute><MainPage/></PrivateRoute>},
   ]);
   return routes;
 };

@@ -19,6 +19,7 @@ function Login() {
         password
     });
     console.log(response.data);
+    localStorage.setItem('isAuthenticated', 'true');
     navigate("/main");
     login();
   } catch (error) {
