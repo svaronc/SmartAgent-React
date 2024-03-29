@@ -1,8 +1,27 @@
 import login from "../../assets/login.svg";
 import { FcGoogle } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./styles.css";
+import { useState } from "react";
 
 function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:3000/login", {
+        username,
+        password
+    });
+    console.log(response.data);
+    navigate("/main");
+  } catch (error) {
+    console.error(error);
+  }
+}
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="relative flex flex-col m-6 space-y-8 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0">
@@ -19,6 +38,7 @@ function Login() {
           className="flex flex-col justify-center p-8 md:p-14"
           action="/submit-your-login-form"
           method="POST"
+          onSubmit={handleLogin}
         >
           <h1 className="mb-3 text-4xl font-bold">Welcome back</h1>
           <p className="font-light text-gray-400 mb-8">
@@ -34,6 +54,8 @@ function Login() {
               name="email"
               id="email"
               required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="py-4">
@@ -46,6 +68,8 @@ function Login() {
               id="pass"
               className="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500"
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="flex justify-between w-full py-4">

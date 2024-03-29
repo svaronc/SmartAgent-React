@@ -21,7 +21,9 @@ default: &default
 
 development:
   <<: *default
-  database: backend_development
+  database: smart_agent
+  username: svaronc
+  password: Vida1394
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
