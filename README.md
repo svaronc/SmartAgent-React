@@ -8,6 +8,11 @@ SmartAgent is a customer support ticket management application, paired with an A
 ## Getting Started ✨
 To run this project locally, clone this repository and navigate to the root directory.
 
+### Requirements
+- Ruby version 3.3.0
+- NodeJS >= 18.15.0
+
+
 ### Back-end 🚅
 1. Navigate to the /backend folder.
 
