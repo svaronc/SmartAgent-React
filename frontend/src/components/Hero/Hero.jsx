@@ -12,8 +12,11 @@ function Hero() {
       <div className="hero-overlay bg-opacity-60"></div>
       <div className="hero-content text-center text-neutral-content">
         <div className="max-w-md">
-          <h1 className="mb-5 text-7xl font-bold">Welcome to SmartAgent</h1>
-          <p className="mb-5 text-4xl font-bold">
+          <h1 className="mb-5 text-7xl font-bold text-slate-200">Welcome to SmartAgent</h1>
+          <div className="flex items-center justify-center">
+            <img src="/SmartAgent-icon.svg" alt="SmartAgent icon" width="140" />
+          </div>
+          <p className="mb-5 text-4xl font-bold text-slate-300">
             Are you a
           </p>
           <div className="flex items-center justify-center gap-5">
