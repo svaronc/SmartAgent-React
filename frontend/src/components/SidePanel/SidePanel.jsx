@@ -2,7 +2,7 @@ import { sidePanelItems } from "../../constants/side-panel-items"
 
 function SidePanel() {
   return (
-    <div className="bg-base-200 mr-5 ml-5 border-r-4 border-double">
+    <div className="bg-base-200 ml-5 border-r-4 border-double">
       <h1 className="text-2xl font-bold mb-4">Tickets</h1>
       {/* <input type="search" name="search" id="search" placeholder="search" /> */}
       
