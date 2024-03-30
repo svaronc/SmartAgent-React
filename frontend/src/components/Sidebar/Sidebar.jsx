@@ -1,4 +1,4 @@
-import { menuItems } from "../../constants/index"
+import { menuItems } from "../../constants/sidebar-menu-items"
 
 function Sidebar() {
   return (

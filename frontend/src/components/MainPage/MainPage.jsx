@@ -1,5 +1,5 @@
 import Sidebar from "../Sidebar/Sidebar"
-import SidePanel from "../Sidepanel/SidePanel"
+import SidePanel from "../SidePanel/SidePanel"
 
 function MainPage() {
   return (
