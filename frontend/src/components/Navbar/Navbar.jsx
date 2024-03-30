@@ -19,7 +19,7 @@ function Navbar() {
   };
   return (
     isAuthenticated && (<nav>
-      <div className="navbar bg-base-100 shadow-md mb-10">
+      <div className="navbar bg-base-100 shadow-md">
         <div className="flex-1">          
           <a className="btn btn-ghost text-xl">
             <img src="/SmartAgent-icon.svg" alt="SmartAgent icon" width="35" />SmartAgent
@@ -46,7 +46,6 @@ function Navbar() {
               <li>
                 <a className="justify-between">
                   Profile
-                  <span className="badge">New</span>
                 </a>
               </li>
               <li>
