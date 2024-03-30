@@ -1,10 +1,10 @@
-class TicketsController < ApplicationController
+class Api::V1::TicketsController < ApplicationController
   before_action :set_ticket, only: %i[ show update destroy ]
 
   # GET /tickets
   # GET /tickets.json
   def index
-    @tickets = Ticket.all
+   render json: @tickets = Ticket.all
   end
 
   # GET /tickets/1
@@ -48,6 +48,6 @@ class TicketsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def ticket_params
-      params.require(:ticket).permit(:agent_id, :customer_id, :request_id, :status_id, :created_at)
+      params.require(:ticket).permit(:agent_id, :request_id, :status_id)
     end
 end

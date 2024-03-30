@@ -1,10 +1,10 @@
-class StatusesController < ApplicationController
+class Api::V1::StatusesController < ApplicationController
   before_action :set_status, only: %i[ show update destroy ]
 
   # GET /statuses
   # GET /statuses.json
   def index
-    @statuses = Status.all
+    render json: @statuses = Status.all
   end
 
   # GET /statuses/1
