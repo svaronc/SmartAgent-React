@@ -1,6 +1,6 @@
-import { sidePanelItems } from "../../constants/side-panel-items"
+import { sidePanelItems } from "../../../constants/side-panel-items"
 
-function SidePanel() {
+function TicketSidePanel() {
   return (
     <div className="bg-base-200 border-r-4 border-double w-1/5">
       <h1 className="text-2xl font-bold mb-4 ml-4">Tickets</h1>
@@ -21,4 +21,4 @@ function SidePanel() {
   );
 }
 
-export default SidePanel;
+export default TicketSidePanel;

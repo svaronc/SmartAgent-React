@@ -3,15 +3,15 @@ import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Hero from "./components/Hero/Hero";
 import Login from "./components/Login/Login";
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "./components/AgentMainPage/Navbar";
 import Footer from "./components/Footer/Footer";
-import MainPage from "./components/MainPage/MainPage";
+import AgentMainPage from "./components/AgentMainPage/AgentMainPage";
 
 const AppRoutes = () => {
   let routes = useRoutes([
     { path: "/", element: <Hero /> },
     { path: "/login", element: <Login /> },
-    { path: "/main", element: <PrivateRoute><MainPage/></PrivateRoute>},
+    { path: "/main", element: <PrivateRoute><AgentMainPage/></PrivateRoute>},
   ]);
   return routes;
 };

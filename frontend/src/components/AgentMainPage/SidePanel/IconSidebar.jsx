@@ -1,6 +1,6 @@
-import { menuItems } from "../../constants/sidebar-menu-items"
+import { menuItems } from "../../../constants/sidebar-menu-items"
 
-function Sidebar() {
+function IconSidebar() {
   return (
     <ul className="menu bg-base-200 content-center h-screen w-[75px] border-r-8 border-double">
     {menuItems.map((item, index) => (
@@ -14,4 +14,4 @@ function Sidebar() {
   )
 }
 
-export default Sidebar
+export default IconSidebar
