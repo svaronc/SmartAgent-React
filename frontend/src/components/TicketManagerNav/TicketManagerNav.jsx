@@ -4,14 +4,13 @@ function TicketManagerNav() {
 
   return (
     <nav>
-      <section className="navbar bg-base-100 shadow-md pl-5">
-        <h1 className="text-2xl font-bold mb-4">Triage - Open Tickets</h1>
-        {/* <div className="flex-1">          
-          <a className="btn btn-ghost text-xl">
-            <img src="/SmartAgent-icon.svg" alt="SmartAgent icon" width="35" />SmartAgent
-          </a>
-        </div> */}
-        
+      <section className="flex content-start navbar bg-base-100 shadow-md pl-5 w-full">
+        <div className="flex-col">
+          <h1 className="text-2xl font-bold mb-4">Triage - Open Tickets</h1>
+          <div className="mb-4">       
+            <input type="search" name="search" id="search" placeholder=" Search" className="bg-slate-100"/>
+          </div>
+        </div>
       </section>
     </nav>
   )

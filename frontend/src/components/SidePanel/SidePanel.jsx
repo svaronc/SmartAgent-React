@@ -9,7 +9,7 @@ function SidePanel() {
       <div>
         <ul>
           {sidePanelItems.map((item, index) => (
-            <li class="ring-yellow-600/20 mr-5 mb-1 pt-1 pb-1 pl-2 pr-2 hover:bg-blue-50 rounded cursor-pointer">
+            <li class="ring-yellow-600/20 mr-5 mb-1 pt-1 pb-1 pl-2 pr-2 hover:bg-slate-200 rounded cursor-pointer">
               <span class="inline-flex items-center mr-2 rounded-full bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
                 #
               </span>
