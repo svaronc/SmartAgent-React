@@ -8,7 +8,7 @@ function TicketInbox() {
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/requests', {
+    axios.get('http://localhost:3000/api/v1/requests', {
       headers: {
         'Accept': 'application/json'
       }
@@ -59,7 +59,7 @@ function TicketInbox() {
                   </th>
                   <td className="px-6 py-4">{request.customer_name}</td>
                   <td className="px-6 py-4">{request.id}</td>
-                  <td className="px-6 py-4">Open</td>
+                  <td className="px-6 py-4">{request.tickets[0].status.description}</td>
                   <td className="px-6 py-4">{request.created_at}</td>
                   <td className="px-6 py-4">
                     <div className="flex flex-row gap-3 hover:ring-slate-300">
