@@ -24,7 +24,7 @@ function Footer() {
       <nav>
         <h6 className="footer-title">Project Source</h6>
         <div className="grid grid-flow-col gap-4">
-          <a href="https://github.com/glowiep/SmartAgent">
+          <a href="https://github.com/glowiep/SmartAgent" target="_blank">
             <AiOutlineGithub size='2rem'/>
           </a>
         </div>
