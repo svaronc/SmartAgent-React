@@ -1,11 +1,11 @@
 class Api::V1::RequestsController < ApplicationController
-  before_action :set_request, only: %i[ show update destroy ]
-  
+  before_action :set_request, only: %i[show update destroy]
+
   # GET /requests
   # GET /requests.json
   def index
     @requests = Request.all
-    render json: @requests, include: { tickets: { include: [:agent,:status] } }
+    render json: @requests, include: { tickets: { include: %i[agent status] } }
   end
 
   # GET /requests/1
@@ -43,13 +43,14 @@ class Api::V1::RequestsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_request
-      @request = Request.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def request_params
-      params.require(:request).permit(:from_email, :customer_name, :body,  :title)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_request
+    @request = Request.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def request_params
+    params.require(:request).permit(:from_email, :customer_name, :body, :title)
+  end
 end
