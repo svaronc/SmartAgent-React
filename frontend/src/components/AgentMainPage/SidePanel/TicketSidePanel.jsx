@@ -1,7 +1,9 @@
 import { sidePanelItems } from "../../../constants/side-panel-items"
 import useApplicationData from "../../../hooks/useApplicationData";
+import { useAppContext } from "../../../context/TicketManagerContext";
 
 function TicketSidePanel() {
+  const { state } = useAppContext();
   const { setTicketManagerView } = useApplicationData();
   return (
     <div className="bg-base-200 border-r-4 border-double w-1/5">
@@ -16,7 +18,7 @@ function TicketSidePanel() {
               onClick={() => setTicketManagerView(item.title)}
             >
               <span className="inline-flex items-center mr-2 rounded-full bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
-                #
+                {state[item.count]}
               </span>
               <label className="cursor-pointer" htmlFor="status">{item.title}</label>
             </li>

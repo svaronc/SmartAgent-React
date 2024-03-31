@@ -18,7 +18,10 @@ function reducer(state, action) {
 
 const INITIAL_STATE = {
   ticketManagerView: "Triage - Open Tickets",
-
+  countAssignedToMe: 0,
+  countTriage: 0,
+  countAll: 0,
+  countClosed: 0
 }
 
 export const AppContext = createContext();
