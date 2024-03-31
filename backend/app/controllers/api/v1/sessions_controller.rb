@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+class Api::V1::SessionsController < ApplicationController
   # POST /login
   def create
     @agent = Agent.find_by(email: params[:username])

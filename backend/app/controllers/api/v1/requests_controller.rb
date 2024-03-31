@@ -1,15 +1,17 @@
-class RequestsController < ApplicationController
+class Api::V1::RequestsController < ApplicationController
   before_action :set_request, only: %i[ show update destroy ]
-
+  
   # GET /requests
   # GET /requests.json
   def index
     @requests = Request.all
+    render json: @requests, include: { tickets: { include: [:agent,:status] } }
   end
 
   # GET /requests/1
   # GET /requests/1.json
   def show
+    render json: @request, inlcude: :ticket
   end
 
   # POST /requests
@@ -48,6 +50,6 @@ class RequestsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def request_params
-      params.require(:request).permit(:from_email, :customer_name, :body, :created_at, :title)
+      params.require(:request).permit(:from_email, :customer_name, :body,  :title)
     end
 end

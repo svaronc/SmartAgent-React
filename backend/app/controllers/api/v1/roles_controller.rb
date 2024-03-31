@@ -1,10 +1,10 @@
-class RolesController < ApplicationController
+class Api::V1::RolesController < ApplicationController
   before_action :set_role, only: %i[ show update destroy ]
 
   # GET /roles
   # GET /roles.json
   def index
-    @roles = Role.all
+    render json: @roles = Role.all
   end
 
   # GET /roles/1
