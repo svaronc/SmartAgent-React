@@ -21,7 +21,9 @@ const INITIAL_STATE = {
   countAssignedToMe: 0,
   countTriage: 0,
   countAll: 0,
-  countClosed: 0
+  countClosed: 0,
+  ticketInboxView: true,
+  ticketInfoView: false
 }
 
 export const AppContext = createContext();

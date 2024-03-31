@@ -1,4 +1,5 @@
 import { ACTIONS, useAppContext } from "../context/AppContext";
+// import { useEffect } from 'react';
 
 const useApplicationData = () => {
   const { state, dispatch } = useAppContext();
@@ -10,7 +11,9 @@ const useApplicationData = () => {
    */
   const setTicketManagerView = (view) => {
     dispatch({type: ACTIONS.SET_VIEW, payload: view });
-    console.log(state)
+    // useEffect(() => {
+
+    // }, [state.setTicketManagerView])
   }
 
   return {
