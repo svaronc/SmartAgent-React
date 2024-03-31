@@ -16,8 +16,8 @@ Status.destroy_all
 Ticket.destroy_all 
 
 # Seed data for roles
-role_admin = Role.create(name: "Admin", description: "Administrator role")
-role_user = Role.create(name: "User", description: "User role")
+role_admin = Role.create(role: "Admin", description: "Administrator role")
+role_user = Role.create(role: "User", description: "User role")
 
 # Seed data for agents table
 agent_triage = Agent.create(email: "triage@gmail.com",username: "triage", password: "password", role_id: role_admin.id)
