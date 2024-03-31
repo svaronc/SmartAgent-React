@@ -63,9 +63,9 @@ function TicketInbox() {
                   <td className="px-6 py-4">{request.created_at}</td>
                   <td className="px-6 py-4">
                     <div className="flex flex-row gap-3 hover:ring-slate-300">
-                      <LuArrowLeftRight size='1.5rem'/>
-                      <CgCheckO size='1.5rem'/>
-                      <MdDelete size='1.5rem'/>
+                      <LuArrowLeftRight size='1.5rem' onClick={() => console.log("transfer")}/>
+                      <CgCheckO size='1.5rem' onClick={() => console.log("resolve")}/>
+                      <MdDelete size='1.5rem' onClick={() => console.log("delete")}/>
                     </div>
                   </td>
                 </tr>
