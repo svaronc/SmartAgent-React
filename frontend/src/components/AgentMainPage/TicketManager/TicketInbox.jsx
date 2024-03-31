@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { MdDelete } from "react-icons/md";
+import { LuArrowLeftRight } from "react-icons/lu";
+import { CgCheckO } from "react-icons/cg";
 
 function TicketInbox() {
   const [requests, setRequests] = useState([]);
@@ -40,6 +43,9 @@ function TicketInbox() {
               <th scope="col" className="px-6 py-3">
                 Created
               </th>
+              <th scope="col" className="px-6 py-3">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -55,6 +61,13 @@ function TicketInbox() {
                   <td className="px-6 py-4">{request.id}</td>
                   <td className="px-6 py-4">Open</td>
                   <td className="px-6 py-4">{request.created_at}</td>
+                  <td className="px-6 py-4">
+                    <div className="flex flex-row gap-3 hover:ring-slate-300">
+                      <LuArrowLeftRight size='1.5rem'/>
+                      <CgCheckO size='1.5rem'/>
+                      <MdDelete size='1.5rem'/>
+                    </div>
+                  </td>
                 </tr>
               ))}
           </tbody>
