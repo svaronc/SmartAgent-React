@@ -20,6 +20,7 @@ const useApplicationData = () => {
    */
   const setTicketView = (ticket_id) => {
     dispatch({type: ACTIONS.VIEW_TICKET, payload: ticket_id})
+    console.log("setTicketView")
   }
 
   // const getTriageTicketCount = () => {

@@ -3,9 +3,11 @@ import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
+import useApplicationData from "../../../hooks/useApplicationData";
 
 function TicketInbox() {
   const [requests, setRequests] = useState([]);
+  const { setTicketView } = useApplicationData();
 
   useEffect(() => {
     axios.get('http://localhost:3000/api/v1/requests', {
@@ -50,7 +52,11 @@ function TicketInbox() {
           </thead>
           <tbody>
               {requests.map(request => (
-                <tr key={request.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-50 rounded cursor-pointer">
+                <tr 
+                  key={request.id} 
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-50 rounded cursor-pointer"
+                  onClick={() => setTicketView(request.id)}
+                >
                   <th
                     scope="row"
                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
