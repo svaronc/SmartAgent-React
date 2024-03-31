@@ -1,6 +1,6 @@
 export const sidePanelItems = [
-  { title: "Assigned to Me", tooltip: 'View' },
-  { title: "Triage - Open Tickets", tooltip: 'View' },
-  { title: "All Tickets", tooltip: 'View' },
-  { title: "Closed Tickets", tooltip: 'View' },
+  { title: "Assigned to Me", count: 'countAssignedToMe' },
+  { title: "Triage - Open Tickets", count: 'countTriage' },
+  { title: "All Tickets", count: 'countAll' },
+  { title: "Closed Tickets", count: 'countClosed' },
 ];
