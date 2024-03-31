@@ -26,7 +26,7 @@ function TicketInbox() {
   return (
     <section className="flex flex-col w-full">
 
-      <div className="relative overflow-x-auto">
+      <div className="relative">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -69,9 +69,23 @@ function TicketInbox() {
                   <td className="px-6 py-4">{request.created_at}</td>
                   <td className="px-6 py-4">
                     <div className="flex flex-row gap-3 hover:ring-slate-300">
-                      <LuArrowLeftRight size='1.5rem' onClick={() => console.log("transfer")}/>
-                      <CgCheckO size='1.5rem' onClick={() => console.log("resolve")}/>
-                      <MdDelete size='1.5rem' onClick={() => console.log("delete")}/>
+                      <div className="dropdown dropdown-hover">
+                        <li  className="tooltip tooltip-right" data-tip="Transfer">
+                          <LuArrowLeftRight 
+                            size='1.5rem' 
+                            onClick={() => console.log("transfer")}
+                          />
+                        </li>
+                        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                          <li onClick={() => console.log("transfer")}><a>Agent 1 (work in progress)</a></li>
+                        </ul>
+                      </div>
+                      <li  className="tooltip tooltip-right" data-tip="Resolve">
+                        <CgCheckO size='1.5rem' onClick={() => console.log("resolve")}/>
+                      </li>
+                      <li  className="tooltip tooltip-right" data-tip="Delete Ticket">
+                        <MdDelete size='1.5rem' onClick={() => console.log("delete")}/>
+                      </li>
                     </div>
                   </td>
                 </tr>
