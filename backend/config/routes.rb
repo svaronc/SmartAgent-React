@@ -4,7 +4,9 @@ Rails.application.routes.draw do
       resources :roles
       resources :statuses
       resources :requests
-      resources :tickets
+      resources :tickets do
+        post 'responses', to: 'tickets#respond'
+      end
       resources :agents
       resources :customers
       post 'login', to: 'sessions#create'
