@@ -7,7 +7,7 @@ import useApplicationData from "../../../hooks/useApplicationData";
 
 function TicketInbox() {
   const [requests, setRequests] = useState([]);
-  const { setTicketView } = useApplicationData();
+  const { setTicketView, deleteTicket } = useApplicationData();
 
   useEffect(() => {
     axios.get('http://localhost:3000/api/v1/requests', {
@@ -55,7 +55,7 @@ function TicketInbox() {
                 <tr 
                   key={request.id} 
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-50 rounded cursor-pointer"
-                  onClick={() => setTicketView(request.id)}
+                  onClick={() => setTicketView(request.id) }
                 >
                   <th
                     scope="row"

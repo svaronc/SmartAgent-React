@@ -9,9 +9,9 @@ export const ACTIONS = {
 function reducer(state, action) {
   switch (action.type) {
     case ACTIONS.SET_VIEW:
-      return { ...state, ticketManagerView: action.payload, ticketInboxView: false, ticketInfoView: true };
+      return { ...state, ticketManagerView: action.payload, ticketInboxView: true, ticketInfoView: false };
     case ACTIONS.VIEW_TICKET:
-      return { ...state, viewTicketId: action.payload, ticketInboxView: true, ticketInfoView: false };
+      return { ...state, viewTicketId: action.payload, ticketInboxView: false, ticketInfoView: true };
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`

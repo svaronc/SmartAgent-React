@@ -1,4 +1,5 @@
 import { ACTIONS, useAppContext } from "../context/AppContext";
+import axios from "axios";
 // import { useEffect } from 'react';
 
 const useApplicationData = () => {
@@ -28,7 +29,8 @@ const useApplicationData = () => {
   // }
 
   // DELETE /tickets/:id
-  const deleteTicket = (id) => {
+  const deleteTicket = (ticket_id) => {
+    event.stopPropagation();
     axios.delete(`http://localhost:3000/api/v1/tickets/${ticket_id}`)
       .then(() => {
         dispatch({type: ACTIONS.SET_VIEW, payload: "Triage - Open Tickets"})
