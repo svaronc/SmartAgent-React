@@ -1,7 +1,7 @@
 import { BrowserRouter, useRoutes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
-import Hero from "./components/Hero/Hero";
+import Hero from "./components/Landing/Hero";
 import Login from "./components/Login/Login";
 import Navbar from "./components/AgentMainPage/Navbar";
 import Footer from "./components/Footer/Footer";
