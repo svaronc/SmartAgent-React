@@ -2,13 +2,16 @@
 import React, { createContext, useReducer, useContext } from 'react';
 
 export const ACTIONS = {
-  SET_VIEW: 'SET_VIEW'
+  SET_VIEW: 'SET_VIEW',
+  VIEW_TICKET: 'VIEW_TICKET'
 }
 
 function reducer(state, action) {
   switch (action.type) {
     case ACTIONS.SET_VIEW:
-      return { ...state, ticketManagerView: action.payload };
+      return { ...state, ticketManagerView: action.payload, ticketInboxView: true, ticketInfoView: false };
+    case ACTIONS.VIEW_TICKET:
+      return { ...state, viewTicketId: action.payload, ticketInboxView: true, ticketInfoView: false };
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
@@ -22,6 +25,7 @@ const INITIAL_STATE = {
   countTriage: 0,
   countAll: 0,
   countClosed: 0,
+  viewTicketId: "",
   ticketInboxView: true,
   ticketInfoView: false
 }

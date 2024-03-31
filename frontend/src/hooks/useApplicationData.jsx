@@ -11,13 +11,36 @@ const useApplicationData = () => {
    */
   const setTicketManagerView = (view) => {
     dispatch({type: ACTIONS.SET_VIEW, payload: view });
-    // useEffect(() => {
+  }
 
-    // }, [state.setTicketManagerView])
+  /**
+   * This sets the Ticket information view
+   * @function
+   * @returns {void}
+   */
+  const setTicketView = (ticket_id) => {
+    dispatch({type: ACTIONS.VIEW_TICKET, payload: ticket_id})
+  }
+
+  // const getTriageTicketCount = () => {
+
+  // }
+
+  // DELETE /tickets/:id
+  const deleteTicket = (id) => {
+    axios.delete(`http://localhost:3000/api/v1/tickets/${ticket_id}`)
+      .then(() => {
+        dispatch({type: ACTIONS.SET_VIEW, payload: "Triage - Open Tickets"})
+      })
+      .catch(error => {
+        console.error('Error fetching requests', error);
+      });
   }
 
   return {
     setTicketManagerView,
+    setTicketView,
+    deleteTicket,
   }
 }
 
