@@ -12,6 +12,14 @@ class Api::V1::TicketsController < ApplicationController
   def show
   end
 
+  # POST /tickets/1/responses
+  def respond
+    @ticket = Ticket.includes(:request).find(params[:ticket_id])
+    @response = params[:response]
+    ApplicationMailer.ticket_response(@ticket, @response).deliver_now
+    render json: { message: "Response sent" }, status: :ok
+  end
+
   # POST /tickets
   # POST /tickets.json
   def create
