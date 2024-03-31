@@ -1,4 +1,4 @@
-import { ACTIONS, useAppContext } from "../context/TicketManagerContext";
+import { ACTIONS, useAppContext } from "../context/AppContext";
 
 const useApplicationData = () => {
   const { state, dispatch } = useAppContext();

@@ -1,6 +1,6 @@
 import { sidePanelItems } from "../../../constants/side-panel-items"
 import useApplicationData from "../../../hooks/useApplicationData";
-import { useAppContext } from "../../../context/TicketManagerContext";
+import { useAppContext } from "../../../context/AppContext";
 
 function TicketSidePanel() {
   const { state } = useAppContext();

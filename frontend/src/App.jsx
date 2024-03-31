@@ -6,7 +6,7 @@ import Login from "./components/Login/Login";
 import Navbar from "./components/AgentMainPage/Navbar";
 import Footer from "./components/Footer/Footer";
 import AgentMainPage from "./components/AgentMainPage/AgentMainPage";
-import { AppProvider } from "./context/TicketManagerContext";
+import { AppProvider } from "./context/AppContext";
 
 const AppRoutes = () => {
   let routes = useRoutes([
