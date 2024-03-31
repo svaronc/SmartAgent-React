@@ -1,8 +1,8 @@
-import { menuItems } from "../../constants/index"
+import { menuItems } from "../../../constants/sidebar-menu-items"
 
-function Sidebar() {
+function IconSidebar() {
   return (
-    <ul className="menu bg-base-200 content-center h-screen w-[100px] border-r-8 border-double">
+    <ul className="menu bg-base-200 content-center h-screen w-[75px] border-r-8 border-double">
     {menuItems.map((item, index) => (
       <li key={index}>
         <a className="tooltip tooltip-right mt-10" data-tip={item.tooltip}>
@@ -14,4 +14,4 @@ function Sidebar() {
   )
 }
 
-export default Sidebar
+export default IconSidebar

@@ -2,6 +2,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useContext } from "react";
+
 function Navbar() {
   const { logout, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -18,9 +19,11 @@ function Navbar() {
   };
   return (
     isAuthenticated && (<nav>
-      <div className="navbar bg-base-100 shadow-md mb-10">
-        <div className="flex-1">
-          <a className="btn btn-ghost text-xl">SmartAgent</a>
+      <div className="navbar bg-base-100 shadow-md">
+        <div className="flex-1">          
+          <a className="btn btn-ghost text-xl">
+            <img src="/SmartAgent-icon.svg" alt="SmartAgent icon" width="35" />SmartAgent
+          </a>
         </div>
         <div className="flex-none gap-2">
           <div className="dropdown dropdown-end">
@@ -43,7 +46,6 @@ function Navbar() {
               <li>
                 <a className="justify-between">
                   Profile
-                  <span className="badge">New</span>
                 </a>
               </li>
               <li>
