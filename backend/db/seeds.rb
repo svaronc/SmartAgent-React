@@ -10,24 +10,28 @@
 
 # Clear existing data
 Agent.destroy_all
-Role.destroy_all 
-Request.destroy_all 
-Status.destroy_all 
-Ticket.destroy_all 
+Role.destroy_all
+Request.destroy_all
+Status.destroy_all
+Ticket.destroy_all
 
 # Seed data for roles
-role_admin = Role.create(role: "Admin", description: "Administrator role")
-role_user = Role.create(role: "User", description: "User role")
+role_admin = Role.create(role: 'Admin', description: 'Administrator role')
+role_user = Role.create(role: 'User', description: 'User role')
 
 # Seed data for agents table
-agent_triage = Agent.create(email: "triage@gmail.com",username: "triage", password: "password", role_id: role_admin.id)
-agent_sebastian = Agent.create(email: "sebastianvaron96@gmail.com",username: "svaronc", password: "password", role_id: role_admin.id)
-agent_gloria = Agent.create(email: "glorialimartt@gmail.com",username: "glowiep", password: "password", role_id: role_admin.id)
+agent_triage = Agent.create(email: 'triage@gmail.com', username: 'triage', password: 'password', role_id: role_admin.id)
+agent_sebastian = Agent.create(email: 'sebastianvaron96@gmail.com', username: 'svaronc', password: 'password',
+                               role_id: role_admin.id)
+agent_gloria = Agent.create(email: 'glorialimartt@gmail.com', username: 'glowiep', password: 'password',
+                            role_id: role_admin.id)
 
 # Seed data for statuses
-status_open = Status.create(description: "Open")
-status_closed = Status.create(description: "Closed")
+status_open = Status.create(description: 'Open')
+status_closed = Status.create(description: 'Closed')
 
 # Seed data for requests
-Request.create(from_email: "john@example.com", body: "This is a test request", customer_name: "John Doe", title: "Test Request 1", default_status_id: status_open.id, default_agent_id: agent_triage.id)
-Request.create(from_email: "jane@example.com", body: "This is another test request", customer_name: "Jane Smith", title: "Test Request 2", default_status_id: status_open.id, default_agent_id: agent_triage.id)
+Request.create(from_email: 'john@example.com', body: 'This is a test request', customer_name: 'John Doe',
+               title: 'Test Request 1', default_status_id: status_open.id, default_agent_id: agent_triage.id)
+Request.create(from_email: 'jane@example.com', body: 'This is another test request', customer_name: 'Jane Smith',
+               title: 'Test Request 2', default_status_id: status_open.id, default_agent_id: agent_triage.id)
