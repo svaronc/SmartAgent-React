@@ -1,5 +1,6 @@
 import { ACTIONS, useAppContext } from "../context/AppContext";
 import axios from "axios";
+import useFetchData from "./useFetchData";
 // import { useEffect } from 'react';
 
 const useApplicationData = () => {
@@ -24,9 +25,21 @@ const useApplicationData = () => {
     console.log("setTicketView")
   }
 
-  // const getTriageTicketCount = () => {
+  const getAllTicketCount = () => {
+    useFetchData('http://localhost:3000/api/v1/tickets', 'countAll', dispatch)
+  }
+  
+  const getTriageTicketCount = () => {
+    useFetchData('http://localhost:3000/api/v1/tickets', 'countTriage', dispatch)
+  }
 
-  // }
+  const getMyTicketCount = () => {
+    useFetchData('http://localhost:3000/api/v1/tickets', 'countAssignedToMe', dispatch)
+  }
+
+  const getClosedTicketCount = () => {
+    useFetchData('http://localhost:3000/api/v1/tickets', 'countClosed', dispatch)
+  }
 
   // DELETE /tickets/:id
   const deleteTicket = (ticket_id) => {
@@ -44,6 +57,10 @@ const useApplicationData = () => {
     setTicketManagerView,
     setTicketView,
     deleteTicket,
+    getAllTicketCount,
+    getTriageTicketCount,
+    getClosedTicketCount,
+    getMyTicketCount
   }
 }
 

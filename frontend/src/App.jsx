@@ -7,8 +7,14 @@ import Navbar from "./components/AgentMainPage/Navbar";
 import Footer from "./components/Footer/Footer";
 import AgentMainPage from "./components/AgentMainPage/AgentMainPage";
 import { AppProvider } from "./context/AppContext";
+import useApplicationData from "./hooks/useApplicationData";
 
 const AppRoutes = () => {
+  const { getTriageTicketCount, getAllTicketCount, getClosedTicketCount, getMyTicketCount } = useApplicationData();
+  getTriageTicketCount();
+  getAllTicketCount();
+  getClosedTicketCount();
+  getMyTicketCount();
   let routes = useRoutes([
     { path: "/", element: <Hero /> },
     { path: "/login", element: <Login /> },
