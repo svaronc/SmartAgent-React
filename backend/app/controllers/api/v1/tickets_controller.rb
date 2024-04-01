@@ -1,10 +1,10 @@
 class Api::V1::TicketsController < ApplicationController
-  before_action :set_ticket, only: %i[ show update destroy ]
+  before_action :set_ticket, only: %i[show update destroy]
 
   # GET /tickets
   # GET /tickets.json
   def index
-   render json: @tickets = Ticket.all
+    render json: @tickets = Ticket.all
   end
 
   # GET /tickets/1
@@ -17,7 +17,7 @@ class Api::V1::TicketsController < ApplicationController
     @ticket = Ticket.includes(:request).find(params[:ticket_id])
     @response = params[:response]
     ApplicationMailer.ticket_response(@ticket, @response).deliver_now
-    render json: { message: "Response sent" }, status: :ok
+    render json: { message: 'Response sent' }, status: :ok
   end
 
   # POST /tickets
@@ -49,13 +49,14 @@ class Api::V1::TicketsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_ticket
-      @ticket = Ticket.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def ticket_params
-      params.require(:ticket).permit(:agent_id, :request_id, :status_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_ticket
+    @ticket = Ticket.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def ticket_params
+    params.require(:ticket).permit(:agent_id, :request_id, :status_id)
+  end
 end
