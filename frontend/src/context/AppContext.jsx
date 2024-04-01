@@ -3,7 +3,11 @@ import React, { createContext, useReducer, useContext } from 'react';
 
 export const ACTIONS = {
   SET_VIEW: 'SET_VIEW',
-  VIEW_TICKET: 'VIEW_TICKET'
+  VIEW_TICKET: 'VIEW_TICKET',
+  COUNT_TRIAGE: 'COUNT_TRIAGE',
+  COUNT_ALL: 'COUNT_ALL',
+  COUNT_CLOSED: 'COUNT_CLOSED',
+  COUNT_ASSIGNED_TO_ME: 'COUNT_ASSIGNED_TO_ME',
 }
 
 function reducer(state, action) {
@@ -12,6 +16,14 @@ function reducer(state, action) {
       return { ...state, ticketManagerView: action.payload, ticketInboxView: true, ticketInfoView: false };
     case ACTIONS.VIEW_TICKET:
       return { ...state, viewTicketId: action.payload, ticketInboxView: false, ticketInfoView: true };
+    case ACTIONS.COUNT_ALL:
+      return { ...state, countAll: action.payload };
+    case ACTIONS.COUNT_TRIAGE:
+      return { ...state, countTriage: action.payload };
+    case ACTIONS.COUNT_CLOSED:
+      return { ...state, countClosed: action.payload };
+    case ACTIONS.COUNT_ASSIGNED_TO_ME:
+      return { ...state, countAssignedToMe: action.payload };
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
