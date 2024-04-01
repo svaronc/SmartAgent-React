@@ -5,12 +5,13 @@ class ForwardsMailbox < ApplicationMailbox
       body: mail.text_part&.decoded || mail.body.decoded,
       from_email: mail.from.first,
       customer_name: mail.from.first,
-      default_status_id: default_status_id,
-      default_agent_id: default_agent_id
+      default_status_id:,
+      default_agent_id:
     )
   end
 
   private
+
   def default_status_id
     # ID of the default status
     1

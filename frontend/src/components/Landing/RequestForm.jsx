@@ -19,7 +19,7 @@ function RequestForm() {
   const handleSubmit = (values, actions) => {
     console.log(values)
     axios
-      .post('http://localhost:3000/api/v1/request', values)
+      .post('http://localhost:3000/api/v1/requests', {request : values})
       .then((response) => {
         console.log('Form submission successful:', response.data);
         alert('Form submitted successfully!');
@@ -51,6 +51,8 @@ function RequestForm() {
               from_email: '',
               title: '',
               body: '',
+              default_status_id: 1,
+              default_agent_id:1,
             }}
             validationSchema={validationSchema} 
             onSubmit={handleSubmit}

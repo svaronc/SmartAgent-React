@@ -1,33 +1,33 @@
 class Api::V1::RequestsController < ApplicationController
   before_action :set_request, only: %i[show update destroy]
 
-  # GET /requests
-  # GET /requests.json
+  # GET api/v1/requests
+  # GET api/v1/requests.json
   def index
     @requests = Request.all
     render json: @requests, include: { tickets: { include: %i[agent status] } }
   end
 
-  # GET /requests/1
-  # GET /requests/1.json
+  # GET api/v1/requests/1
+  # GET api/v1/requests/1.json
   def show
     render json: @request, inlcude: :ticket
   end
 
-  # POST /requests
-  # POST /requests.json
+  # POST api/v1/requests
+  # POST api/v1/requests.json
   def create
     @request = Request.new(request_params)
 
     if @request.save
-      render :show, status: :created, location: @request
+      render json: { message: 'Request created' }, status: :created
     else
       render json: @request.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /requests/1
-  # PATCH/PUT /requests/1.json
+  # PATCH/PUT api/v1/requests/1
+  # PATCH/PUT api/v1/requests/1.json
   def update
     if @request.update(request_params)
       render :show, status: :ok, location: @request
@@ -36,8 +36,8 @@ class Api::V1::RequestsController < ApplicationController
     end
   end
 
-  # DELETE /requests/1
-  # DELETE /requests/1.json
+  # DELETE api/v1/requests/1
+  # DELETE api/v1/requests/1.json
   def destroy
     @request.destroy!
   end
@@ -51,6 +51,6 @@ class Api::V1::RequestsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def request_params
-    params.require(:request).permit(:from_email, :customer_name, :body, :title)
+    params.require(:request).permit(:from_email, :customer_name, :title, :body, :default_status_id, :default_agent_id)
   end
 end
