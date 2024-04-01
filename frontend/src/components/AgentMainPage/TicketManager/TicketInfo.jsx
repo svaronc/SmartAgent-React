@@ -6,6 +6,7 @@ import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
 import { FaReply } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
+import DraftEditor from "./DraftEditor";
 
 function TicketInfo() {
   const { state } = useAppContext();
@@ -29,7 +30,7 @@ function TicketInfo() {
   }, []);
 
   return (
-    <section className="flex-column h-full m-4">
+    <section className="flex-col h-full m-4 overflow-y-auto">
       <h1 className="text-4xl font-bold mb-4">{request.title}</h1>
       {/* <h1>Ticket Info view ticketID: {state.viewTicketId}</h1> */}
       <div className="flex-grow bg-base-100 border-2 border h-1/2 p-4 overflow-y-auto">
@@ -83,10 +84,11 @@ function TicketInfo() {
         </ul>
       </div>
       {replyIsVisible && (
-        <>
-          <textarea className="flex-grow bg-base-100 border-2 h-1/3 w-full p-4" value={`Hi ${request.customer_name},`}></textarea>
-          <div>
-            <div className="justify-end relative bottom-0">
+        <div className="overflow-y-auto">
+          <DraftEditor />
+          {/* <textarea className="flex-grow bg-base-100 border-2 h-1/3 w-full p-4" value={`Hi ${request.customer_name},`}></textarea> */}
+          {/* <div> */}
+            <div className="justify-end relative mt-5">
               <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
                 <li>
                   <button
@@ -99,8 +101,8 @@ function TicketInfo() {
                 </li>
               </ul>
             </div>
-          </div>
-        </>
+          {/* </div> */}
+        </div>
       )}
     </section>
   );
