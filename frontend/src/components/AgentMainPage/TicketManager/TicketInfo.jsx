@@ -5,11 +5,13 @@ import { MdDelete } from "react-icons/md";
 import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
 import { FaReply } from "react-icons/fa6";
+import { IoSend } from "react-icons/io5";
 
 function TicketInfo() {
   const { state } = useAppContext();
   const request_id = state.viewTicketId;
   const [request, setRequest] = useState([]);
+  const [replyIsVisible, setReplyIsVisible] = useState(false);
 
   useEffect(() => {
     axios
@@ -35,52 +37,73 @@ function TicketInfo() {
           <p>From: {request.from_email}</p>
           <p>To: smartagents3@gmail.com</p>
           <p>Subject: {request.title} </p>
+          <div className="flex-grow border-t border-gray-400 mt-4"></div>
         </div>
-        <p className="text-2xl">
-          {request.body}
-        </p>
+        <p className="text-2xl">{request.body}</p>
       </div>
 
       <div className="justify-end relative bottom-0">
         <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
           <li>
-            <button className="flex items-center gap-2">
-              <FaReply 
-                size="1.5rem"
-                onClick={() => console.log("reply")}
-              />
+            <button
+              className="flex items-center gap-2"
+              onClick={() => setReplyIsVisible(!replyIsVisible)}
+            >
+              <FaReply size="1.5rem" />
               Reply
             </button>
           </li>
           <li>
-            <button className="flex items-center gap-2">
-              <LuArrowLeftRight
-                size="1.5rem"
-                onClick={() => console.log("transfer")}
-              />
+            <button
+              className="flex items-center gap-2"
+              onClick={() => console.log("transfer")}
+            >
+              <LuArrowLeftRight size="1.5rem" />
               Transfer
             </button>
           </li>
           <li>
-            <button className="flex items-center gap-2">
-              <CgCheckO 
-                size="1.5rem" 
-                onClick={() => console.log("resolve")} 
-              />
+            <button
+              className="flex items-center gap-2"
+              onClick={() => console.log("resolve")}
+            >
+              <CgCheckO size="1.5rem" />
               Resolve
             </button>
           </li>
           <li>
-            <button className="flex items-center gap-2">
-              <MdDelete 
-                size="1.5rem" 
-                onClick={() => console.log("delete")} 
-              />
+            <button
+              className="flex items-center gap-2"
+              onClick={() => console.log("delete")}
+            >
+              <MdDelete size="1.5rem" />
               Delete
             </button>
           </li>
         </ul>
       </div>
+      {replyIsVisible && (
+        <>
+          <textarea className="flex-grow bg-base-100 border-2 h-1/3 w-full p-4">
+            Hi ,
+          </textarea>
+          <div>
+            <div className="justify-end relative bottom-0">
+              <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
+                <li>
+                  <button
+                    className="flex items-center gap-2"
+                    onClick={() => console.log("send reply")}
+                  >
+                    <IoSend size="1.5rem" />
+                    Send
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </>
+      )}
     </section>
   );
 }
