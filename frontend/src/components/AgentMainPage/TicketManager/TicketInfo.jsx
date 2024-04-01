@@ -34,7 +34,7 @@ function TicketInfo() {
       {/* <h1>Ticket Info view ticketID: {state.viewTicketId}</h1> */}
       <div className="flex-grow bg-base-100 border-2 border h-1/2 p-4">
         <div className="mb-4 text-gray-500">
-          <p>From: {request.from_email}</p>
+          <p>From: {`${request.customer_name} <${request.from_email}>`}</p>
           <p>To: smartagents3@gmail.com</p>
           <p>Subject: {request.title} </p>
           <div className="flex-grow border-t border-gray-400 mt-4"></div>
@@ -84,9 +84,7 @@ function TicketInfo() {
       </div>
       {replyIsVisible && (
         <>
-          <textarea className="flex-grow bg-base-100 border-2 h-1/3 w-full p-4">
-            Hi ,
-          </textarea>
+          <textarea className="flex-grow bg-base-100 border-2 h-1/3 w-full p-4" value={`Hi ${request.customer_name},`}></textarea>
           <div>
             <div className="justify-end relative bottom-0">
               <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
