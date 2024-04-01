@@ -32,7 +32,7 @@ function TicketInfo() {
     <section className="flex-column h-full m-4">
       <h1 className="text-4xl font-bold mb-4">{request.title}</h1>
       {/* <h1>Ticket Info view ticketID: {state.viewTicketId}</h1> */}
-      <div className="flex-grow bg-base-100 border-2 border h-1/2 p-4">
+      <div className="flex-grow bg-base-100 border-2 border h-1/2 p-4 overflow-y-auto">
         <div className="mb-4 text-gray-500">
           <p>From: {`${request.customer_name} <${request.from_email}>`}</p>
           <p>To: smartagents3@gmail.com</p>
