@@ -1,10 +1,11 @@
-class ConversationsController < ApplicationController
+class Api::V1::ConversationsController < ApplicationController
   before_action :set_conversation, only: %i[show update destroy]
 
   # GET /conversations
   # GET /conversations.json
   def index
     @conversations = Conversation.all
+    render json: @conversations
   end
 
   # GET /conversations/1
