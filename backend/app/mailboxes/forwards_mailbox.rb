@@ -1,42 +1,33 @@
 class ForwardsMailbox < ApplicationMailbox
   def process
-    parent_conversation = Conversation.find_by(message_id: [mail.in_reply_to, *mail.references].compact)
+    ticket_id = mail.subject[/\[#(\d+)\]/, 1] # Extract ticket id from subject
+    ticket = Ticket.find_by(id: ticket_id) if ticket_id
 
-    if parent_conversation
-      # If a parent conversation exists, create a new conversation linked to the same request
-      parent_conversation.request.conversations.create!(
-        body: mail.html_part&.decoded || mail.body.decoded,
+    if ticket
+      # If a ticket with the id exists, create a new conversation for it
+      ticket.conversations.create!(
+        body: clean_body(mail),
         from_customer: true,
-        message_id: mail.message_id
+        ticket_id:
       )
     else
-      # If no such request exists, create a new request
-      request = Request.create!(
+      # If no such ticket exists, create a new ticket and a new conversation
+      ticket = Ticket.create!(
         title: mail.subject,
         from_email: mail.from.first,
         customer_name: mail.from.first,
-        default_status_id:,
-        default_agent_id:
+        status_id: 1,
+        agent_id: 1
       )
-      request.conversations.create!(
+      ticket.conversations.create!(
         body: clean_body(mail),
         from_customer: true,
-        message_id: mail.message_id
+        ticket_id:
       )
     end
   end
 
   private
-
-  def default_status_id
-    # ID of the default status
-    1
-  end
-
-  def default_agent_id
-    # ID of the default agent
-    1
-  end
 
   def clean_body(mail)
     body = (mail.html_part&.decoded || mail.body.decoded).split("\r\n\r\n", 2).first
