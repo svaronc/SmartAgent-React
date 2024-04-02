@@ -1,10 +1,10 @@
 class Api::V1::AgentsController < ApplicationController
-  before_action :set_agent, only: %i[ show update destroy ]
+  before_action :set_agent, only: %i[show update destroy]
 
   # GET /agents
   # GET /agents.json
   def index
-   render json: @agents = Agent.all
+    render json: @agents = Agent.all
   end
 
   # GET /agents/1
@@ -41,13 +41,14 @@ class Api::V1::AgentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_agent
-      @agent = Agent.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def agent_params
-      params.require(:agent).permit(:username, :password)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_agent
+    @agent = Agent.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def agent_params
+    params.require(:agent).permit(:username, :password)
+  end
 end

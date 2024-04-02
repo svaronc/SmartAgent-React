@@ -1,5 +1,5 @@
 class Api::V1::StatusesController < ApplicationController
-  before_action :set_status, only: %i[ show update destroy ]
+  before_action :set_status, only: %i[show update destroy]
 
   # GET /statuses
   # GET /statuses.json
@@ -41,13 +41,14 @@ class Api::V1::StatusesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_status
-      @status = Status.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def status_params
-      params.require(:status).permit(:description, :created_at)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_status
+    @status = Status.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def status_params
+    params.require(:status).permit(:description, :created_at)
+  end
 end

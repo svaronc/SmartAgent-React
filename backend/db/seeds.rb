@@ -14,6 +14,7 @@ Role.destroy_all
 Request.destroy_all
 Status.destroy_all
 Ticket.destroy_all
+Conversation.destroy_all
 
 # Seed data for roles
 role_admin = Role.create(role: 'Admin', description: 'Administrator role')
@@ -30,8 +31,11 @@ agent_gloria = Agent.create(email: 'glorialimartt@gmail.com', username: 'glowiep
 status_open = Status.create(description: 'Open')
 status_closed = Status.create(description: 'Closed')
 
-# Seed data for requests
-Request.create(from_email: 'john@example.com', body: 'This is a test request', customer_name: 'John Doe',
-               title: 'Test Request 1', default_status_id: status_open.id, default_agent_id: agent_triage.id)
-Request.create(from_email: 'jane@example.com', body: 'This is another test request', customer_name: 'Jane Smith',
-               title: 'Test Request 2', default_status_id: status_open.id, default_agent_id: agent_triage.id)
+# Seed data for requests and conversations
+request1 = Request.create(from_email: 'john@example.com', customer_name: 'John Doe',
+                          title: 'Test Request 1', default_status_id: status_open.id, default_agent_id: agent_triage.id)
+Conversation.create(request_id: request1.id, body: 'This is a test request', from_customer: true)
+
+request2 = Request.create(from_email: 'jane@example.com', customer_name: 'Jane Smith',
+                          title: 'Test Request 2', default_status_id: status_open.id, default_agent_id: agent_triage.id)
+Conversation.create(request_id: request2.id, body: 'This is another test request', from_customer: true)

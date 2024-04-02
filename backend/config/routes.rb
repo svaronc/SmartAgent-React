@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :roles
       resources :statuses
       resources :requests
+      resources :conversations
       resources :tickets do
         post 'responses', to: 'tickets#respond'
       end
