@@ -1,27 +1,31 @@
 class Api::V1::TicketsController < ApplicationController
   before_action :set_ticket, only: %i[show update destroy]
 
-  # GET /tickets
-  # GET /tickets.json
+  # GET api/v1/tickets
+  # GET api/v1/tickets.json
   def index
     render json: @tickets = Ticket.all
   end
 
-  # GET /tickets/1
-  # GET /tickets/1.json
+  # GET api/v1/tickets/1
+  # GET api/v1/tickets/1.json
   def show
   end
 
-  # POST /tickets/1/responses
+  # POST api/v1/tickets/1/responses
   def respond
     @ticket = Ticket.includes(:request).find(params[:ticket_id])
     @response = params[:response]
     ApplicationMailer.ticket_response(@ticket, @response).deliver_now
+
+    # Create a new conversation linked to this ticket's request
+    Conversation.create(request_id: @ticket.request.id, body: @response, from_customer: false)
+
     render json: { message: 'Response sent' }, status: :ok
   end
 
-  # POST /tickets
-  # POST /tickets.json
+  # POST api/v1/tickets
+  # POST api/v1/tickets.json
   def create
     @ticket = Ticket.new(ticket_params)
 
@@ -32,8 +36,8 @@ class Api::V1::TicketsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /tickets/1
-  # PATCH/PUT /tickets/1.json
+  # PATCH/PUT api/v1/tickets/1
+  # PATCH/PUT api/v1/tickets/1.json
   def update
     if @ticket.update(ticket_params)
       render :show, status: :ok, location: @ticket
@@ -42,8 +46,8 @@ class Api::V1::TicketsController < ApplicationController
     end
   end
 
-  # DELETE /tickets/1
-  # DELETE /tickets/1.json
+  # DELETE api/v1/tickets/1
+  # DELETE api/v1/tickets/1.json
   def destroy
     @ticket.destroy!
   end
