@@ -38,6 +38,12 @@ Status.create(description: 'Closed')
     agent_id: 1,
     status_id: 1
   )
+  6.times do |j|
+    ticket.conversations.create!(
+      body: "This is the body of conversation #{j + 1}",
+      from_customer: j.even?
+    )
+  end
   Conversation.create!(
     body: "This is the body of ticket #{i + 1}",
     ticket_id: ticket.id

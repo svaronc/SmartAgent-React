@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_402_204_039) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_02_225409) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,14 +61,13 @@ ActiveRecord::Schema[7.1].define(version: 20_240_402_204_039) do
     t.index ["role_id"], name: "index_agents_on_role_id"
   end
 
-  create_table 'conversations', force: :cascade do |t|
-    t.bigint 'ticket_id', null: false
-    t.text 'body'
-    t.boolean 'from_customer'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.string 'message_id'
-    t.index ['ticket_id'], name: 'index_conversations_on_ticket_id'
+  create_table "conversations", force: :cascade do |t|
+    t.bigint "ticket_id", null: false
+    t.text "body"
+    t.boolean "from_customer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ticket_id"], name: "index_conversations_on_ticket_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -84,20 +83,20 @@ ActiveRecord::Schema[7.1].define(version: 20_240_402_204_039) do
     t.datetime "updated_at", null: false
   end
 
-  create_table 'tickets', force: :cascade do |t|
-    t.string 'from_email', null: false
-    t.string 'customer_name', null: false
-    t.string 'title', null: false
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.bigint 'agent_id'
-    t.bigint 'status_id'
-    t.index ['agent_id'], name: 'index_tickets_on_agent_id'
-    t.index ['status_id'], name: 'index_tickets_on_status_id'
+  create_table "tickets", force: :cascade do |t|
+    t.string "from_email", null: false
+    t.string "customer_name", null: false
+    t.string "title", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "agent_id"
+    t.bigint "status_id"
+    t.index ["agent_id"], name: "index_tickets_on_agent_id"
+    t.index ["status_id"], name: "index_tickets_on_status_id"
   end
 
-  add_foreign_key 'active_storage_attachments', 'active_storage_blobs', column: 'blob_id'
-  add_foreign_key 'active_storage_variant_records', 'active_storage_blobs', column: 'blob_id'
-  add_foreign_key 'agents', 'roles'
-  add_foreign_key 'conversations', 'tickets'
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "agents", "roles"
+  add_foreign_key "conversations", "tickets"
 end
