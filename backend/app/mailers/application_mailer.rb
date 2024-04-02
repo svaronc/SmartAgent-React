@@ -5,6 +5,6 @@ class ApplicationMailer < ActionMailer::Base
   def ticket_response(ticket, response)
     @ticket = ticket
     @response = response
-    mail(to: @ticket.request.from_email, subject: 'Ticket response', body: @response)
+    mail(to: @ticket.request.from_email, subject: " #{ticket.id}  Ticket response")
   end
 end

@@ -95,7 +95,9 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    diff-lcs (1.5.1)
     drb (2.2.1)
+    email_reply_parser (0.5.11)
     erubi (1.12.0)
     faker (3.3.0)
       i18n (>= 1.8.11, < 2)
@@ -209,6 +211,23 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     rexml (3.2.6)
+    rspec-core (3.13.0)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-rails (6.1.2)
+      actionpack (>= 6.1)
+      activesupport (>= 6.1)
+      railties (>= 6.1)
+      rspec-core (~> 3.13)
+      rspec-expectations (~> 3.13)
+      rspec-mocks (~> 3.13)
+      rspec-support (~> 3.13)
+    rspec-support (3.13.1)
     rubocop (1.62.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -255,12 +274,14 @@ DEPENDENCIES
   bootsnap
   debug
   devise (~> 4.9, >= 4.9.3)
+  email_reply_parser
   faker
   jbuilder
   pg (~> 1.1)
   puma (>= 5.0)
   rack-cors
   rails (~> 7.1.3, >= 7.1.3.2)
+  rspec-rails
   rubocop
   ruby-lsp
   tzinfo-data

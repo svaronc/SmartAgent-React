@@ -2,6 +2,7 @@ class Request < ApplicationRecord
   attr_accessor :default_status_id, :default_agent_id
 
   has_many :tickets
+  has_many :conversations
   after_create :create_ticket
 
   private
