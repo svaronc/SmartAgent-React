@@ -5,6 +5,13 @@ class ApplicationMailer < ActionMailer::Base
   def ticket_response(ticket, response)
     @ticket = ticket
     @response = response
-    mail(to: @ticket.request.from_email, subject: " #{ticket.id}  Ticket response")
+
+    # Create a new conversation for the ticket with the body of the response
+    @ticket.conversations.create!(
+      body: @response,
+      from_customer: false
+    )
+
+    mail(to: @ticket.from_email, subject: "Re: [##{@ticket.id}] Ticket response")
   end
 end

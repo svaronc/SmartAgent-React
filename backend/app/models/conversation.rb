@@ -1,3 +1,3 @@
 class Conversation < ApplicationRecord
-  belongs_to :request
+  belongs_to :ticket
 end

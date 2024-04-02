@@ -3,13 +3,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :roles
       resources :statuses
-      resources :requests
       resources :conversations
       resources :tickets do
-        post 'responses', to: 'tickets#respond'
+        post :respond
       end
       resources :agents
-      resources :customers
     end
   end
   post 'login', to: 'sessions#create'

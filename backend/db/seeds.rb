@@ -11,31 +11,35 @@
 # Clear existing data
 Agent.destroy_all
 Role.destroy_all
-Request.destroy_all
 Status.destroy_all
 Ticket.destroy_all
 Conversation.destroy_all
 
 # Seed data for roles
-role_admin = Role.create(role: 'Admin', description: 'Administrator role')
-role_user = Role.create(role: 'User', description: 'User role')
+admin_role = Role.create(role: 'Admin', description: 'Administrator role')
 
 # Seed data for agents table
-agent_triage = Agent.create(email: 'triage@gmail.com', username: 'triage', password: 'password', role_id: role_admin.id)
-agent_sebastian = Agent.create(email: 'sebastianvaron96@gmail.com', username: 'svaronc', password: 'password',
-                               role_id: role_admin.id)
-agent_gloria = Agent.create(email: 'glorialimartt@gmail.com', username: 'glowiep', password: 'password',
-                            role_id: role_admin.id)
+Agent.create(email: 'triage@gmail.com', username: 'triage', password: 'password', role_id: admin_role.id)
+Agent.create(email: 'sebastianvaron96@gmail.com', username: 'svaronc', password: 'password',
+             role_id: admin_role.id)
+Agent.create(email: 'glorialimartt@gmail.com', username: 'glowiep', password: 'password',
+             role_id: admin_role.id)
 
 # Seed data for statuses
-status_open = Status.create(description: 'Open')
-status_closed = Status.create(description: 'Closed')
+Status.create(description: 'Open')
+Status.create(description: 'Closed')
 
-# Seed data for requests and conversations
-request1 = Request.create(from_email: 'john@example.com', customer_name: 'John Doe',
-                          title: 'Test Request 1', default_status_id: status_open.id, default_agent_id: agent_triage.id)
-Conversation.create(request_id: request1.id, body: 'This is a test request', from_customer: true)
-
-request2 = Request.create(from_email: 'jane@example.com', customer_name: 'Jane Smith',
-                          title: 'Test Request 2', default_status_id: status_open.id, default_agent_id: agent_triage.id)
-Conversation.create(request_id: request2.id, body: 'This is another test request', from_customer: true)
+# Create some tickets
+10.times do |i|
+  ticket = Ticket.create!(
+    title: "Ticket #{i + 1}",
+    from_email: "customer#{i + 1}@example.com",
+    customer_name: "Customer #{i + 1}",
+    agent_id: 1,
+    status_id: 1
+  )
+  Conversation.create!(
+    body: "This is the body of ticket #{i + 1}",
+    ticket_id: ticket.id
+  )
+end

@@ -4,36 +4,36 @@ class Api::V1::TicketsController < ApplicationController
   # GET api/v1/tickets
   # GET api/v1/tickets.json
   def index
-    render json: @tickets = Ticket.all
+    @tickets = Ticket.all
+    render json: @tickets, include: { conversations: {} }
   end
 
   # GET api/v1/tickets/1
   # GET api/v1/tickets/1.json
   def show
-  end
-
-  # POST api/v1/tickets/1/responses
-  def respond
-    @ticket = Ticket.includes(:request).find(params[:ticket_id])
-    @response = params[:response]
-    ApplicationMailer.ticket_response(@ticket, @response).deliver_now
-
-    # Create a new conversation linked to this ticket's request
-    Conversation.create(request_id: @ticket.request.id, body: @response, from_customer: false)
-
-    render json: { message: 'Response sent' }, status: :ok
+    render json: @tickets, inlcude: { conversations: {} }
   end
 
   # POST api/v1/tickets
   # POST api/v1/tickets.json
   def create
-    @ticket = Ticket.new(ticket_params)
+    @ticket = Ticket.new(ticket_params.except(:body))
 
     if @ticket.save
-      render :show, status: :created, location: @ticket
+      @ticket.conversations.create!(body: ticket_params[:body], from_customer: true)
+      render json: @ticket, status: :created
     else
       render json: @ticket.errors, status: :unprocessable_entity
     end
+  end
+
+  def respond
+    @ticket = Ticket.find(params[:ticket_id])
+    response = params[:response]
+
+    ApplicationMailer.ticket_response(@ticket, response).deliver_now
+
+    render json: { message: 'Response sent' }, status: :ok
   end
 
   # PATCH/PUT api/v1/tickets/1
@@ -61,6 +61,6 @@ class Api::V1::TicketsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def ticket_params
-    params.require(:ticket).permit(:agent_id, :request_id, :status_id)
+    params.require(:ticket).permit(:from_email, :customer_name, :title, :agent_id, :status_id, :body)
   end
 end
