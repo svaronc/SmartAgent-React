@@ -10,37 +10,39 @@ import DraftEditor from "./DraftEditor";
 
 function TicketInfo() {
   const { state } = useAppContext();
-  const request_id = state.viewTicketId;
-  const [request, setRequest] = useState([]);
+  const ticket_id = state.viewTicketId;
+  const [ticket, setTicket] = useState([]);
+  const [conversations, setConversations] = useState([]);
   const [replyIsVisible, setReplyIsVisible] = useState(false);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/v1/requests/${request_id}`, {
+      .get(`http://localhost:3000/api/v1/tickets/${ticket_id}`, {
         headers: {
           Accept: "application/json",
         },
       })
       .then((response) => {
-        setRequest(response.data);
+        setTicket(response.data);
+        setConversations(response.data[conversations]);
+        console.log(conversations)
       })
       .catch((error) => {
-        console.error("Error fetching requests", error);
+        console.error("Error fetching tickets", error);
       });
   }, []);
 
   return (
     <section className="flex-col h-full m-4 overflow-y-auto">
-      <h1 className="text-4xl font-bold mb-4">{request.title}</h1>
-      {/* <h1>Ticket Info view ticketID: {state.viewTicketId}</h1> */}
+      <h1 className="text-4xl font-bold mb-4">{ticket.title}</h1>
       <div className="flex-grow bg-base-100 border-2 border h-1/2 p-4 overflow-y-auto">
         <div className="mb-4 text-gray-500">
-          <p>From: {`${request.customer_name} <${request.from_email}>`}</p>
+          <p>From: {`${ticket.customer_name} <${ticket.from_email}>`}</p>
           <p>To: smartagents3@gmail.com</p>
-          <p>Subject: {request.title} </p>
+          <p>Subject: {ticket.title} </p>
           <div className="flex-grow border-t border-gray-400 mt-4"></div>
         </div>
-        <p className="text-2xl">{request.body}</p>
+        <p className="text-2xl">{ticket.body}</p>
       </div>
 
       <div className="justify-end relative bottom-0">
@@ -86,7 +88,7 @@ function TicketInfo() {
       {replyIsVisible && (
         <div className="overflow-y-auto">
           <DraftEditor />
-          {/* <textarea className="flex-grow bg-base-100 border-2 h-1/3 w-full p-4" value={`Hi ${request.customer_name},`}></textarea> */}
+          {/* <textarea className="flex-grow bg-base-100 border-2 h-1/3 w-full p-4" value={`Hi ${ticket.customer_name},`}></textarea> */}
           {/* <div> */}
             <div className="justify-end relative mt-5">
               <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
