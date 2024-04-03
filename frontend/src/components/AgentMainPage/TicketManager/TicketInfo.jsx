@@ -7,42 +7,32 @@ import { CgCheckO } from "react-icons/cg";
 import { FaReply } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import DraftEditor from "./DraftEditor";
+import Conversation from "./Conversation";
+import useFetchTicketData from "../../../hooks/useFetchTicketData";
 
 function TicketInfo() {
-  const { state } = useAppContext();
+  const { state, dispatch } = useAppContext();
   const ticket_id = state.viewTicketId;
-  const [ticket, setTicket] = useState([]);
-  const [conversations, setConversations] = useState([]);
   const [replyIsVisible, setReplyIsVisible] = useState(false);
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:3000/api/v1/tickets/${ticket_id}`, {
-        headers: {
-          Accept: "application/json",
-        },
-      })
-      .then((response) => {
-        setTicket(response.data);
-        setConversations(response.data[conversations]);
-        console.log(conversations)
-      })
-      .catch((error) => {
-        console.error("Error fetching tickets", error);
-      });
-  }, []);
-
+  useFetchTicketData(`http://localhost:3000/api/v1/tickets/${ticket_id}`, dispatch)
+  const ticket = state.ticketData;
+  console.log(state)
+  console.log(ticket.conversations)
   return (
     <section className="flex-col h-full m-4 overflow-y-auto">
       <h1 className="text-4xl font-bold mb-4">{ticket.title}</h1>
-      <div className="flex-grow bg-base-100 border-2 border h-1/2 p-4 overflow-y-auto">
-        <div className="mb-4 text-gray-500">
-          <p>From: {`${ticket.customer_name} <${ticket.from_email}>`}</p>
-          <p>To: smartagents3@gmail.com</p>
-          <p>Subject: {ticket.title} </p>
-          <div className="flex-grow border-t border-gray-400 mt-4"></div>
-        </div>
-        <p className="text-2xl">{ticket.body}</p>
+      <div className="flex-grow bg-base-100 border-2 border h-1/2 p-4 overflow-y-auto">     
+      {ticket.conversations && ticket.conversations.map(conversation => (
+        <Conversation 
+          key={conversation.id}
+          customer_name={ticket.customer_name}
+          customer_email={ticket.from_email}
+          from_customer={conversation.from_customer}
+          title={ticket.title} 
+          body={conversation.body}
+        />
+      ))}
       </div>
 
       <div className="justify-end relative bottom-0">
