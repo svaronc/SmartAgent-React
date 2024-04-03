@@ -6,20 +6,20 @@ import { CgCheckO } from "react-icons/cg";
 import useApplicationData from "../../../hooks/useApplicationData";
 
 function TicketInbox() {
-  const [requests, setRequests] = useState([]);
+  const [tickets, setTickets] = useState([]);
   const { setTicketView, deleteTicket } = useApplicationData();
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/v1/requests', {
+    axios.get('http://localhost:3000/api/v1/tickets', {
       headers: {
         'Accept': 'application/json'
       }
     })
       .then(response => {
-        setRequests(response.data)
+        setTickets(response.data)
       })
       .catch(error => {
-        console.error('Error fetching requests', error);
+        console.error('Error fetching tickets', error);
       });
   }, []);
 
@@ -51,22 +51,22 @@ function TicketInbox() {
             </tr>
           </thead>
           <tbody>
-              {requests.map(request => (
+              {tickets.map(ticket => (
                 <tr 
-                  key={request.id} 
+                  key={ticket.id} 
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-50 rounded cursor-pointer"
-                  onClick={() => setTicketView(request.id) }
+                  onClick={() => setTicketView(ticket.id) }
                 >
                   <th
                     scope="row"
                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
-                    {request.title}
+                    {ticket.title}
                   </th>
-                  <td className="px-6 py-4">{request.customer_name}</td>
-                  <td className="px-6 py-4">{request.id}</td>
-                  <td className="px-6 py-4">{request.tickets[0].status.description}</td>
-                  <td className="px-6 py-4">{request.created_at}</td>
+                  <td className="px-6 py-4">{ticket.customer_name}</td>
+                  <td className="px-6 py-4">{ticket.id}</td>
+                  <td className="px-6 py-4">{ticket.title}</td>
+                  <td className="px-6 py-4">{ticket.created_at}</td>
                   <td className="px-6 py-4">
                     <div className="flex flex-row gap-3 hover:ring-slate-300">
                       <div className="dropdown dropdown-hover">
