@@ -32,5 +32,7 @@ class ForwardsMailbox < ApplicationMailbox
   def clean_body(mail)
     body = (mail.html_part&.decoded || mail.body.decoded).split("\r\n\r\n", 2).first
     body.gsub(/(On\s.*wrote:\n>.*\n)+/m, '')
+    body.gsub(/(El\s.*escribió:\n>.*\n)+/m, '')
+    body.gsub(/<div class="gmail_quote">.*/m, '')
   end
 end

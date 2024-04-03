@@ -11,7 +11,7 @@ class Api::V1::TicketsController < ApplicationController
   # GET api/v1/tickets/1
   # GET api/v1/tickets/1.json
   def show
-    render json: @tickets, inlcude: { conversations: {} }
+    render json: @ticket, include: :conversations
   end
 
   # POST api/v1/tickets
