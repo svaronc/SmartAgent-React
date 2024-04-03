@@ -8,6 +8,7 @@ export const ACTIONS = {
   COUNT_ALL: 'COUNT_ALL',
   COUNT_CLOSED: 'COUNT_CLOSED',
   COUNT_ASSIGNED_TO_ME: 'COUNT_ASSIGNED_TO_ME',
+  GET_TICKET_DATA: "GET_TICKET_DATA"
 }
 
 function reducer(state, action) {
@@ -24,6 +25,8 @@ function reducer(state, action) {
       return { ...state, countClosed: action.payload };
     case ACTIONS.COUNT_ASSIGNED_TO_ME:
       return { ...state, countAssignedToMe: action.payload };
+    case ACTIONS.GET_TICKET_DATA:
+      return { ...state, ticketData: action.payload };
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
@@ -39,7 +42,8 @@ const INITIAL_STATE = {
   countClosed: 0,
   viewTicketId: "",
   ticketInboxView: true,
-  ticketInfoView: false
+  ticketInfoView: false,
+  ticketData: [],
 }
 
 export const AppContext = createContext();
