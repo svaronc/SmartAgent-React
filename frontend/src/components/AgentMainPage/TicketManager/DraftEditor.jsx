@@ -3,7 +3,7 @@ import { useState } from 'react';
 import 'quill/dist/quill.snow.css'
 import ReactQuill from 'react-quill'
 
-function DraftEditor() {
+function DraftEditor({ customer_name }) {
   const [editorState, setEditorState] = useState();
 
   const modules = {
@@ -35,6 +35,8 @@ function DraftEditor() {
     setEditorState(content); // Update editorState with the content
   };
 
+  const defaultValue = `<p>Hi ${customer_name}, </p><p><br></p><p><br></p><p>Regards,</p><p><br></p><p><strong>SmartAgent</strong></p><p>Customer Support</p><p>smartagents3@gmail.com</p>`
+
   return (
     <div>
       <div className="pb-10">
@@ -43,6 +45,7 @@ function DraftEditor() {
           modules={modules}
           formats={formats}
           placeholder="..."
+          defaultValue={defaultValue}
           onChange={handleProcedureContentChange}
           style={{ height: "17em", width: "100%"}}
         >

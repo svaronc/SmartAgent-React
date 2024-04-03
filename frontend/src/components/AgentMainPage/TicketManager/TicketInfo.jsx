@@ -18,7 +18,7 @@ function TicketInfo() {
   useFetchTicketData(`http://localhost:3000/api/v1/tickets/${ticket_id}`, dispatch)
   const ticket = state.ticketData;
   console.log(state)
-  console.log(ticket.conversations)
+  console.log(ticket.customer_name)
   return (
     <section className="flex-col h-full m-4 overflow-y-auto">
       <h1 className="text-4xl font-bold mb-4">{ticket.title}</h1>
@@ -77,23 +77,20 @@ function TicketInfo() {
       </div>
       {replyIsVisible && (
         <div className="overflow-y-auto">
-          <DraftEditor />
-          {/* <textarea className="flex-grow bg-base-100 border-2 h-1/3 w-full p-4" value={`Hi ${ticket.customer_name},`}></textarea> */}
-          {/* <div> */}
-            <div className="justify-end relative mt-5">
-              <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
-                <li>
-                  <button
-                    className="flex items-center gap-2"
-                    onClick={() => console.log("send reply")}
-                  >
-                    <IoSend size="1.5rem" />
-                    Send
-                  </button>
-                </li>
-              </ul>
-            </div>
-          {/* </div> */}
+          <DraftEditor customer_name={ticket?.customer_name ?? ''}/>
+          <div className="justify-end relative mt-5">
+            <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
+              <li>
+                <button
+                  className="flex items-center gap-2"
+                  onClick={() => console.log("send reply")}
+                >
+                  <IoSend size="1.5rem" />
+                  Send
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
       )}
     </section>
