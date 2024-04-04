@@ -45,7 +45,9 @@ Rails.application.configure do
     user_name: 'smartagents3@gmail.com',
     password: 'kudv rjbd zgqb fdse',
     authentication: 'plain',
-    enable_starttls_auto: true
+    enable_starttls_auto: true,
+    openssl_verify_mode: 'none',
+    read_timeout: 15_000_000
   }
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

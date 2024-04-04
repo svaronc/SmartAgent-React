@@ -39,10 +39,17 @@ class Api::V1::TicketsController < ApplicationController
   def respond
     @ticket = Ticket.find(params[:ticket_id])
     response = params[:response]
+    attachments = params[:attachments]
 
-    ApplicationMailer.ticket_response(@ticket, response).deliver_now
+    return render json: { error: 'Response is missing' }, status: :unprocessable_entity if response.blank?
+
+    ApplicationMailer.ticket_response(@ticket, response, attachments).deliver_now
 
     render json: { message: 'Response sent' }, status: :ok
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Ticket not found' }, status: :not_found
+  rescue StandardError => e
+    render json: { error: "Error sending email: #{e.message}" }, status: :internal_server_error
   end
 
   # PATCH/PUT api/v1/tickets/1

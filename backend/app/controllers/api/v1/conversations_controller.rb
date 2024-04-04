@@ -56,6 +56,6 @@ class Api::V1::ConversationsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def conversation_params
-    params.require(:conversation).permit(:request_id, :body, :from_customer)
+    params.require(:conversation).permit(:ticket_id, :body, :from_customer)
   end
 end
