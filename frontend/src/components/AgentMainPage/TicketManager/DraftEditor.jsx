@@ -30,6 +30,8 @@ function DraftEditor({ customer_name }) {
         >
         </ReactQuill>
       </div>
+      
+      {/* Delete the below after testing is completed */}
       <h2>Editor Content:</h2>
       <p>{editorState}</p> {/* Display the editor content */}
     </div>
