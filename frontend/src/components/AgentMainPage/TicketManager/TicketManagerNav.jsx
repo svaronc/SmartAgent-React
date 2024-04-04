@@ -2,7 +2,6 @@ import { useAppContext } from "../../../context/AppContext";
 
 function TicketManagerNav() {
   const { state } = useAppContext();
-  console.log(state)
   return (
     <nav>
         {state.ticketInboxView ? 
