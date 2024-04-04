@@ -5,13 +5,22 @@ class Api::V1::TicketsController < ApplicationController
   # GET api/v1/tickets.json
   def index
     @tickets = Ticket.all
-    render json: @tickets, include: { conversations: {} }
+    render json: @tickets.as_json(include: {
+                                    conversations: {
+                                      methods: :attachments_urls
+                                    }
+                                  })
   end
 
   # GET api/v1/tickets/1
   # GET api/v1/tickets/1.json
   def show
-    render json: @ticket, include: { conversations: {} }
+    ticket = Ticket.find(params[:id])
+    render json: ticket.as_json(include: {
+                                  conversations: {
+                                    methods: :attachments_urls
+                                  }
+                                })
   end
 
   # POST api/v1/tickets
@@ -30,17 +39,39 @@ class Api::V1::TicketsController < ApplicationController
   def respond
     @ticket = Ticket.find(params[:ticket_id])
     response = params[:response]
+    attachments = params[:attachments]
 
-    ApplicationMailer.ticket_response(@ticket, response).deliver_now
+    return render json: { error: 'Response is missing' }, status: :unprocessable_entity if response.blank?
+
+    ApplicationMailer.ticket_response(@ticket, response, attachments).deliver_now
 
     render json: { message: 'Response sent' }, status: :ok
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Ticket not found' }, status: :not_found
+  rescue StandardError => e
+    render json: { error: "Error sending email: #{e.message}" }, status: :internal_server_error
   end
 
   # PATCH/PUT api/v1/tickets/1
   # PATCH/PUT api/v1/tickets/1.json
+  # PATCH/PUT api/v1/tickets/1
+  # PATCH/PUT api/v1/tickets/1.json
   def update
+    if params[:status_id]
+      status = Status.find_by(id: params[:status_id])
+      return render json: { error: 'Status not found' }, status: :not_found unless status
+
+      @ticket.status = status
+
+    end
+    if params[:agent_id]
+      agent = Agent.find_by(id: params[:agent_id])
+      return render json: { error: 'Agent not found' }, status: :not_found unless agent
+
+      @ticket.agent = agent
+    end
     if @ticket.update(ticket_params)
-      render :show, status: :ok, location: @ticket
+      render json: @ticket, status: :ok
     else
       render json: @ticket.errors, status: :unprocessable_entity
     end

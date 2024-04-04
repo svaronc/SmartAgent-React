@@ -11,6 +11,12 @@ class Api::V1::ConversationsController < ApplicationController
   # GET /conversations/1
   # GET /conversations/1.json
   def show
+    conversation = Conversation.find(params[:id])
+    render json: conversation.as_json.merge({
+                                              attachments: conversation.attachments.map do |attachment|
+                                                url_for(attachment)
+                                              end
+                                            })
   end
 
   # POST /conversations
@@ -50,6 +56,6 @@ class Api::V1::ConversationsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def conversation_params
-    params.require(:conversation).permit(:request_id, :body, :from_customer)
+    params.require(:conversation).permit(:ticket_id, :body, :from_customer)
   end
 end
