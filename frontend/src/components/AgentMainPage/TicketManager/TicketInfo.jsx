@@ -85,6 +85,14 @@ function TicketInfo() {
       </div>
       {replyIsVisible && (
         <div className="overflow-y-auto">
+          <div className="reply-details mb-2">
+            <div className="flex flex-row gap-5">
+              <p>From: SmartAgent &lt;smartagents3@gmail.com&gt;</p>
+              <p>|</p>
+              <p>To: {ticket.customer_name} &lt;{ticket.from_email}&gt;</p>
+            </div>
+              <p>Re: {ticket.title}</p>
+          </div>
           <DraftEditor customer_name={ticket?.customer_name ?? ""} />
           <div className="justify-end relative mt-5">
             <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
