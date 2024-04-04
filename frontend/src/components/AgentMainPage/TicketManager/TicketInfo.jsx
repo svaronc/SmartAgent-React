@@ -1,6 +1,5 @@
 import { useAppContext } from "../../../context/AppContext";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
@@ -15,24 +14,26 @@ function TicketInfo() {
   const ticket_id = state.viewTicketId;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
 
-  useFetchTicketData(`http://localhost:3000/api/v1/tickets/${ticket_id}`, dispatch)
+  useFetchTicketData(
+    `http://localhost:3000/api/v1/tickets/${ticket_id}`,
+    dispatch
+  );
   const ticket = state.ticketData;
-  console.log(state)
-  console.log(ticket.customer_name)
   return (
     <section className="flex-col h-full m-4 overflow-y-auto">
       <h1 className="text-4xl font-bold mb-4">{ticket.title}</h1>
-      <div className="flex-grow bg-base-100 border-2 border h-1/2 p-4 overflow-y-auto">     
-      {ticket.conversations && ticket.conversations.map(conversation => (
-        <Conversation 
-          key={conversation.id}
-          customer_name={ticket.customer_name}
-          customer_email={ticket.from_email}
-          from_customer={conversation.from_customer}
-          title={ticket.title} 
-          body={conversation.body}
-        />
-      ))}
+      <div className="flex-grow bg-base-100 border-2 border h-1/2 p-4 overflow-y-auto">
+        {ticket.conversations &&
+          ticket.conversations.map((conversation) => (
+            <Conversation
+              key={conversation.id}
+              customer_name={ticket.customer_name}
+              customer_email={ticket.from_email}
+              from_customer={conversation.from_customer}
+              title={ticket.title}
+              body={conversation.body}
+            />
+          ))}
       </div>
 
       <div className="justify-end relative bottom-0">
@@ -77,7 +78,7 @@ function TicketInfo() {
       </div>
       {replyIsVisible && (
         <div className="overflow-y-auto">
-          <DraftEditor customer_name={ticket?.customer_name ?? ''}/>
+          <DraftEditor customer_name={ticket?.customer_name ?? ""} />
           <div className="justify-end relative mt-5">
             <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
               <li>
