@@ -55,6 +55,7 @@ To run this project locally, clone this repository and navigate to the root dire
 
 <details>
   <summary>📌 Backend Development and Test Dependencies</summary>
+  
   - **debug**: Gem for debugging Rails applications (platforms: MRI, Windows).
   - **faker**: Gem for generating fake data for testing.
   - **rspec-rails**: Testing framework for Rails applications.
