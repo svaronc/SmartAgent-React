@@ -54,9 +54,24 @@ class Api::V1::TicketsController < ApplicationController
 
   # PATCH/PUT api/v1/tickets/1
   # PATCH/PUT api/v1/tickets/1.json
+  # PATCH/PUT api/v1/tickets/1
+  # PATCH/PUT api/v1/tickets/1.json
   def update
+    if params[:status_id]
+      status = Status.find_by(id: params[:status_id])
+      return render json: { error: 'Status not found' }, status: :not_found unless status
+
+      @ticket.status = status
+
+    end
+    if params[:agent_id]
+      agent = Agent.find_by(id: params[:agent_id])
+      return render json: { error: 'Agent not found' }, status: :not_found unless agent
+
+      @ticket.agent = agent
+    end
     if @ticket.update(ticket_params)
-      render :show, status: :ok, location: @ticket
+      render json: @ticket, status: :ok
     else
       render json: @ticket.errors, status: :unprocessable_entity
     end
