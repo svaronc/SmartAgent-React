@@ -12,6 +12,7 @@ import useFetchTicketData from "../../../hooks/useFetchTicketData";
 function TicketInfo() {
   const { state, dispatch } = useAppContext();
   const ticket_id = state.viewTicketId;
+  const agents = state.agents;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
 
   useFetchTicketData(
@@ -48,13 +49,19 @@ function TicketInfo() {
             </button>
           </li>
           <li>
-            <button
-              className="flex items-center gap-2"
-              onClick={() => console.log("transfer")}
-            >
-              <LuArrowLeftRight size="1.5rem" />
-              Transfer
-            </button>
+            <details className="dropdown">
+              <summary className="btn">
+                Transfer
+                <LuArrowLeftRight size="1.5rem" />
+              </summary>
+              <ul className="shadow menu dropdown-content rounded-box">
+                {agents.map((agent) => (
+                  <li onClick={() => console.log(agent.username)}>
+                    <a>{agent.username}</a>
+                  </li>
+                ))}
+              </ul>
+            </details>
           </li>
           <li>
             <button
