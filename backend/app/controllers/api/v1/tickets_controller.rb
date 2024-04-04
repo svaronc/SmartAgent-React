@@ -11,7 +11,10 @@ class Api::V1::TicketsController < ApplicationController
   # GET api/v1/tickets/1
   # GET api/v1/tickets/1.json
   def show
-    render json: @ticket, include: :conversations
+    ticket = Ticket.find(params[:id])
+    render json: ticket.as_json.merge({ attachments: ticket.attachments.map do |attachment|
+                                                       url_for(attachment)
+                                                     end }, include: { conversations: {} })
   end
 
   # POST api/v1/tickets
