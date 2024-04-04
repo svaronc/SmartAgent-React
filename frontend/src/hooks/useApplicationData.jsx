@@ -74,7 +74,6 @@ const useApplicationData = () => {
    */
   const getAgents = () => {
     useFetchAgents("http://localhost:3000/api/v1/agents", dispatch);
-    console.log(state.agents)
   };
 
   return {
