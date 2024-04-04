@@ -10,11 +10,12 @@ import { AppProvider } from "./context/AppContext";
 import useApplicationData from "./hooks/useApplicationData";
 
 const AppRoutes = () => {
-  const { getTriageTicketCount, getAllTicketCount, getClosedTicketCount, getMyTicketCount } = useApplicationData();
+  const { getTriageTicketCount, getAllTicketCount, getClosedTicketCount, getMyTicketCount, getAgents } = useApplicationData();
   getTriageTicketCount();
   getAllTicketCount();
   getClosedTicketCount();
   getMyTicketCount();
+  getAgents();
   let routes = useRoutes([
     { path: "/", element: <Hero /> },
     { path: "/login", element: <Login /> },
