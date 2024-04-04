@@ -10,7 +10,7 @@ class ForwardsMailbox < ApplicationMailbox
       status_id: 1,
       agent_id: 1
     )
-    ticket.conversations.create!(
+    conversation = ticket.conversations.create!(
       body: clean_body(mail),
       from_customer: true,
       ticket_id:

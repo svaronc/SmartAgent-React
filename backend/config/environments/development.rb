@@ -10,7 +10,7 @@ Rails.application.configure do
   config.hosts << 'meerkat-dear-redbird.ngrok-free.app'
   # Do not eager load code on boot.
   config.eager_load = false
-
+  Rails.application.routes.default_url_options[:host] = 'meerkat-dear-redbird.ngrok-free.app'
   # Show full error reports.
   config.consider_all_requests_local = true
 

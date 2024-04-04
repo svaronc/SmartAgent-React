@@ -5,16 +5,22 @@ class Api::V1::TicketsController < ApplicationController
   # GET api/v1/tickets.json
   def index
     @tickets = Ticket.all
-    render json: @tickets, include: { conversations: {} }
+    render json: @tickets.as_json(include: {
+                                    conversations: {
+                                      methods: :attachments_urls
+                                    }
+                                  })
   end
 
   # GET api/v1/tickets/1
   # GET api/v1/tickets/1.json
   def show
     ticket = Ticket.find(params[:id])
-    render json: ticket.as_json.merge({ attachments: ticket.attachments.map do |attachment|
-                                                       url_for(attachment)
-                                                     end }, include: { conversations: {} })
+    render json: ticket.as_json(include: {
+                                  conversations: {
+                                    methods: :attachments_urls
+                                  }
+                                })
   end
 
   # POST api/v1/tickets
