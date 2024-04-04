@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import 'quill/dist/quill.snow.css'
 import ReactQuill from 'react-quill'
+import DOMPurify from 'dompurify';
 
 function DraftEditor({ customer_name }) {
   const [editorState, setEditorState] = useState();
@@ -32,7 +33,8 @@ function DraftEditor({ customer_name }) {
 
   const handleProcedureContentChange = (content) => {
     console.log("content---->", content);
-    setEditorState(content); // Update editorState with the content
+    const sanitizedContent = DOMPurify.sanitize(content)
+    setEditorState(sanitizedContent); // Update editorState with the content
   };
 
   const defaultValue = `<p>Hi ${customer_name}, </p><p><br></p><p><br></p><p>Regards,</p><p><br></p><p><strong>SmartAgent</strong></p><p>Customer Support</p><p>smartagents3@gmail.com</p>`
