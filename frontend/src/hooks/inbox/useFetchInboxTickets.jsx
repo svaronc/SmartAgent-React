@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { ACTIONS } from "../../context/AppContext";
 import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
+import ActionCable from "actioncable";
 
 const useFetchInboxTickets = () => {
   const { state, dispatch } = useAppContext();
@@ -11,7 +12,7 @@ const useFetchInboxTickets = () => {
       try {
         let response;
         switch (state.ticketManagerView) {
-          // case "Assigned to Me": 
+          // case "Assigned to Me":
           case "Triage - Open Tickets": {
             response = await axios.get(API_URL);
             const inboxTriageTickets = response.data.filter(
@@ -19,7 +20,7 @@ const useFetchInboxTickets = () => {
             );
             dispatch({
               type: ACTIONS.GET_INBOX_TICKETS,
-              payload: inboxTriageTickets
+              payload: inboxTriageTickets,
             });
             break;
           }
@@ -27,7 +28,7 @@ const useFetchInboxTickets = () => {
             response = await axios.get(API_URL);
             dispatch({
               type: ACTIONS.GET_INBOX_TICKETS,
-              payload: response.data
+              payload: response.data,
             });
             break;
           }
@@ -39,7 +40,7 @@ const useFetchInboxTickets = () => {
             console.log(inboxClosedTickets);
             dispatch({
               type: ACTIONS.GET_INBOX_TICKETS,
-              payload: inboxClosedTickets
+              payload: inboxClosedTickets,
             });
             break;
           }
@@ -49,8 +50,18 @@ const useFetchInboxTickets = () => {
       } catch (error) {
         console.error("Error fetching inbox tickets:", error);
       }
-    }    
+    };
     fetchData();
+    const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
+    const subscription = cable.subscriptions.create("TicketsChannel", {
+      received: (ticket) => {
+        dispatch({ type: ACTIONS.ADD_INBOX_TICKET, payload: ticket });
+      },
+    });
+
+    return () => {
+      cable.subscriptions.remove(subscription);
+    };
   }, [state.ticketManagerView]);
 };
 

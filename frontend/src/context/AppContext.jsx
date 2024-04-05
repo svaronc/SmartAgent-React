@@ -11,6 +11,7 @@ export const ACTIONS = {
   GET_TICKET_DATA: "GET_TICKET_DATA",
   GET_AGENTS: "GET_AGENTS",
   GET_INBOX_TICKETS: "GET_INBOX_TICKETS",
+  ADD_INBOX_TICKET: "ADD_INBOX_TICKET",
 }
 
 function reducer(state, action) {
@@ -33,6 +34,8 @@ function reducer(state, action) {
       return { ...state, agents: action.payload };
     case ACTIONS.GET_INBOX_TICKETS:
       return { ...state, inboxTickets: action.payload };
+    case ACTIONS.ADD_INBOX_TICKET:
+      return { ...state, inboxTickets: [...state.inboxTickets, action.payload] };
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`

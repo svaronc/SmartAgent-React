@@ -26,10 +26,16 @@ class Api::V1::TicketsController < ApplicationController
   # POST api/v1/tickets
   # POST api/v1/tickets.json
   def create
-    @ticket = Ticket.new(ticket_params.except(:body))
-    attachments = params[:attachments]
+    @ticket = Ticket.new(ticket_params.except(:body, :attachments))
+  
     if @ticket.save
       @ticket.conversations.create!(body: ticket_params[:body], from_customer: true)
+      if params[:attachments]
+        params[:attachments].each do |attachment|
+          @ticket.attachments.attach(attachment)
+        end
+      end
+      ActionCable.server.broadcast('tickets', @ticket)
       render json: @ticket, status: :created
     else
       render json: @ticket.errors, status: :unprocessable_entity
