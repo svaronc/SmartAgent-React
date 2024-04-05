@@ -1,18 +1,8 @@
-import { useState } from "react";
 import "quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
-import DOMPurify from "dompurify";
 import { modules, formats } from "../../constants/draft-editor-format";
 
-function DraftEditor({ field }) {
-  const [editorState, setEditorState] = useState();
-
-  const handleProcedureContentChange = (content) => {
-    const sanitizedContent = DOMPurify.sanitize(content);
-    setEditorState(sanitizedContent); // Update editorState with the content
-    field.onChange(sanitizedContent); // Notify Formik of the changed content
-  };
-
+function DraftEditor({ value, onChange }) {
   return (
     <div>
       <div className="pb-10">
@@ -21,14 +11,14 @@ function DraftEditor({ field }) {
           modules={modules}
           formats={formats}
           placeholder="..."
-          value={editorState}
-          onChange={handleProcedureContentChange}
+          value={value}
+          onChange={onChange}
           style={{ height: "17em", width: "100%" }}
         ></ReactQuill>
       </div>
       {/* Delete the below after testing is completed */}
       <h2 className="mt-10">Editor Content:</h2>
-      <p>{editorState}</p> Display the editor content
+      <p>{value}</p> Display the editor content
     </div>
   );
 }
