@@ -13,7 +13,7 @@ const useFetchInboxAllTickets = (API_URL, dispatch) => {
       .then((res) => {
         const inboxAllTickets = res.data;
         dispatch({
-          type: ACTIONS.GET_INBOX_ALL_TICKETS,
+          type: ACTIONS.GET_INBOX_TICKETS,
           payload: inboxAllTickets,
         });
       });

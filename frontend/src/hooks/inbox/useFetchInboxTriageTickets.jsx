@@ -16,7 +16,7 @@ const useFetchInboxTriageTickets = (API_URL, dispatch) => {
           (ticket) => ticket.status_id === 1 && ticket.agent_id === 1
         );
         dispatch({
-          type: ACTIONS.GET_INBOX_ALL_TICKETS,
+          type: ACTIONS.GET_INBOX_TICKETS,
           payload: inboxTriageTickets,
         });
       });
