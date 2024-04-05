@@ -15,10 +15,10 @@ function TicketInbox() {
   switch (state.ticketManagerView) {
     // case "Assigned to Me": return
     case "Triage - Open Tickets": {
-      useFetchInboxTriageTickets("http://localhost:3000/api/v1/tickets", dispatch)
+      useFetchInboxTriageTickets("api/v1/tickets", dispatch)
     }
     case "All Tickets": {
-      useFetchInboxAllTickets("http://localhost:3000/api/v1/tickets", dispatch)
+      useFetchInboxAllTickets("api/v1/tickets", dispatch)
     }
     // case "Closed Tickets": return
   }
