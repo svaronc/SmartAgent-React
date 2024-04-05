@@ -16,7 +16,7 @@ function TicketInfo() {
   const [replyIsVisible, setReplyIsVisible] = useState(false);
 
   useFetchTicketData(
-    `/api/v1/tickets/${ticket_id}`,
+    `api/v1/tickets/${ticket_id}`,
     dispatch
   );
   const ticket = state.ticketData;
@@ -56,8 +56,8 @@ function TicketInfo() {
               </summary>
               <ul className="shadow menu dropdown-content rounded-box">
                 {agents.map((agent) => (
-                  <li onClick={() => console.log(agent.username)}>
-                    <a>{agent.username}</a>
+                  <li key={agent.id} onClick={() => console.log(agent.username)}>
+                    <a>{agent.full_name}</a>
                   </li>
                 ))}
               </ul>

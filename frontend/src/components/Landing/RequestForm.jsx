@@ -23,7 +23,7 @@ function RequestForm() {
   const handleSubmit = (values, actions) => {
     console.log(values);
     axios
-      .post("http://localhost:3000/api/v1/tickets", { ticket: values })
+      .post("api/v1/tickets", { ticket: values })
       .then((response) => {
         console.log("Form submission successful:", response.data);
         alert("Form submitted successfully!");

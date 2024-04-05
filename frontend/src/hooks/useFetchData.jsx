@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { ACTIONS } from "../context/AppContext";
+// import { useAppContext } from "../context/AppContext";
 import axios from "axios";
 
 const useFetchData = (API_URL, state, dispatch) => {
@@ -32,7 +33,7 @@ const useFetchData = (API_URL, state, dispatch) => {
       .catch(error => {
         console.error('Error fetching requests', error);
       });
-  }, [])
+  }, []) //state.countAssignedToMe, state.countTriage, state.countAll, state.countClosed
 };
 
 export default useFetchData;

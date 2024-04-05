@@ -26,29 +26,29 @@ const useApplicationData = () => {
     console.log("setTicketView");
   };
 
-  const getAllTicketCount = () => {
-    useFetchData("/api/v1/tickets", "countAll", dispatch);
-  };
-
-  const getTriageTicketCount = () => {
+  /**
+   * This gets the ticket counts on the tickets sidebar
+   * @function
+   * @returns {void}
+   */
+  const getTicketCounts = () => {
     useFetchData(
-      "/api/v1/tickets",
+      "api/v1/tickets", 
+      "countAll", 
+      dispatch
+    );
+    useFetchData(
+      "api/v1/tickets",
       "countTriage",
       dispatch
     );
-  };
-
-  const getMyTicketCount = () => {
     useFetchData(
-      "/api/v1/tickets",
+      "api/v1/tickets",
       "countAssignedToMe",
       dispatch
     );
-  };
-
-  const getClosedTicketCount = () => {
     useFetchData(
-      "/api/v1/tickets",
+      "api/v1/tickets",
       "countClosed",
       dispatch
     );
@@ -56,9 +56,8 @@ const useApplicationData = () => {
 
   // DELETE /tickets/:id
   const deleteTicket = (ticket_id) => {
-    event.stopPropagation();
     axios
-      .delete(`/api/v1/tickets/${ticket_id}`)
+      .delete(`api/v1/tickets/${ticket_id}`)
       .then(() => {
         dispatch({ type: ACTIONS.SET_VIEW, payload: "Triage - Open Tickets" });
       })
@@ -73,17 +72,14 @@ const useApplicationData = () => {
    * @returns {void}
    */
   const getAgents = () => {
-    useFetchAgents("/api/v1/agents", dispatch);
+    useFetchAgents("api/v1/agents", dispatch);
   };
 
   return {
     setTicketManagerView,
     setTicketView,
     deleteTicket,
-    getAllTicketCount,
-    getTriageTicketCount,
-    getClosedTicketCount,
-    getMyTicketCount,
+    getTicketCounts,
     getAgents,
   };
 };

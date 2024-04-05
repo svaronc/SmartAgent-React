@@ -1,30 +1,17 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
 import useApplicationData from "../../../hooks/useApplicationData";
 import { useAppContext } from "../../../context/AppContext";
+import useFetchInboxTickets from "../../../hooks/inbox/useFetchInboxTickets";
 
 function TicketInbox() {
-  const [tickets, setTickets] = useState([]);
-  const { setTicketView, deleteTicket } = useApplicationData();
+  const { setTicketView, deleteTicket,  } = useApplicationData();
   const { state } = useAppContext();
+  const tickets = state.inboxTickets;
   const agents = state.agents;
-  useEffect(() => {
-    axios
-      .get("/api/v1/tickets", {
-        headers: {
-          Accept: "application/json",
-        },
-      })
-      .then((response) => {
-        setTickets(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching tickets", error);
-      });
-  }, []);
+
+  useFetchInboxTickets();
 
   return (
     <section className="flex flex-col w-full">
@@ -83,8 +70,8 @@ function TicketInbox() {
                         className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box"
                       >
                         {agents.map((agent) => (
-                          <li onClick={() => console.log(agent.username)}>
-                            <a>{agent.username}</a>
+                          <li key={agent.id} onClick={() => console.log(agent.username)}>
+                            <a>{agent.full_name}</a>
                           </li>
                         ))}
                       </ul>
@@ -101,7 +88,11 @@ function TicketInbox() {
                     >
                       <MdDelete
                         size="1.5rem"
-                        onClick={() => console.log("delete")}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          deleteTicket(ticket.id)
+                          window.location.reload();
+                        }}
                       />
                     </li>
                   </div>
