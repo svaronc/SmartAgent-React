@@ -56,7 +56,6 @@ const useApplicationData = () => {
 
   // DELETE /tickets/:id
   const deleteTicket = (ticket_id) => {
-    event.stopPropagation();
     axios
       .delete(`http://localhost:3000/api/v1/tickets/${ticket_id}`)
       .then(() => {
