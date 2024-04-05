@@ -98,7 +98,7 @@ function TicketInbox() {
                           }}
                         />
                       </li> : // Show the open ticket icon if the ticket has been resolved
-                      <li className="tooltip tooltip-right" data-tip="Resolve">
+                      <li className="tooltip tooltip-right" data-tip="Reopen">
                       <IoIosMailOpen 
                         size="1.5rem"
                         onClick={(event) => {
