@@ -1,30 +1,27 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
 import useApplicationData from "../../../hooks/useApplicationData";
 import { useAppContext } from "../../../context/AppContext";
+import useFetchInboxAllTickets from "../../../hooks/inbox/useFetchInboxAllTickets";
+import useFetchInboxTriageTickets from "../../../hooks/inbox/useFetchInboxTriageTickets";
 
 function TicketInbox() {
-  const [tickets, setTickets] = useState([]);
-  const { setTicketView, deleteTicket } = useApplicationData();
-  const { state } = useAppContext();
+  const { setTicketView, deleteTicket,  } = useApplicationData();
+  const { state, dispatch } = useAppContext();
+  const tickets = state.inboxTickets;
   const agents = state.agents;
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/v1/tickets", {
-        headers: {
-          Accept: "application/json",
-        },
-      })
-      .then((response) => {
-        setTickets(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching tickets", error);
-      });
-  }, []);
+
+  switch (state.ticketManagerView) {
+    case "Assigned to Me": return
+    case "Triage - Open Tickets": {
+      useFetchInboxTriageTickets("http://localhost:3000/api/v1/tickets", dispatch)
+    }
+    case "All Tickets": {
+      useFetchInboxAllTickets("http://localhost:3000/api/v1/tickets", dispatch)
+    }
+    case "Closed Tickets": return
+  }
 
   return (
     <section className="flex flex-col w-full">
@@ -101,7 +98,11 @@ function TicketInbox() {
                     >
                       <MdDelete
                         size="1.5rem"
-                        onClick={() => console.log("delete")}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          deleteTicket(ticket.id)
+                          window.location.reload();
+                        }}
                       />
                     </li>
                   </div>
