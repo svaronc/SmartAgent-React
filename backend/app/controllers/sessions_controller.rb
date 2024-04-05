@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   # POST /login
   def create
-    @agent = Agent.find_by(email: params[:username])
+    @agent = Agent.find_by(email: params[:email])
     if @agent && @agent.authenticate(params[:session][:password])
       session[:agent_id] = @agent.id
       render json: { logged_in: true }, status: :created
