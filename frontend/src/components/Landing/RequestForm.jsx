@@ -60,12 +60,12 @@ function RequestForm() {
           </h1>
           <Formik
             initialValues={{
-              customer_name: "",
-              from_email: "",
-              title: "",
-              body: "",
-              default_status_id: 1,
-              default_agent_id: 1,
+              customer_name: '',
+              from_email: '',
+              title: '',
+              body: '',
+              status_id: 1,
+              agent_id: 1,
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
