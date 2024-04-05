@@ -3,9 +3,11 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup'; 
 import DraftEditor from './DraftEditor';
+import DOMPurify from "dompurify";
 
 function RequestForm() {
   const [submitted, setSubmitted] = useState(false);
+
   const validationSchema = Yup.object().shape({
     customer_name: Yup.string()
       .required('Name is required'),
@@ -14,13 +16,17 @@ function RequestForm() {
     title: Yup.string()
       .required('Title is required'),
     body: Yup.string()
+      .transform((value) => {
+        // Transform the HTML content if needed (e.g., removing certain tags)
+        return DOMPurify.sanitize(value);
+      })
       .required('A description of your request is required'),
   });
 
   const handleSubmit = (values, actions) => {
     console.log(values)
     axios
-      .post('http://localhost:3000/api/v1/requests', {request : values})
+      .post('http://localhost:3000/api/v1/tickets', { ticket : values })
       .then((response) => {
         console.log('Form submission successful:', response.data);
         alert('Form submitted successfully!');
@@ -52,8 +58,8 @@ function RequestForm() {
               from_email: '',
               title: '',
               body: '',
-              default_status_id: 1,
-              default_agent_id:1,
+              status_id: 1,
+              agent_id: 1,
             }}
             validationSchema={validationSchema} 
             onSubmit={handleSubmit}
@@ -80,7 +86,9 @@ function RequestForm() {
 
                 <div className="mb-4">
                   <label htmlFor="body" className="block text-sm font-medium text-gray-700 mb-2">Request</label>
-                  <Field name="body" component={ DraftEditor } />
+                  <Field name="body">
+                    {({ field }) => <DraftEditor value={field.value} onChange={field.onChange(field.name)} />}
+                  </Field>
                   <ErrorMessage name="body" component="div" className="text-red-500 text-sm mt-1" />
                 </div>
 
