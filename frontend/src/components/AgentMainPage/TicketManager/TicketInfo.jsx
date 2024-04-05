@@ -16,7 +16,7 @@ function TicketInfo() {
   const [replyIsVisible, setReplyIsVisible] = useState(false);
 
   useFetchTicketData(
-    `http://localhost:3000/api/v1/tickets/${ticket_id}`,
+    `/api/v1/tickets/${ticket_id}`,
     dispatch
   );
   const ticket = state.ticketData;

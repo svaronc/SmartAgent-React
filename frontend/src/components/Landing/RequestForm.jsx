@@ -24,18 +24,18 @@ function RequestForm() {
   });
 
   const handleSubmit = (values, actions) => {
-    console.log(values)
+    console.log(values);
     axios
-      .post('http://localhost:3000/api/v1/tickets', { ticket : values })
+      .post("/api/v1/tickets", { ticket: values })
       .then((response) => {
-        console.log('Form submission successful:', response.data);
-        alert('Form submitted successfully!');
+        console.log("Form submission successful:", response.data);
+        alert("Form submitted successfully!");
         setSubmitted(true);
-        actions.resetForm(); 
+        actions.resetForm();
       })
       .catch((error) => {
-        console.error('Error submitting form:', error);
-        alert('Error submitting form!');
+        console.error("Error submitting form:", error);
+        alert("Error submitting form!");
       })
       .finally(() => {
         actions.setSubmitting(false);
@@ -46,12 +46,18 @@ function RequestForm() {
     <div className="max-w-3xl mx-auto p-6 shadow-md rounded-md m-5">
       {submitted ? ( // Conditional rendering for thank you message
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Thank you for your support request.</h1>
-          <p className="text-2xl">You will receive our response by email within 2 business days.</p>
+          <h1 className="text-4xl font-bold mb-4">
+            Thank you for your support request.
+          </h1>
+          <p className="text-2xl">
+            You will receive our response by email within 2 business days.
+          </p>
         </div>
       ) : (
         <div>
-          <h1 className='m-5 text-4xl font-bold'>Customer Support Request Form</h1>
+          <h1 className="m-5 text-4xl font-bold">
+            Customer Support Request Form
+          </h1>
           <Formik
             initialValues={{
               customer_name: '',
@@ -61,27 +67,51 @@ function RequestForm() {
               status_id: 1,
               agent_id: 1,
             }}
-            validationSchema={validationSchema} 
+            validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
             {({ isSubmitting }) => (
               <Form>
                 <div className="mb-4">
-                  <label htmlFor="customer_name" className="block text-sm font-medium text-gray-700">Name</label>
-                  <Field name="customer_name" id="customer_name" type="text" placeholder="Name" className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500" />
-                  <ErrorMessage name="customer_name" component="div" className="text-red-500 text-sm mt-1" />
+                  <label
+                    htmlFor="customer_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Name
+                  </label>
+                  <Field
+                    name="customer_name"
+                    id="customer_name"
+                    type="text"
+                    placeholder="Name"
+                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
+                  />
+                  <ErrorMessage
+                    name="customer_name"
+                    component="div"
+                    className="text-red-500 text-sm mt-1"
+                  />
                 </div>
 
                 <div className="mb-4">
-                  <label htmlFor="from_email" className="block text-sm font-medium text-gray-700">Email</label>
-                  <Field name="from_email" id="from_email" type="from_email" placeholder="your-email@email.com" className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500" />
-                  <ErrorMessage name="from_email" component="div" className="text-red-500 text-sm mt-1" />
-                </div>
-                
-                <div className="mb-4">
-                  <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
-                  <Field name="title" id="title" type="text" placeholder="Title" className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500" />
-                  <ErrorMessage name="title" component="div" className="text-red-500 text-sm mt-1" />
+                  <label
+                    htmlFor="from_email"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Email
+                  </label>
+                  <Field
+                    name="from_email"
+                    id="from_email"
+                    type="from_email"
+                    placeholder="your-email@email.com"
+                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
+                  />
+                  <ErrorMessage
+                    name="from_email"
+                    component="div"
+                    className="text-red-500 text-sm mt-1"
+                  />
                 </div>
 
                 <div className="mb-4">
@@ -92,7 +122,26 @@ function RequestForm() {
                   <ErrorMessage name="body" component="div" className="text-red-500 text-sm mt-1" />
                 </div>
 
-                <button type="submit" className="mt-10 bg-blue-500 text-white py-2 px-4 rounded-md focus:outline-none hover:bg-blue-600" disabled={isSubmitting}>
+                <div className="mb-4">
+                  <label
+                    htmlFor="body"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Request
+                  </label>
+                  <Field name="body" component={DraftEditor} />
+                  <ErrorMessage
+                    name="body"
+                    component="div"
+                    className="text-red-500 text-sm mt-1"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="mt-10 bg-blue-500 text-white py-2 px-4 rounded-md focus:outline-none hover:bg-blue-600"
+                  disabled={isSubmitting}
+                >
                   Submit
                 </button>
               </Form>
@@ -102,6 +151,6 @@ function RequestForm() {
       )}
     </div>
   );
-};
+}
 
 export default RequestForm;
