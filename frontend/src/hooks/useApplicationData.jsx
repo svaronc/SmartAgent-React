@@ -2,7 +2,6 @@ import { ACTIONS, useAppContext } from "../context/AppContext";
 import axios from "axios";
 import useFetchData from "./useFetchData";
 import useFetchAgents from "./useFetchAgents";
-// import { useEffect } from 'react';
 
 const useApplicationData = () => {
   const { state, dispatch } = useAppContext();
@@ -54,7 +53,13 @@ const useApplicationData = () => {
     );
   };
 
-  // DELETE /tickets/:id
+  
+  /**
+   * This deletes the ticket
+   * DELETE /tickets/:id
+   * @function
+   * @returns {void}
+   */
   const deleteTicket = (ticket_id) => {
     axios
       .delete(`api/v1/tickets/${ticket_id}`)
@@ -65,6 +70,61 @@ const useApplicationData = () => {
         console.error("Error fetching requests", error);
       });
   };
+
+
+  /**
+   * This resolves the ticket
+   * PATCH /tickets/:id/:status_id
+   * @function
+   * @returns {void}
+   */
+  const resolveTicket = (ticket_id) => {
+    axios
+      .patch(`api/v1/tickets/${ticket_id}`, { status_id: 2 })
+      .then(() => {
+        dispatch({ type: ACTIONS.VIEW_TICKET, payload: ticket_id });
+      })
+      .catch((error) => {
+        console.error("Error fetching requests", error);
+      });
+  };
+
+
+  /**
+   * This resolves the ticket
+   * PATCH /tickets/:id/:status_id
+   * @function
+   * @returns {void}
+   */
+  const transferTicket = (ticket_id, agent_id) => {
+    axios
+      .patch(`api/v1/tickets/${ticket_id}`, { agent_id })
+      .then(() => {
+        dispatch({ type: ACTIONS.VIEW_TICKET, payload: ticket_id });
+      })
+      .catch((error) => {
+        console.error("Error fetching requests", error);
+      });
+  };
+
+
+  /**
+   * This opens a resolved ticket
+   * PATCH /tickets/:id/:status_id
+   * @function
+   * @returns {void}
+   */
+  const openTicket = (ticket_id) => {
+    axios
+      .patch(`api/v1/tickets/${ticket_id}`, { status_id: 1 })
+      .then(() => {
+        dispatch({ type: ACTIONS.VIEW_TICKET, payload: ticket_id });
+      })
+      .catch((error) => {
+        console.error("Error fetching requests", error);
+      });
+  };
+
 
   /**
    * This sets the agents in context state. GET api/v1/agents
@@ -81,6 +141,9 @@ const useApplicationData = () => {
     deleteTicket,
     getTicketCounts,
     getAgents,
+    resolveTicket,
+    transferTicket,
+    openTicket
   };
 };
 

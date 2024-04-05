@@ -1,25 +1,32 @@
 import { useAppContext } from "../../../context/AppContext";
 import { useState } from "react";
+
+// Icons
 import { MdDelete } from "react-icons/md";
 import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
 import { FaReply } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
+import { IoIosMailOpen } from "react-icons/io";
+
+// Components
 import DraftEditor from "./DraftEditor";
 import Conversation from "./Conversation";
+
+// Hooks
 import useFetchTicketData from "../../../hooks/useFetchTicketData";
+import useApplicationData from "../../../hooks/useApplicationData";
 
 function TicketInfo() {
   const { state, dispatch } = useAppContext();
+  const { deleteTicket, resolveTicket, transferTicket, openTicket } = useApplicationData();
   const ticket_id = state.viewTicketId;
   const agents = state.agents;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
 
-  useFetchTicketData(
-    `api/v1/tickets/${ticket_id}`,
-    dispatch
-  );
+  useFetchTicketData(`api/v1/tickets/${ticket_id}`, dispatch);
   const ticket = state.ticketData;
+  console.log(ticket);
   return (
     <section className="flex-col h-full m-4 overflow-y-auto">
       <h1 className="text-4xl font-bold mb-4">{ticket.title}</h1>
@@ -56,26 +63,56 @@ function TicketInfo() {
               </summary>
               <ul className="shadow menu dropdown-content rounded-box">
                 {agents.map((agent) => (
-                  <li key={agent.id} onClick={() => console.log(agent.username)}>
+                  <li
+                    key={agent.id}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      transferTicket(ticket.id, agent.id);
+                    }}
+                  >
                     <a>{agent.full_name}</a>
                   </li>
                 ))}
               </ul>
             </details>
           </li>
+          {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
+            <li>
+              <button
+                className="flex items-center gap-2"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  resolveTicket(ticket.id);
+                  window.location.reload();
+                }}
+              >
+                <CgCheckO size="1.5rem" /> Resolve
+              </button>
+            </li>
+          ) : (
+            // Show the open ticket icon if the ticket has been resolved
+            <li>
+              <button
+                className="flex items-center gap-2"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  openTicket(ticket.id);
+                  window.location.reload();
+                }}
+              >
+                <IoIosMailOpen size="1.5rem" />
+                Open
+              </button>
+            </li>
+          )}
           <li>
             <button
               className="flex items-center gap-2"
-              onClick={() => console.log("resolve")}
-            >
-              <CgCheckO size="1.5rem" />
-              Resolve
-            </button>
-          </li>
-          <li>
-            <button
-              className="flex items-center gap-2"
-              onClick={() => console.log("delete")}
+              onClick={(event) => {
+                event.stopPropagation();
+                deleteTicket(ticket.id);
+                window.location.reload();
+              }}
             >
               <MdDelete size="1.5rem" />
               Delete
@@ -89,9 +126,11 @@ function TicketInfo() {
             <div className="flex flex-row gap-5">
               <p>From: SmartAgent &lt;smartagents3@gmail.com&gt;</p>
               <p>|</p>
-              <p>To: {ticket.customer_name} &lt;{ticket.from_email}&gt;</p>
+              <p>
+                To: {ticket.customer_name} &lt;{ticket.from_email}&gt;
+              </p>
             </div>
-              <p>Re: {ticket.title}</p>
+            <p>Re: {ticket.title}</p>
           </div>
           <DraftEditor customer_name={ticket?.customer_name ?? ""} />
           <div className="justify-end relative mt-5">

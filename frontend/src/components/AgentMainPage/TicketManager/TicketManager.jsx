@@ -1,7 +1,9 @@
+import { useAppContext } from "../../../context/AppContext";
+
+// Components
 import TicketManagerNav from "./TicketManagerNav";
 import TicketInbox from "./TicketInbox";
 import TicketInfo from "./TicketInfo";
-import { useAppContext } from "../../../context/AppContext";
 
 function TicketManager() {
   const { state } = useAppContext();

@@ -1,12 +1,17 @@
+import { useAppContext } from "../../../context/AppContext";
+
+// Icons
 import { MdDelete } from "react-icons/md";
 import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
+import { IoIosMailOpen } from "react-icons/io";
+
+// Hooks
 import useApplicationData from "../../../hooks/useApplicationData";
-import { useAppContext } from "../../../context/AppContext";
 import useFetchInboxTickets from "../../../hooks/inbox/useFetchInboxTickets";
 
 function TicketInbox() {
-  const { setTicketView, deleteTicket,  } = useApplicationData();
+  const { setTicketView, deleteTicket, resolveTicket, transferTicket, openTicket } = useApplicationData();
   const { state } = useAppContext();
   const tickets = state.inboxTickets;
   const agents = state.agents;
@@ -70,18 +75,40 @@ function TicketInbox() {
                         className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box"
                       >
                         {agents.map((agent) => (
-                          <li key={agent.id} onClick={() => console.log(agent.username)}>
+                          <li key={agent.id} 
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              transferTicket(ticket.id, agent.id)
+                              window.location.reload();
+                            }}
+                          >
                             <a>{agent.full_name}</a>
                           </li>
                         ))}
                       </ul>
                     </div>
-                    <li className="tooltip tooltip-right" data-tip="Resolve">
-                      <CgCheckO
+                    {ticket.status_id === 1 ?  // Show the resolve ticket icon if the ticket is open
+                      <li className="tooltip tooltip-right" data-tip="Resolve">
+                        <CgCheckO
+                          size="1.5rem"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            resolveTicket(ticket.id)
+                            window.location.reload();
+                          }}
+                        />
+                      </li> : // Show the open ticket icon if the ticket has been resolved
+                      <li className="tooltip tooltip-right" data-tip="Reopen">
+                      <IoIosMailOpen 
                         size="1.5rem"
-                        onClick={() => console.log("resolve")}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          openTicket(ticket.id)
+                          window.location.reload();
+                        }}
                       />
                     </li>
+                    }
                     <li
                       className="tooltip tooltip-right"
                       data-tip="Delete Ticket"
