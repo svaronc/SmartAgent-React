@@ -3,25 +3,15 @@ import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
 import useApplicationData from "../../../hooks/useApplicationData";
 import { useAppContext } from "../../../context/AppContext";
-import useFetchInboxAllTickets from "../../../hooks/inbox/useFetchInboxAllTickets";
-import useFetchInboxTriageTickets from "../../../hooks/inbox/useFetchInboxTriageTickets";
+import useFetchInboxTickets from "../../../hooks/inbox/useFetchInboxTickets";
 
 function TicketInbox() {
   const { setTicketView, deleteTicket,  } = useApplicationData();
-  const { state, dispatch } = useAppContext();
+  const { state } = useAppContext();
   const tickets = state.inboxTickets;
   const agents = state.agents;
 
-  switch (state.ticketManagerView) {
-    // case "Assigned to Me": return
-    case "Triage - Open Tickets": {
-      useFetchInboxTriageTickets("api/v1/tickets", dispatch)
-    }
-    case "All Tickets": {
-      useFetchInboxAllTickets("api/v1/tickets", dispatch)
-    }
-    // case "Closed Tickets": return
-  }
+  useFetchInboxTickets();
 
   return (
     <section className="flex flex-col w-full">
