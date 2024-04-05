@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup'; 
+import DraftEditor from './DraftEditor';
 
 function RequestForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -36,7 +37,7 @@ function RequestForm() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 shadow-md rounded-md m-5">
+    <div className="max-w-3xl mx-auto p-6 shadow-md rounded-md m-5">
       {submitted ? ( // Conditional rendering for thank you message
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">Thank you for your support request.</h1>
@@ -78,12 +79,12 @@ function RequestForm() {
                 </div>
 
                 <div className="mb-4">
-                  <label htmlFor="body" className="block text-sm font-medium text-gray-700">Request</label>
-                  <Field name="body" id="body" as="textarea" placeholder="Request" className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500" />
+                  <label htmlFor="body" className="block text-sm font-medium text-gray-700 mb-2">Request</label>
+                  <Field name="body" component={ DraftEditor } />
                   <ErrorMessage name="body" component="div" className="text-red-500 text-sm mt-1" />
                 </div>
 
-                <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md focus:outline-none hover:bg-blue-600" disabled={isSubmitting}>
+                <button type="submit" className="mt-10 bg-blue-500 text-white py-2 px-4 rounded-md focus:outline-none hover:bg-blue-600" disabled={isSubmitting}>
                   Submit
                 </button>
               </Form>
