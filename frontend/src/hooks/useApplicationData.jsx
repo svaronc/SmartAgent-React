@@ -27,12 +27,12 @@ const useApplicationData = () => {
   };
 
   const getAllTicketCount = () => {
-    useFetchData("http://localhost:3000/api/v1/tickets", "countAll", dispatch);
+    useFetchData("/api/v1/tickets", "countAll", dispatch);
   };
 
   const getTriageTicketCount = () => {
     useFetchData(
-      "http://localhost:3000/api/v1/tickets",
+      "/api/v1/tickets",
       "countTriage",
       dispatch
     );
@@ -40,7 +40,7 @@ const useApplicationData = () => {
 
   const getMyTicketCount = () => {
     useFetchData(
-      "http://localhost:3000/api/v1/tickets",
+      "/api/v1/tickets",
       "countAssignedToMe",
       dispatch
     );
@@ -48,7 +48,7 @@ const useApplicationData = () => {
 
   const getClosedTicketCount = () => {
     useFetchData(
-      "http://localhost:3000/api/v1/tickets",
+      "/api/v1/tickets",
       "countClosed",
       dispatch
     );
@@ -58,7 +58,7 @@ const useApplicationData = () => {
   const deleteTicket = (ticket_id) => {
     event.stopPropagation();
     axios
-      .delete(`http://localhost:3000/api/v1/tickets/${ticket_id}`)
+      .delete(`/api/v1/tickets/${ticket_id}`)
       .then(() => {
         dispatch({ type: ACTIONS.SET_VIEW, payload: "Triage - Open Tickets" });
       })
@@ -73,7 +73,7 @@ const useApplicationData = () => {
    * @returns {void}
    */
   const getAgents = () => {
-    useFetchAgents("http://localhost:3000/api/v1/agents", dispatch);
+    useFetchAgents("/api/v1/agents", dispatch);
   };
 
   return {

@@ -8,14 +8,14 @@ import loginImg from "../../assets/loginImg.svg";
 
 function Login() {
   const {login} = useContext(AuthContext);
-  const [username, setUsername] = useState("");
+  const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:3000/login", {
-        username,
+        email,
         password
     });
     console.log(response.data);
@@ -58,8 +58,8 @@ function Login() {
               name="email"
               id="email"
               required
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
             />
           </div>
           <div className="py-4">

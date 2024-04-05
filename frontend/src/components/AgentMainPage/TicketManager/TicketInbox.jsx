@@ -13,7 +13,7 @@ function TicketInbox() {
   const agents = state.agents;
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/tickets", {
+      .get("/api/v1/tickets", {
         headers: {
           Accept: "application/json",
         },
