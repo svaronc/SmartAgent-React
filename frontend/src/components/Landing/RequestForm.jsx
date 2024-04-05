@@ -1,32 +1,29 @@
-import { useState } from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import axios from 'axios';
-import * as Yup from 'yup'; 
-import DraftEditor from './DraftEditor';
+import { useState } from "react";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import axios from "axios";
+import * as Yup from "yup";
+import DraftEditor from "./DraftEditor";
 import DOMPurify from "dompurify";
 
 function RequestForm() {
   const [submitted, setSubmitted] = useState(false);
 
   const validationSchema = Yup.object().shape({
-    customer_name: Yup.string()
-      .required('Name is required'),
-    from_email: Yup.string()
-      .required('Email is required'),
-    title: Yup.string()
-      .required('Title is required'),
+    customer_name: Yup.string().required("Name is required"),
+    from_email: Yup.string().required("Email is required"),
+    title: Yup.string().required("Title is required"),
     body: Yup.string()
       .transform((value) => {
         // Transform the HTML content if needed (e.g., removing certain tags)
         return DOMPurify.sanitize(value);
       })
-      .required('A description of your request is required'),
+      .required("A description of your request is required"),
   });
 
   const handleSubmit = (values, actions) => {
     console.log(values);
     axios
-      .post("/api/v1/tickets", { ticket: values })
+      .post("http://localhost:3000/api/v1/tickets", { ticket: values })
       .then((response) => {
         console.log("Form submission successful:", response.data);
         alert("Form submitted successfully!");
@@ -60,10 +57,10 @@ function RequestForm() {
           </h1>
           <Formik
             initialValues={{
-              customer_name: '',
-              from_email: '',
-              title: '',
-              body: '',
+              customer_name: "",
+              from_email: "",
+              title: "",
+              body: "",
               status_id: 1,
               agent_id: 1,
             }}
@@ -115,11 +112,24 @@ function RequestForm() {
                 </div>
 
                 <div className="mb-4">
-                  <label htmlFor="body" className="block text-sm font-medium text-gray-700 mb-2">Request</label>
-                  <Field name="body">
-                    {({ field }) => <DraftEditor value={field.value} onChange={field.onChange(field.name)} />}
-                  </Field>
-                  <ErrorMessage name="body" component="div" className="text-red-500 text-sm mt-1" />
+                  <label
+                    htmlFor="title"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Title
+                  </label>
+                  <Field
+                    name="title"
+                    id="title"
+                    type="text"
+                    placeholder="Title"
+                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
+                  />
+                  <ErrorMessage
+                    name="title"
+                    component="div"
+                    className="text-red-500 text-sm mt-1"
+                  />
                 </div>
 
                 <div className="mb-4">
@@ -129,7 +139,14 @@ function RequestForm() {
                   >
                     Request
                   </label>
-                  <Field name="body" component={DraftEditor} />
+                  <Field name="body">
+                    {({ field }) => (
+                      <DraftEditor
+                        value={field.value}
+                        onChange={field.onChange(field.name)}
+                      />
+                    )}
+                  </Field>
                   <ErrorMessage
                     name="body"
                     component="div"
