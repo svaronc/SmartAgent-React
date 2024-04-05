@@ -1,25 +1,35 @@
 // State management is centralized here
-import React, { createContext, useReducer, useContext } from 'react';
+import React, { createContext, useReducer, useContext } from "react";
 
 export const ACTIONS = {
-  SET_VIEW: 'SET_VIEW',
-  VIEW_TICKET: 'VIEW_TICKET',
-  COUNT_TRIAGE: 'COUNT_TRIAGE',
-  COUNT_ALL: 'COUNT_ALL',
-  COUNT_CLOSED: 'COUNT_CLOSED',
-  COUNT_ASSIGNED_TO_ME: 'COUNT_ASSIGNED_TO_ME',
+  SET_VIEW: "SET_VIEW",
+  VIEW_TICKET: "VIEW_TICKET",
+  COUNT_TRIAGE: "COUNT_TRIAGE",
+  COUNT_ALL: "COUNT_ALL",
+  COUNT_CLOSED: "COUNT_CLOSED",
+  COUNT_ASSIGNED_TO_ME: "COUNT_ASSIGNED_TO_ME",
   GET_TICKET_DATA: "GET_TICKET_DATA",
   GET_AGENTS: "GET_AGENTS",
   GET_INBOX_TICKETS: "GET_INBOX_TICKETS",
   ADD_INBOX_TICKET: "ADD_INBOX_TICKET",
-}
+};
 
 function reducer(state, action) {
   switch (action.type) {
     case ACTIONS.SET_VIEW:
-      return { ...state, ticketManagerView: action.payload, ticketInboxView: true, ticketInfoView: false };
+      return {
+        ...state,
+        ticketManagerView: action.payload,
+        ticketInboxView: true,
+        ticketInfoView: false,
+      };
     case ACTIONS.VIEW_TICKET:
-      return { ...state, viewTicketId: action.payload, ticketInboxView: false, ticketInfoView: true };
+      return {
+        ...state,
+        viewTicketId: action.payload,
+        ticketInboxView: false,
+        ticketInfoView: true,
+      };
     case ACTIONS.COUNT_ALL:
       return { ...state, countAll: action.payload };
     case ACTIONS.COUNT_TRIAGE:
@@ -35,7 +45,10 @@ function reducer(state, action) {
     case ACTIONS.GET_INBOX_TICKETS:
       return { ...state, inboxTickets: action.payload };
     case ACTIONS.ADD_INBOX_TICKET:
-      return { ...state, inboxTickets: [...state.inboxTickets, action.payload] };
+      return {
+        ...state,
+        inboxTickets: [action.payload, ...state.inboxTickets],
+      };
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
@@ -55,7 +68,7 @@ const INITIAL_STATE = {
   ticketData: [],
   agents: [],
   inboxTickets: [],
-}
+};
 
 export const AppContext = createContext();
 
@@ -69,6 +82,6 @@ export const AppProvider = ({ children }) => {
   );
 };
 
-export const useAppContext = ()=> {
-  return useContext(AppContext)
+export const useAppContext = () => {
+  return useContext(AppContext);
 };
