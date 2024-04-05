@@ -26,27 +26,27 @@ const useApplicationData = () => {
     console.log("setTicketView");
   };
 
-  const getAllTicketCount = () => {
-    useFetchData("http://localhost:3000/api/v1/tickets", "countAll", dispatch);
-  };
-
-  const getTriageTicketCount = () => {
+  /**
+   * This gets the ticket counts on the tickets sidebar
+   * @function
+   * @returns {void}
+   */
+  const getTicketCounts = () => {
+    useFetchData(
+      "http://localhost:3000/api/v1/tickets", 
+      "countAll", 
+      dispatch
+    );
     useFetchData(
       "http://localhost:3000/api/v1/tickets",
       "countTriage",
       dispatch
     );
-  };
-
-  const getMyTicketCount = () => {
     useFetchData(
       "http://localhost:3000/api/v1/tickets",
       "countAssignedToMe",
       dispatch
     );
-  };
-
-  const getClosedTicketCount = () => {
     useFetchData(
       "http://localhost:3000/api/v1/tickets",
       "countClosed",
@@ -80,10 +80,7 @@ const useApplicationData = () => {
     setTicketManagerView,
     setTicketView,
     deleteTicket,
-    getAllTicketCount,
-    getTriageTicketCount,
-    getClosedTicketCount,
-    getMyTicketCount,
+    getTicketCounts,
     getAgents,
   };
 };
