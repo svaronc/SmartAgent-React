@@ -4,7 +4,6 @@ import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
 
 const useFetchInboxTickets = () => {
-  console.log("hi")
   const { state, dispatch } = useAppContext();
   const API_URL = "api/v1/tickets";
   useEffect(() => {
