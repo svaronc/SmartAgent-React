@@ -6,7 +6,7 @@ import { useAppContext } from "../../../context/AppContext";
 import useFetchInboxTickets from "../../../hooks/inbox/useFetchInboxTickets";
 
 function TicketInbox() {
-  const { setTicketView, deleteTicket,  } = useApplicationData();
+  const { setTicketView, deleteTicket, resolveTicket } = useApplicationData();
   const { state } = useAppContext();
   const tickets = state.inboxTickets;
   const agents = state.agents;
@@ -79,7 +79,11 @@ function TicketInbox() {
                     <li className="tooltip tooltip-right" data-tip="Resolve">
                       <CgCheckO
                         size="1.5rem"
-                        onClick={() => console.log("resolve")}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          resolveTicket(ticket.id)
+                          window.location.reload();
+                        }}
                       />
                     </li>
                     <li

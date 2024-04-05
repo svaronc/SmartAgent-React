@@ -54,12 +54,36 @@ const useApplicationData = () => {
     );
   };
 
-  // DELETE /tickets/:id
+  
+  /**
+   * This deletes the ticket
+   * DELETE /tickets/:id
+   * @function
+   * @returns {void}
+   */
   const deleteTicket = (ticket_id) => {
     axios
       .delete(`api/v1/tickets/${ticket_id}`)
       .then(() => {
         dispatch({ type: ACTIONS.SET_VIEW, payload: "Triage - Open Tickets" });
+      })
+      .catch((error) => {
+        console.error("Error fetching requests", error);
+      });
+  };
+
+
+  /**
+   * This resolves the ticket
+   * PATCH /tickets/:id/:status_id
+   * @function
+   * @returns {void}
+   */
+  const resolveTicket = (ticket_id) => {
+    axios
+      .patch(`api/v1/tickets/${ticket_id}`, { status_id: 2 })
+      .then(() => {
+        dispatch({ type: ACTIONS.VIEW_TICKET, payload: ticket_id });
       })
       .catch((error) => {
         console.error("Error fetching requests", error);
@@ -81,6 +105,8 @@ const useApplicationData = () => {
     deleteTicket,
     getTicketCounts,
     getAgents,
+    resolveTicket,
+    
   };
 };
 

@@ -12,7 +12,7 @@ import useApplicationData from "../../../hooks/useApplicationData";
 
 function TicketInfo() {
   const { state, dispatch } = useAppContext();
-  const { deleteTicket  } = useApplicationData();
+  const { deleteTicket, resolveTicket  } = useApplicationData();
   const ticket_id = state.viewTicketId;
   const agents = state.agents;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
@@ -68,7 +68,11 @@ function TicketInfo() {
           <li>
             <button
               className="flex items-center gap-2"
-              onClick={() => console.log("resolve")}
+              onClick={(event) => {
+                event.stopPropagation();
+                resolveTicket(ticket.id);
+                window.location.reload();
+              }}
             >
               <CgCheckO size="1.5rem" />
               Resolve
