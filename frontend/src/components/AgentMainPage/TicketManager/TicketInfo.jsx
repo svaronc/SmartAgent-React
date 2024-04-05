@@ -8,9 +8,11 @@ import { IoSend } from "react-icons/io5";
 import DraftEditor from "./DraftEditor";
 import Conversation from "./Conversation";
 import useFetchTicketData from "../../../hooks/useFetchTicketData";
+import useApplicationData from "../../../hooks/useApplicationData";
 
 function TicketInfo() {
   const { state, dispatch } = useAppContext();
+  const { deleteTicket  } = useApplicationData();
   const ticket_id = state.viewTicketId;
   const agents = state.agents;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
@@ -75,7 +77,11 @@ function TicketInfo() {
           <li>
             <button
               className="flex items-center gap-2"
-              onClick={() => console.log("delete")}
+              onClick={(event) => {
+                event.stopPropagation();
+                deleteTicket(ticket.id)
+                window.location.reload();
+              }}
             >
               <MdDelete size="1.5rem" />
               Delete
