@@ -1,12 +1,17 @@
+import { useAppContext } from "../../../context/AppContext";
+
+// Icons
 import { MdDelete } from "react-icons/md";
 import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
+import { IoIosMailOpen } from "react-icons/io";
+
+// Hooks
 import useApplicationData from "../../../hooks/useApplicationData";
-import { useAppContext } from "../../../context/AppContext";
 import useFetchInboxTickets from "../../../hooks/inbox/useFetchInboxTickets";
 
 function TicketInbox() {
-  const { setTicketView, deleteTicket, resolveTicket, transferTicket } = useApplicationData();
+  const { setTicketView, deleteTicket, resolveTicket, transferTicket, openTicket } = useApplicationData();
   const { state } = useAppContext();
   const tickets = state.inboxTickets;
   const agents = state.agents;
@@ -82,16 +87,28 @@ function TicketInbox() {
                         ))}
                       </ul>
                     </div>
-                    <li className="tooltip tooltip-right" data-tip="Resolve">
-                      <CgCheckO
+                    {ticket.status_id === 1 ?  // Show the resolve ticket icon if the ticket is open
+                      <li className="tooltip tooltip-right" data-tip="Resolve">
+                        <CgCheckO
+                          size="1.5rem"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            resolveTicket(ticket.id)
+                            window.location.reload();
+                          }}
+                        />
+                      </li> : // Show the open ticket icon if the ticket has been resolved
+                      <li className="tooltip tooltip-right" data-tip="Resolve">
+                      <IoIosMailOpen 
                         size="1.5rem"
                         onClick={(event) => {
                           event.stopPropagation();
-                          resolveTicket(ticket.id)
+                          openTicket(ticket.id)
                           window.location.reload();
                         }}
                       />
                     </li>
+                    }
                     <li
                       className="tooltip tooltip-right"
                       data-tip="Delete Ticket"
