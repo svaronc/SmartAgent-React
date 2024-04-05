@@ -27,7 +27,7 @@ class Api::V1::TicketsController < ApplicationController
   # POST api/v1/tickets.json
   def create
     @ticket = Ticket.new(ticket_params.except(:body))
-
+    attachments = params[:attachments]
     if @ticket.save
       @ticket.conversations.create!(body: ticket_params[:body], from_customer: true)
       render json: @ticket, status: :created
