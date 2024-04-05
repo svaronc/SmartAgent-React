@@ -10,7 +10,7 @@ Rails.application.configure do
   config.hosts << 'meerkat-dear-redbird.ngrok-free.app'
   # Do not eager load code on boot.
   config.eager_load = false
-
+  Rails.application.routes.default_url_options[:host] = 'meerkat-dear-redbird.ngrok-free.app'
   # Show full error reports.
   config.consider_all_requests_local = true
 
@@ -34,8 +34,8 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
@@ -45,7 +45,9 @@ Rails.application.configure do
     user_name: 'smartagents3@gmail.com',
     password: 'kudv rjbd zgqb fdse',
     authentication: 'plain',
-    enable_starttls_auto: true
+    enable_starttls_auto: true,
+    openssl_verify_mode: 'none',
+    read_timeout: 15_000_000
   }
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
