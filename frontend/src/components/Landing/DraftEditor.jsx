@@ -1,5 +1,8 @@
-import "quill/dist/quill.snow.css";
+// Packages required for HTML text editor
 import ReactQuill from "react-quill";
+import "quill/dist/quill.snow.css";
+
+// Import constants
 import { modules, formats } from "../../constants/draft-editor-format";
 
 function DraftEditor({ value, onChange }) {

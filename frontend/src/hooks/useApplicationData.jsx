@@ -2,7 +2,6 @@ import { ACTIONS, useAppContext } from "../context/AppContext";
 import axios from "axios";
 import useFetchData from "./useFetchData";
 import useFetchAgents from "./useFetchAgents";
-// import { useEffect } from 'react';
 
 const useApplicationData = () => {
   const { state, dispatch } = useAppContext();

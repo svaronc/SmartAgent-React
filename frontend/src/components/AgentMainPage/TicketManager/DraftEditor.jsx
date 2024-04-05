@@ -1,8 +1,12 @@
 
 import { useState } from 'react';
-import 'quill/dist/quill.snow.css'
+
+// Packages required for HTML text editor
 import ReactQuill from 'react-quill'
+import 'quill/dist/quill.snow.css'
 import DOMPurify from 'dompurify';
+
+// Import constants
 import { modules, formats } from '../../../constants/draft-editor-format';
 
 function DraftEditor({ customer_name }) {
