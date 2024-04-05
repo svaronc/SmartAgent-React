@@ -6,7 +6,7 @@ import { useAppContext } from "../../../context/AppContext";
 import useFetchInboxTickets from "../../../hooks/inbox/useFetchInboxTickets";
 
 function TicketInbox() {
-  const { setTicketView, deleteTicket, resolveTicket } = useApplicationData();
+  const { setTicketView, deleteTicket, resolveTicket, transferTicket } = useApplicationData();
   const { state } = useAppContext();
   const tickets = state.inboxTickets;
   const agents = state.agents;
@@ -70,7 +70,13 @@ function TicketInbox() {
                         className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box"
                       >
                         {agents.map((agent) => (
-                          <li key={agent.id} onClick={() => console.log(agent.username)}>
+                          <li key={agent.id} 
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              transferTicket(ticket.id, agent.id)
+                              window.location.reload();
+                            }}
+                          >
                             <a>{agent.full_name}</a>
                           </li>
                         ))}

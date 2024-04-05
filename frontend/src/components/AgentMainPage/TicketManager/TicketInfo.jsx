@@ -12,7 +12,7 @@ import useApplicationData from "../../../hooks/useApplicationData";
 
 function TicketInfo() {
   const { state, dispatch } = useAppContext();
-  const { deleteTicket, resolveTicket  } = useApplicationData();
+  const { deleteTicket, resolveTicket, transferTicket  } = useApplicationData();
   const ticket_id = state.viewTicketId;
   const agents = state.agents;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
@@ -58,7 +58,12 @@ function TicketInfo() {
               </summary>
               <ul className="shadow menu dropdown-content rounded-box">
                 {agents.map((agent) => (
-                  <li key={agent.id} onClick={() => console.log(agent.username)}>
+                  <li key={agent.id} 
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      transferTicket(ticket.id, agent.id);
+                    }}
+                  >
                     <a>{agent.full_name}</a>
                   </li>
                 ))}

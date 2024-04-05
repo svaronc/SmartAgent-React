@@ -90,6 +90,25 @@ const useApplicationData = () => {
       });
   };
 
+
+  /**
+   * This resolves the ticket
+   * PATCH /tickets/:id/:status_id
+   * @function
+   * @returns {void}
+   */
+  const transferTicket = (ticket_id, agent_id) => {
+    axios
+      .patch(`api/v1/tickets/${ticket_id}`, { agent_id })
+      .then(() => {
+        dispatch({ type: ACTIONS.VIEW_TICKET, payload: ticket_id });
+      })
+      .catch((error) => {
+        console.error("Error fetching requests", error);
+      });
+  };
+
+
   /**
    * This sets the agents in context state. GET api/v1/agents
    * @function
@@ -106,6 +125,7 @@ const useApplicationData = () => {
     getTicketCounts,
     getAgents,
     resolveTicket,
+    transferTicket,
     
   };
 };
