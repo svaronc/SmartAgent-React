@@ -13,14 +13,14 @@ function TicketInbox() {
   const agents = state.agents;
 
   switch (state.ticketManagerView) {
-    case "Assigned to Me": return
+    // case "Assigned to Me": return
     case "Triage - Open Tickets": {
       useFetchInboxTriageTickets("http://localhost:3000/api/v1/tickets", dispatch)
     }
     case "All Tickets": {
       useFetchInboxAllTickets("http://localhost:3000/api/v1/tickets", dispatch)
     }
-    case "Closed Tickets": return
+    // case "Closed Tickets": return
   }
 
   return (
@@ -80,8 +80,8 @@ function TicketInbox() {
                         className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box"
                       >
                         {agents.map((agent) => (
-                          <li onClick={() => console.log(agent.username)}>
-                            <a>{agent.username}</a>
+                          <li key={agent.id} onClick={() => console.log(agent.username)}>
+                            <a>{agent.full_name}</a>
                           </li>
                         ))}
                       </ul>
