@@ -1,3 +1,5 @@
+import ConversationAuthor from "./ConversationAuthor";
+
 function Conversation({
   customer_name,
   from_customer,
@@ -27,15 +29,7 @@ function Conversation({
         <div className={getConversationInfoDivClassName(from_customer)}>
           {from_customer ? (
             <div>
-              <div className="conversation-author flex flex-row gap-2 font-bold text-white text-2xl mb-1">
-                <div className="avatar placeholder">
-                  <div className="bg-neutral text-neutral-content rounded-full w-8">
-                    <span className="text-xs">{initial}</span>
-                  </div>
-                </div>
-                {customer_name}
-                <span className="font-normal"> wrote</span>
-              </div>
+              <ConversationAuthor initial={initial} author={customer_name} />
 
               {/* From customer email details */}
               <p>
@@ -45,15 +39,7 @@ function Conversation({
             </div>
           ) : (
             <div>
-              <div className="conversation-author flex flex-row gap-2 font-bold text-white text-2xl mb-1">
-                <div className="avatar placeholder">
-                  <div className="bg-neutral text-neutral-content rounded-full w-8">
-                    <span className="text-xs">S</span>
-                  </div>
-                </div>
-                SmartAgent
-                <span className="font-normal"> wrote</span>
-              </div>
+              <ConversationAuthor initial="S" author="SmartAgent" />
 
               {/* To customer email details */}
               <p>From: SmartAgent &lt;smartagents3@gmail.com&gt;</p>
