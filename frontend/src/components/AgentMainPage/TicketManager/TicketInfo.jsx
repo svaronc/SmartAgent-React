@@ -19,10 +19,12 @@ import useApplicationData from "../../../hooks/useApplicationData";
 
 function TicketInfo() {
   const { state, dispatch } = useAppContext();
-  const { deleteTicket, resolveTicket, transferTicket, openTicket } = useApplicationData();
+  const { deleteTicket, resolveTicket, transferTicket, openTicket } =
+    useApplicationData();
   const ticket_id = state.viewTicketId;
   const agents = state.agents;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
+  const [editorState, setEditorState] = useState();
 
   useFetchTicketData(`api/v1/tickets/${ticket_id}`, dispatch);
   const ticket = state.ticketData;
@@ -132,13 +134,17 @@ function TicketInfo() {
             </div>
             <p>Re: {ticket.title}</p>
           </div>
-          <DraftEditor customer_name={ticket?.customer_name ?? ""} />
+          <DraftEditor
+            customer_name={ticket?.customer_name ?? ""}
+            editorState={editorState}
+            setEditorState={setEditorState}
+          />
           <div className="justify-end relative mt-5">
             <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
               <li>
                 <button
                   className="flex items-center gap-2"
-                  onClick={() => console.log("send reply")}
+                  onClick={() => console.log(editorState)}
                 >
                   <IoSend size="1.5rem" />
                   Send
