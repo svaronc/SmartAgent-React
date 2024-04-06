@@ -100,7 +100,7 @@ function TicketInbox() {
                           onClick={(event) => {
                             event.stopPropagation();
                             resolveTicket(ticket.id)
-                            window.location.reload();
+                            // window.location.reload();
                           }}
                         />
                       </li> : // Show the open ticket icon if the ticket has been resolved

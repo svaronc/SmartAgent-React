@@ -41,7 +41,8 @@ class Api::V1::TicketsController < ApplicationController
       render json: @ticket.errors, status: :unprocessable_entity
     end
   end
-
+  
+  # POST api/v1/tickets/respond { ticket_id: 1, response: 'Response'}
   def respond
     @ticket = Ticket.find(params[:ticket_id])
     response = params[:response]
@@ -77,6 +78,7 @@ class Api::V1::TicketsController < ApplicationController
       @ticket.agent = agent
     end
     if @ticket.update(ticket_params)
+      ActionCable.server.broadcast('tickets', @ticket)
       render json: @ticket, status: :ok
     else
       render json: @ticket.errors, status: :unprocessable_entity

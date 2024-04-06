@@ -15,6 +15,7 @@ class ForwardsMailbox < ApplicationMailbox
       from_customer: true,
       ticket_id:
     )
+    
     mail.attachments.each do |attachment|
       filename = attachment.decoded
       file = StringIO.new(filename)
