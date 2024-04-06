@@ -59,7 +59,7 @@ function TicketInbox() {
                 </th>
                 <td className="px-6 py-4">{ticket.customer_name}</td>
                 <td className="px-6 py-4">{ticket.id}</td>
-                <td className="px-6 py-4">{ticket.title}</td>
+                <td className="px-6 py-4">{ticket.status_id === 1 ? "Open" : "Closed"}</td>
                 <td className="px-6 py-4">{ticket.created_at}</td>
                 <td className="px-6 py-4">
                   <div className="flex flex-row gap-3 hover:ring-slate-300">
