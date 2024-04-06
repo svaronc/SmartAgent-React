@@ -25,6 +25,7 @@ class Api::V1::ConversationsController < ApplicationController
     @conversation = Conversation.new(conversation_params)
 
     if @conversation.save
+      ActionCable.server.broadcast('conversations', @conversation)
       render :show, status: :created, location: @conversation
     else
       render json: @conversation.errors, status: :unprocessable_entity

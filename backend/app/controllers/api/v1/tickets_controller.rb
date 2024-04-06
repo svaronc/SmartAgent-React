@@ -89,6 +89,7 @@ class Api::V1::TicketsController < ApplicationController
   # DELETE api/v1/tickets/1.json
   def destroy
     @ticket.destroy!
+    ActionCable.server.broadcast('tickets', {id: @ticket.id, delete: true})
   end
 
   private

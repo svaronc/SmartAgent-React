@@ -10,12 +10,13 @@ class ForwardsMailbox < ApplicationMailbox
       status_id: 1,
       agent_id: 1
     )
+    ActionCable.server.broadcast('tickets', ticket)
     conversation = ticket.conversations.create!(
       body: clean_body(mail),
       from_customer: true,
       ticket_id:
     )
-    
+    ActionCable.server.broadcast('conversations', conversation)
     mail.attachments.each do |attachment|
       filename = attachment.decoded
       file = StringIO.new(filename)

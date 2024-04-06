@@ -12,6 +12,9 @@ export const ACTIONS = {
   GET_AGENTS: "GET_AGENTS",
   GET_INBOX_TICKETS: "GET_INBOX_TICKETS",
   ADD_INBOX_TICKET: "ADD_INBOX_TICKET",
+  UPDATE_INBOX_TICKET: "UPDATE_INBOX_TICKET",
+  DELETE_INBOX_TICKET: "DELETE_INBOX_TICKET",
+  CHANGE_TICKET: "CHANGE_TICKET",
 };
 
 function reducer(state, action) {
@@ -29,6 +32,13 @@ function reducer(state, action) {
         viewTicketId: action.payload,
         ticketInboxView: false,
         ticketInfoView: true,
+      };
+      case ACTIONS.CHANGE_TICKET:
+      return {
+        ...state,
+        viewTicketId: action.payload,
+        ticketInboxView: true,
+        ticketInfoView: false,
       };
     case ACTIONS.COUNT_ALL:
       return { ...state, countAll: action.payload };
@@ -48,6 +58,20 @@ function reducer(state, action) {
       return {
         ...state,
         inboxTickets: [action.payload, ...state.inboxTickets],
+      };
+    case ACTIONS.UPDATE_INBOX_TICKET:
+      return {
+        ...state,
+        inboxTickets: state.inboxTickets.map((ticket) =>
+          ticket.id === action.payload.id ? action.payload : ticket
+        ),
+      };
+    case ACTIONS.DELETE_INBOX_TICKET:
+      return {
+        ...state,
+        inboxTickets: state.inboxTickets.filter(
+          (ticket) => ticket.id !== action.payload
+        ),
       };
     default:
       throw new Error(

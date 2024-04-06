@@ -110,7 +110,7 @@ function TicketInbox() {
                         onClick={(event) => {
                           event.stopPropagation();
                           openTicket(ticket.id)
-                          window.location.reload();
+                          // window.location.reload();
                         }}
                       />
                     </li>
@@ -124,7 +124,7 @@ function TicketInbox() {
                         onClick={(event) => {
                           event.stopPropagation();
                           deleteTicket(ticket.id)
-                          window.location.reload();
+                          // window.location.reload();
                         }}
                       />
                     </li>
