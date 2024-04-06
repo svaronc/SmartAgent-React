@@ -40,6 +40,7 @@ function TicketInfo() {
               customer_name={ticket.customer_name}
               customer_email={ticket.from_email}
               from_customer={conversation.from_customer}
+              created_at={conversation.created_at}
               title={ticket.title}
               body={conversation.body}
             />

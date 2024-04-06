@@ -2,6 +2,7 @@ function Conversation({
   customer_name,
   from_customer,
   customer_email,
+  created_at,
   title,
   body,
 }) {
@@ -20,6 +21,7 @@ function Conversation({
 
   return (
     <div className={getConversationDivClassName(from_customer)}>
+      <div className="flex flex-row justify-between">
       <div className={getConversationInfoDivClassName(from_customer)}>
         {from_customer ? (
           <div>
@@ -31,6 +33,7 @@ function Conversation({
           </div>
         ) : (
           <div>
+            <p className="font-bold text-white text-2xl">SmartAgent <span className="font-normal">wrote</span></p>
             {/* To customer email details */}
             <p>From: SmartAgent &lt;smartagents3@gmail.com&gt;</p>
             <p>
@@ -38,9 +41,11 @@ function Conversation({
             </p>
           </div>
         )}
-        <p>Subject: {title} </p>
-        <div className="flex-grow border-t dark:inherit mt-4"></div> {/* Divider */}
+          <p>Subject: {title} </p>
+        </div>
+        <div>{created_at}</div> {/* Need to format datetime */}
       </div>
+        <div className="flex-grow border-t dark:inherit mb-4"></div> {/* Divider */}
       <div className="dark:text-white" dangerouslySetInnerHTML={{ __html: body }} /> {/* Body of conversation */}
     </div>
   );
