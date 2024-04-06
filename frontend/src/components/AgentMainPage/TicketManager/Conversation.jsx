@@ -52,12 +52,12 @@ function Conversation({
         </div>
         <div>{created_at}</div> {/* Need to format datetime */}
       </div>
-      <div className="flex-grow border-t dark:inherit mb-4"></div>{" "}
+      <div className="flex-grow border-t dark:inherit mb-4"></div>
       {/* Divider */}
       <div
         className="dark:text-white"
         dangerouslySetInnerHTML={{ __html: body }}
-      />{" "}
+      />
       {/* Body of conversation */}
     </div>
   );
