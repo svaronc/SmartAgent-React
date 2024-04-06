@@ -37,7 +37,6 @@ const useFetchInboxTickets = () => {
             const inboxClosedTickets = response.data.filter(
               (ticket) => ticket.status_id === 2
             );
-            console.log(inboxClosedTickets);
             dispatch({
               type: ACTIONS.GET_INBOX_TICKETS,
               payload: inboxClosedTickets,

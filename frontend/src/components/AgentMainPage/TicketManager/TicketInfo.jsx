@@ -28,7 +28,7 @@ function TicketInfo() {
 
   useFetchTicketData(`api/v1/tickets/${ticket_id}`, dispatch);
   const ticket = state.ticketData;
-  console.log(ticket);
+  
   return (
     <section className="flex-col h-full m-4 overflow-y-auto">
       <h1 className="text-4xl font-bold mb-4">{ticket.title}</h1>
