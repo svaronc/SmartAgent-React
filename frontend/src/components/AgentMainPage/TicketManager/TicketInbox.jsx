@@ -85,7 +85,7 @@ function TicketInbox() {
                             onClick={(event) => {
                               event.stopPropagation();
                               transferTicket(ticket.id, agent.id)
-                              window.location.reload();
+                              // window.location.reload();
                             }}
                           >
                             <a>{agent.full_name}</a>

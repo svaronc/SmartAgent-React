@@ -1,5 +1,5 @@
 // State management is centralized here
-import React, { createContext, useReducer, useContext } from "react";
+import  { createContext, useReducer, useContext } from "react";
 
 export const ACTIONS = {
   SET_VIEW: "SET_VIEW",
