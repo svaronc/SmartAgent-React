@@ -1,6 +1,3 @@
-
-import { useState } from 'react';
-
 // Packages required for HTML text editor
 import ReactQuill from 'react-quill'
 import 'quill/dist/quill.snow.css'
@@ -9,8 +6,7 @@ import DOMPurify from 'dompurify';
 // Import constants
 import { modules, formats } from '../../../constants/draft-editor-format';
 
-function DraftEditor({ customer_name }) {
-  const [editorState, setEditorState] = useState();
+function DraftEditor({ customer_name, editorState, setEditorState }) {
 
   const handleProcedureContentChange = (content) => {
     console.log("content---->", content);
