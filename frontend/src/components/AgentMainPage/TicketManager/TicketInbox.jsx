@@ -26,15 +26,15 @@ function TicketInbox() {
 
   const getTicketRowClassName = (ticket) => {
     return ticket.status_id === 1
-      ? "bg-white border-b dark:bg-gray-600 dark:border-gray-700 hover:bg-blue-50 rounded cursor-pointer dark:text-gray-200"
-      : "bg-grey border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-50 rounded cursor-pointer text-gray-500";
+      ? "bg-white border-b dark:bg-gray-600 dark:border-gray-700 hover:bg-blue-50  dark:hover:text-black rounded cursor-pointer dark:text-gray-100"
+      : "bg-grey border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-50  dark:hover:text-black rounded cursor-pointer text-gray-500";
   };
 
   return (
     <section className="flex flex-col w-full">
       <div className="relative">
         <table className="w-full text-sm text-left rtl:text-right">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-300">
             <tr>
               <th scope="col" className="px-6 py-3">
                 Request
@@ -69,7 +69,7 @@ function TicketInbox() {
                 {/* Request title */}
                 <th
                   scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  className="px-6 py-4 font-bold whitespace-nowrap"
                 >
                   {ticket.title}
                 </th>
