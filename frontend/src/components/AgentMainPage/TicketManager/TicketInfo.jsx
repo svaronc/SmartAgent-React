@@ -32,9 +32,7 @@ function TicketInfo() {
   const [editorState, setEditorState] = useState();
   useFetchTicketData(`api/v1/tickets/${ticket_id}`, dispatch, ticket_id);
   const ticket = state.ticketData;
-  useEffect(() => {
-    console.log("how many times");
-  }, [])
+
   return (
     <section className="flex-col h-full m-4 overflow-y-auto">
       <div
