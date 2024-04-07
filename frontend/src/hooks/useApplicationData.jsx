@@ -82,7 +82,7 @@ const useApplicationData = () => {
     axios
       .patch(`api/v1/tickets/${ticket_id}`, { status_id: 2 })
       .then(() => {
-        dispatch({ type: ACTIONS.CHANGE_TICKET, payload: ticket_id });
+        dispatch({ type: ACTIONS.SET_VIEW, payload: state.ticketManagerView });
       })
       .catch((error) => {
         console.error("Error fetching requests", error);
@@ -100,7 +100,7 @@ const useApplicationData = () => {
     axios
       .patch(`api/v1/tickets/${ticket_id}`, { agent_id })
       .then(() => {
-        dispatch({ type: ACTIONS.CHANGE_TICKET, payload: ticket_id });
+        dispatch({ type: ACTIONS.SET_VIEW, payload: state.ticketManagerView });
       })
       .catch((error) => {
         console.error("Error fetching requests", error);
@@ -118,7 +118,7 @@ const useApplicationData = () => {
     axios
       .patch(`api/v1/tickets/${ticket_id}`, { status_id: 1 })
       .then(() => {
-        dispatch({ type: ACTIONS.CHANGE_TICKET, payload: ticket_id });
+        dispatch({ type: ACTIONS.SET_VIEW, payload: state.ticketManagerView });
       })
       .catch((error) => {
         console.error("Error fetching requests", error);
