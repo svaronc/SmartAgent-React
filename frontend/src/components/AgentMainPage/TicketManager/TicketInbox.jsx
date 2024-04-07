@@ -11,18 +11,24 @@ import useApplicationData from "../../../hooks/useApplicationData";
 import useFetchInboxTickets from "../../../hooks/inbox/useFetchInboxTickets";
 
 function TicketInbox() {
-  const { setTicketView, deleteTicket, resolveTicket, transferTicket, openTicket } = useApplicationData();
+  const {
+    setTicketView,
+    deleteTicket,
+    resolveTicket,
+    transferTicket,
+    openTicket,
+  } = useApplicationData();
   const { state } = useAppContext();
   const tickets = state.inboxTickets;
   const agents = state.agents;
-  console.log(state.loggedInAgent)
+  console.log(state.loggedInAgent);
   useFetchInboxTickets();
 
   const getTicketRowClassName = (ticket) => {
-    return ticket.status_id === 1 
-      ? "bg-white border-b dark:bg-gray-600 dark:border-gray-700 hover:bg-blue-50 rounded cursor-pointer dark:text-gray-200" 
-      : "bg-grey border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-50 rounded cursor-pointer text-gray-500"
-  }
+    return ticket.status_id === 1
+      ? "bg-white border-b dark:bg-gray-600 dark:border-gray-700 hover:bg-blue-50 rounded cursor-pointer dark:text-gray-200"
+      : "bg-grey border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-50 rounded cursor-pointer text-gray-500";
+  };
 
   return (
     <section className="flex flex-col w-full">
@@ -46,6 +52,9 @@ function TicketInbox() {
                 Created
               </th>
               <th scope="col" className="px-6 py-3">
+                Assigned To
+              </th>
+              <th scope="col" className="px-9 py-3">
                 Actions
               </th>
             </tr>
@@ -65,65 +74,73 @@ function TicketInbox() {
                 </th>
                 <td className="px-6 py-4">{ticket.customer_name}</td>
                 <td className="px-6 py-4">{ticket.id}</td>
-                <td className="px-6 py-4">{ticket.status_id === 1 ? "Open" : "Closed"}</td>
-                <td className="px-6 py-4">{ticket.created_at}</td>
                 <td className="px-6 py-4">
-                  <div className="flex flex-row gap-3 hover:ring-slate-300">
-                    <div className="dropdown dropdown-hover">
+                  {ticket.status_id === 1 ? "Open" : "Closed"}
+                </td>
+                <td className="px-6 py-4">{ticket.created_at}</td>
+                <td className="px-6 py-4">{ticket.agent_id}</td>
+                <td className="px-6">
+                  <div className="flex flex-row hover:ring-slate-300">
+                    <div
+                      className="dropdown dropdown-hover px-3 py-4"
+                      onClick={(event) => event.stopPropagation()}
+                    >
                       <li className="tooltip tooltip-right" data-tip="Transfer">
-                        <LuArrowLeftRight
-                          size="1.5rem"
-                          onClick={() => console.log("transfer")}
-                        />
+                        <LuArrowLeftRight size="1.5rem" />
                       </li>
                       <ul
                         tabIndex={0}
                         className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box"
                       >
                         {agents.map((agent) => (
-                          <li key={agent.id} 
+                          <li
+                            key={agent.id}
                             onClick={(event) => {
                               event.stopPropagation();
-                              transferTicket(ticket.id, agent.id)
+                              transferTicket(ticket.id, agent.id);
                             }}
                           >
-                            <a>{ state.loggedInAgent.agent_id === agent.id ? "Me" : agent.full_name }</a>
+                            <a>
+                              {state.loggedInAgent.agent_id === agent.id
+                                ? "Me"
+                                : agent.full_name}
+                            </a>
                           </li>
                         ))}
                       </ul>
                     </div>
-                    {ticket.status_id === 1 ?  // Show the resolve ticket icon if the ticket is open
-                      <li className="tooltip tooltip-right" data-tip="Resolve">
-                        <CgCheckO
-                          size="1.5rem"
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            resolveTicket(ticket.id)
-                          }}
-                        />
-                      </li> : // Show the open ticket icon if the ticket has been resolved
-                      <li className="tooltip tooltip-right" data-tip="Reopen">
-                      <IoIosMailOpen 
-                        size="1.5rem"
+                    {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
+                      <li
+                        className="tooltip tooltip-right px-3 py-4"
+                        data-tip="Resolve"
                         onClick={(event) => {
                           event.stopPropagation();
-                          openTicket(ticket.id)
+                          resolveTicket(ticket.id);
                         }}
-                      />
-                    </li>
-                    }
+                      >
+                        <CgCheckO size="1.5rem" />
+                      </li> // Show the open ticket icon if the ticket has been resolved
+                    ) : (
+                      <li
+                        className="tooltip tooltip-right px-3 py-4"
+                        data-tip="Reopen"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          openTicket(ticket.id);
+                        }}
+                      >
+                        <IoIosMailOpen size="1.5rem" />
+                      </li>
+                    )}
                     <li
-                      className="tooltip tooltip-right"
+                      className="tooltip tooltip-right px-3 py-4"
                       data-tip="Delete Ticket"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        deleteTicket(ticket.id);
+                      }}
                     >
-                      <MdDelete
-                        size="1.5rem"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          deleteTicket(ticket.id)
-                          // window.location.reload();
-                        }}
-                      />
+                      <MdDelete size="1.5rem" />
                     </li>
                   </div>
                 </td>
