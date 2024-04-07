@@ -31,10 +31,7 @@ const useApplicationData = () => {
    * @returns {void}
    */
   const getTicketCounts = () => {
-    useFetchData("api/v1/tickets", "countAll", dispatch);
-    useFetchData("api/v1/tickets", "countTriage", dispatch);
-    useFetchData("api/v1/tickets", "countAssignedToMe", dispatch);
-    useFetchData("api/v1/tickets", "countClosed", dispatch);
+    useFetchData("api/v1/tickets");
   };
 
   /**

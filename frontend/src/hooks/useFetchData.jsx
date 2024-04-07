@@ -3,8 +3,8 @@ import { ACTIONS } from "../context/AppContext";
 import { useAppContext } from "../context/AppContext";
 import axios from "axios";
 
-const useFetchData = (API_URL, type, dispatch) => {
-  const { state } = useAppContext();
+const useFetchData = (API_URL) => {
+  const { state, dispatch } = useAppContext();
 
   useEffect(() => {
     axios
