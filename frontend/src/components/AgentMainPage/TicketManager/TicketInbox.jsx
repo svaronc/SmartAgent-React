@@ -66,19 +66,36 @@ function TicketInbox() {
                 className={getTicketRowClassName(ticket)}
                 onClick={() => setTicketView(ticket.id)}
               >
+                {/* Request title */}
                 <th
                   scope="row"
                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
                   {ticket.title}
                 </th>
+
+                {/* Customer name */}
                 <td className="px-6 py-4">{ticket.customer_name}</td>
+
+                {/* Ticket ID */}
                 <td className="px-6 py-4">{ticket.id}</td>
+                
+                {/* Status */}
                 <td className="px-6 py-4">
                   {ticket.status_id === 1 ? "Open" : "Closed"}
                 </td>
+
+                {/* Created At */}
                 <td className="px-6 py-4">{ticket.created_at}</td>
-                <td className="px-6 py-4">{ticket.agent_id}</td>
+
+                {/* Assigned to agent */}
+                <td className="px-6 py-4">
+                  {state.loggedInAgent.agent_id === ticket.agent_id
+                    ? "Me"
+                    : ticket.agent_id}
+                </td>
+
+                {/* Actions */}
                 <td className="px-6">
                   <div className="flex flex-row hover:ring-slate-300">
                     <div
