@@ -1,5 +1,5 @@
 import { useAppContext } from "../../../context/AppContext";
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 
 // Icons
 import { MdDelete } from "react-icons/md";
@@ -8,7 +8,6 @@ import { CgCheckO } from "react-icons/cg";
 import { FaReply } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { IoIosMailOpen } from "react-icons/io";
-
 
 // Components
 import DraftEditor from "./DraftEditor";
@@ -20,21 +19,30 @@ import useApplicationData from "../../../hooks/useApplicationData";
 
 function TicketInfo() {
   const { state, dispatch } = useAppContext();
-  const { deleteTicket, resolveTicket, transferTicket, openTicket, sendRespond} =
-    useApplicationData();
+  const {
+    deleteTicket,
+    resolveTicket,
+    transferTicket,
+    openTicket,
+    sendRespond,
+  } = useApplicationData();
   const ticket_id = state.viewTicketId;
   const agents = state.agents;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
   const [editorState, setEditorState] = useState();
   useFetchTicketData(`api/v1/tickets/${ticket_id}`, dispatch, ticket_id);
   const ticket = state.ticketData;
-
-  
+  useEffect(() => {
+    console.log("how many times");
+  }, [])
   return (
     <section className="flex-col h-full m-4 overflow-y-auto">
-      <div id="ticket-info-header" className="flex flex-row justify-between items-center">
+      <div
+        id="ticket-info-header"
+        className="flex flex-row justify-between items-center"
+      >
         <h1 className="text-4xl font-bold mb-4">{ticket.title}</h1>
-        <p >Assigned to Agent ID: {ticket.agent_id}</p>
+        <p>Assigned to Agent ID: {ticket.agent_id}</p>
       </div>
       <div className="flex-grow bg-base-100 border-2  h-1/2 p-4 overflow-y-auto">
         {ticket.conversations &&
@@ -150,8 +158,8 @@ function TicketInfo() {
                 <button
                   className="flex items-center gap-2"
                   onClick={() => {
-                    sendRespond(ticket_id, editorState)
-                    setReplyIsVisible(!replyIsVisible)
+                    sendRespond(ticket_id, editorState);
+                    setReplyIsVisible(!replyIsVisible);
                   }}
                 >
                   <IoSend size="1.5rem" />
