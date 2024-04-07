@@ -79,7 +79,7 @@ function TicketInfo() {
                 Transfer
                 <LuArrowLeftRight size="1.5rem" />
               </summary>
-              <ul className="shadow menu dropdown-content rounded-box">
+              <ul className="shadow menu dropdown-content rounded-box dark:text-gray-200">
                 {agents.map((agent) => (
                   <li
                     key={agent.id}
