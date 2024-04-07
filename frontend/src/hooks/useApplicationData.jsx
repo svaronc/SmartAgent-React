@@ -115,6 +115,15 @@ const useApplicationData = () => {
       });
   };
 
+    /**
+   * This stores the logged in agent in state
+   * @function
+   * @returns {void}
+   */
+    const setLoggedInAgent = (data) => {
+      dispatch({ type: ACTIONS.SET_AGENT, payload: data });
+    };
+
   /**
    * This sets the agents in context state. GET api/v1/agents
    * @function
@@ -134,6 +143,7 @@ const useApplicationData = () => {
     transferTicket,
     openTicket,
     sendRespond,
+    setLoggedInAgent,
   };
 };
 
