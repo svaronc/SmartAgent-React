@@ -125,6 +125,16 @@ const useApplicationData = () => {
       });
   };
 
+  const sendRespond = (ticket_id, message) => {
+    axios
+      .post(`api/v1/tickets/${ticket_id}/respond`, { response: message })
+      .then(() => {
+        dispatch({ type: ACTIONS.VIEW_TICKET, payload: ticket_id  });
+      })
+      .catch((error) => {
+        console.error("Error fetching requests", error);
+      });
+  };
 
   /**
    * This sets the agents in context state. GET api/v1/agents
@@ -143,7 +153,8 @@ const useApplicationData = () => {
     getAgents,
     resolveTicket,
     transferTicket,
-    openTicket
+    openTicket,
+    sendRespond
   };
 };
 

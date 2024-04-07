@@ -1,5 +1,5 @@
 // State management is centralized here
-import  { createContext, useReducer, useContext } from "react";
+import { createContext, useReducer, useContext } from "react";
 
 export const ACTIONS = {
   SET_VIEW: "SET_VIEW",
@@ -14,7 +14,7 @@ export const ACTIONS = {
   ADD_INBOX_TICKET: "ADD_INBOX_TICKET",
   UPDATE_INBOX_TICKET: "UPDATE_INBOX_TICKET",
   DELETE_INBOX_TICKET: "DELETE_INBOX_TICKET",
-  CHANGE_TICKET: "CHANGE_TICKET",
+  ADD_CONVERSATION: "ADD_CONVERSATION",
 };
 
 function reducer(state, action) {
@@ -33,12 +33,17 @@ function reducer(state, action) {
         ticketInboxView: false,
         ticketInfoView: true,
       };
-      case ACTIONS.CHANGE_TICKET:
+    case ACTIONS.ADD_CONVERSATION:
       return {
         ...state,
-        viewTicketId: action.payload,
-        ticketInboxView: true,
-        ticketInfoView: false,
+        ticketData: state.ticketData.map((ticket) =>
+          ticket.id === action.payload.ticket_id
+            ? {
+                ...ticket,
+                conversations: [...ticket.conversations, action.payload],
+              }
+            : ticket
+        ),
       };
     case ACTIONS.COUNT_ALL:
       return { ...state, countAll: action.payload };

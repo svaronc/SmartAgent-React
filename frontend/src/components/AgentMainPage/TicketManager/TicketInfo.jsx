@@ -19,7 +19,7 @@ import useApplicationData from "../../../hooks/useApplicationData";
 
 function TicketInfo() {
   const { state, dispatch } = useAppContext();
-  const { deleteTicket, resolveTicket, transferTicket, openTicket } =
+  const { deleteTicket, resolveTicket, transferTicket, openTicket, sendRespond} =
     useApplicationData();
   const ticket_id = state.viewTicketId;
   const agents = state.agents;
@@ -148,7 +148,10 @@ function TicketInfo() {
               <li>
                 <button
                   className="flex items-center gap-2"
-                  onClick={() => console.log(editorState)}
+                  onClick={() => {
+                    sendRespond(ticket.id, editorState)
+                    setReplyIsVisible(!replyIsVisible)
+                  }}
                 >
                   <IoSend size="1.5rem" />
                   Send
