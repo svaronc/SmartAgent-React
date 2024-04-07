@@ -83,7 +83,7 @@ function TicketInfo() {
                       transferTicket(ticket.id, agent.id);
                     }}
                   >
-                    <a>{agent.full_name}</a>
+                    <a>{ state.loggedInAgent.agent_id === agent.id ? "Me" : agent.full_name }</a>
                   </li>
                 ))}
               </ul>

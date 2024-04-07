@@ -15,7 +15,7 @@ function TicketInbox() {
   const { state } = useAppContext();
   const tickets = state.inboxTickets;
   const agents = state.agents;
-
+  console.log(state.loggedInAgent)
   useFetchInboxTickets();
 
   const getTicketRowClassName = (ticket) => {
@@ -87,7 +87,7 @@ function TicketInbox() {
                               transferTicket(ticket.id, agent.id)
                             }}
                           >
-                            <a>{agent.full_name}</a>
+                            <a>{ state.loggedInAgent.agent_id === agent.id ? "Me" : agent.full_name }</a>
                           </li>
                         ))}
                       </ul>
