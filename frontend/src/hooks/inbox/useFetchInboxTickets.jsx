@@ -1,14 +1,12 @@
-import { useEffect, useRef, useState } from "react";
-import { ACTIONS } from "../../context/AppContext";
+import { useEffect, useRef } from "react";
+import { ACTIONS, useAppContext} from "../../context/AppContext";
 import axios from "axios";
-import { useAppContext } from "../../context/AppContext";
 import ActionCable from "actioncable";
 
 const useFetchInboxTickets = () => {
   const { state, dispatch } = useAppContext();
   const inboxTicketsRef = useRef(state.inboxTickets);
   const API_URL = "api/v1/tickets";
-  const [ticketUpdated, setTicketUpdated] = useState(false);
 
   useEffect(() => {
     inboxTicketsRef.current = state.inboxTickets;
@@ -16,8 +14,7 @@ const useFetchInboxTickets = () => {
 
   useEffect(() => {
     fetchData();
-    setTicketUpdated(false);
-  }, [state.ticketManagerView,ticketUpdated]); // Added state.ticketManagerView to the dependency array
+  }, [state.ticketManagerView,state.ticketUpdated]); // Added state.ticketManagerView to the dependency array
 
   const fetchData = async () => {
     try {
@@ -51,10 +48,7 @@ const useFetchInboxTickets = () => {
     }
   };
 
-  const handleTicketUpdate = () => {
-    setTicketUpdated(true);
-  };
-
+ 
   useEffect(() => {
     const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
     const subscription = cable.subscriptions.create("TicketsChannel", {
@@ -70,7 +64,7 @@ const useFetchInboxTickets = () => {
         } else {
           dispatch({ type: ACTIONS.ADD_INBOX_TICKET, payload: data });
         }
-        handleTicketUpdate()
+        
       },
     });
 

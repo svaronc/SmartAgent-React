@@ -1,5 +1,5 @@
 import { useAppContext } from "../../../context/AppContext";
-import { useState } from "react";
+import {  useState } from "react";
 
 // Icons
 import { MdDelete } from "react-icons/md";
@@ -8,6 +8,7 @@ import { CgCheckO } from "react-icons/cg";
 import { FaReply } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { IoIosMailOpen } from "react-icons/io";
+
 
 // Components
 import DraftEditor from "./DraftEditor";
@@ -25,9 +26,9 @@ function TicketInfo() {
   const agents = state.agents;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
   const [editorState, setEditorState] = useState();
-
-  useFetchTicketData(`api/v1/tickets/${ticket_id}`, dispatch);
+  useFetchTicketData(`api/v1/tickets/${ticket_id}`, dispatch, ticket_id);
   const ticket = state.ticketData;
+
   
   return (
     <section className="flex-col h-full m-4 overflow-y-auto">
@@ -149,8 +150,9 @@ function TicketInfo() {
                 <button
                   className="flex items-center gap-2"
                   onClick={() => {
-                    sendRespond(ticket.id, editorState)
+                    sendRespond(ticket_id, editorState)
                     setReplyIsVisible(!replyIsVisible)
+                    console.log(state.ticketData.conversations);
                   }}
                 >
                   <IoSend size="1.5rem" />

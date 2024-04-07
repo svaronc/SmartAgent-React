@@ -31,29 +31,12 @@ const useApplicationData = () => {
    * @returns {void}
    */
   const getTicketCounts = () => {
-    useFetchData(
-      "api/v1/tickets", 
-      "countAll", 
-      dispatch
-    );
-    useFetchData(
-      "api/v1/tickets",
-      "countTriage",
-      dispatch
-    );
-    useFetchData(
-      "api/v1/tickets",
-      "countAssignedToMe",
-      dispatch
-    );
-    useFetchData(
-      "api/v1/tickets",
-      "countClosed",
-      dispatch
-    );
+    useFetchData("api/v1/tickets", "countAll", dispatch);
+    useFetchData("api/v1/tickets", "countTriage", dispatch);
+    useFetchData("api/v1/tickets", "countAssignedToMe", dispatch);
+    useFetchData("api/v1/tickets", "countClosed", dispatch);
   };
 
-  
   /**
    * This deletes the ticket
    * DELETE /tickets/:id
@@ -70,7 +53,6 @@ const useApplicationData = () => {
         console.error("Error fetching requests", error);
       });
   };
-
 
   /**
    * This resolves the ticket
@@ -89,7 +71,6 @@ const useApplicationData = () => {
       });
   };
 
-
   /**
    * This resolves the ticket
    * PATCH /tickets/:id/:status_id
@@ -106,7 +87,6 @@ const useApplicationData = () => {
         console.error("Error fetching requests", error);
       });
   };
-
 
   /**
    * This opens a resolved ticket
@@ -127,9 +107,11 @@ const useApplicationData = () => {
 
   const sendRespond = (ticket_id, message) => {
     axios
-      .post(`api/v1/tickets/${ticket_id}/respond`, { response: message })
+      .post(`api/v1/tickets/${ticket_id}/respond`, {
+        response: message,
+      })
       .then(() => {
-        dispatch({ type: ACTIONS.VIEW_TICKET, payload: ticket_id  });
+        dispatch({ type: ACTIONS.VIEW_TICKET, payload: ticket_id });
       })
       .catch((error) => {
         console.error("Error fetching requests", error);
@@ -154,7 +136,7 @@ const useApplicationData = () => {
     resolveTicket,
     transferTicket,
     openTicket,
-    sendRespond
+    sendRespond,
   };
 };
 

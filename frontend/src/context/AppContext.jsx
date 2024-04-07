@@ -36,14 +36,16 @@ function reducer(state, action) {
     case ACTIONS.ADD_CONVERSATION:
       return {
         ...state,
-        ticketData: state.ticketData.map((ticket) =>
-          ticket.id === action.payload.ticket_id
+        ticketData:
+          state.ticketData.id === action.payload.ticket_id
             ? {
-                ...ticket,
-                conversations: [...ticket.conversations, action.payload],
+                ...state.ticketData,
+                conversations: [
+                  ...state.ticketData.conversations,
+                  action.payload,
+                ],
               }
-            : ticket
-        ),
+            : state.ticketData,
       };
     case ACTIONS.COUNT_ALL:
       return { ...state, countAll: action.payload };
@@ -54,15 +56,16 @@ function reducer(state, action) {
     case ACTIONS.COUNT_ASSIGNED_TO_ME:
       return { ...state, countAssignedToMe: action.payload };
     case ACTIONS.GET_TICKET_DATA:
-      return { ...state, ticketData: action.payload };
+      return { ...state, ticketData: action.payload, ticketUpdated: false };
     case ACTIONS.GET_AGENTS:
       return { ...state, agents: action.payload };
     case ACTIONS.GET_INBOX_TICKETS:
-      return { ...state, inboxTickets: action.payload };
+      return { ...state, inboxTickets: action.payload, ticketUpdated: false };
     case ACTIONS.ADD_INBOX_TICKET:
       return {
         ...state,
         inboxTickets: [action.payload, ...state.inboxTickets],
+        ticketUpdated: true,
       };
     case ACTIONS.UPDATE_INBOX_TICKET:
       return {
@@ -70,6 +73,7 @@ function reducer(state, action) {
         inboxTickets: state.inboxTickets.map((ticket) =>
           ticket.id === action.payload.id ? action.payload : ticket
         ),
+        ticketUpdated: true,
       };
     case ACTIONS.DELETE_INBOX_TICKET:
       return {
@@ -77,6 +81,7 @@ function reducer(state, action) {
         inboxTickets: state.inboxTickets.filter(
           (ticket) => ticket.id !== action.payload
         ),
+        ticketUpdated: true,
       };
     default:
       throw new Error(
@@ -97,6 +102,7 @@ const INITIAL_STATE = {
   ticketData: [],
   agents: [],
   inboxTickets: [],
+  ticketUpdated: false,
 };
 
 export const AppContext = createContext();
