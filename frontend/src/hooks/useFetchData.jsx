@@ -17,7 +17,7 @@ const useFetchData = (API_URL) => {
         const countAll = res.data.length;
         const countTriage = res.data.filter(ticket => ticket.status_id === 1 && ticket.agent_id === 1).length;
         const countClosed = res.data.filter(ticket => ticket.status_id === 2).length;
-        const countAssignedToMe = res.data.filter(ticket => ticket.agent_id === 2).length;
+        const countAssignedToMe = res.data.filter(ticket => ticket.status_id === 1 && ticket.agent_id === state.loggedInAgent.agent_id).length;
 
         dispatch({ type: ACTIONS.COUNT_ALL, payload: countAll });
         dispatch({ type: ACTIONS.COUNT_TRIAGE, payload: countTriage });
