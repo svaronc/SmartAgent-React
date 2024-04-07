@@ -1,5 +1,5 @@
 // State management is centralized here
-import React, { createContext, useReducer, useContext } from "react";
+import { createContext, useReducer, useContext } from "react";
 
 export const ACTIONS = {
   SET_VIEW: "SET_VIEW",
@@ -12,6 +12,9 @@ export const ACTIONS = {
   GET_AGENTS: "GET_AGENTS",
   GET_INBOX_TICKETS: "GET_INBOX_TICKETS",
   ADD_INBOX_TICKET: "ADD_INBOX_TICKET",
+  UPDATE_INBOX_TICKET: "UPDATE_INBOX_TICKET",
+  DELETE_INBOX_TICKET: "DELETE_INBOX_TICKET",
+  ADD_CONVERSATION: "ADD_CONVERSATION",
 };
 
 function reducer(state, action) {
@@ -30,6 +33,20 @@ function reducer(state, action) {
         ticketInboxView: false,
         ticketInfoView: true,
       };
+    case ACTIONS.ADD_CONVERSATION:
+      return {
+        ...state,
+        ticketData:
+          state.ticketData.id === action.payload.ticket_id
+            ? {
+                ...state.ticketData,
+                conversations: [
+                  ...state.ticketData.conversations,
+                  action.payload,
+                ],
+              }
+            : state.ticketData,
+      };
     case ACTIONS.COUNT_ALL:
       return { ...state, countAll: action.payload };
     case ACTIONS.COUNT_TRIAGE:
@@ -39,15 +56,32 @@ function reducer(state, action) {
     case ACTIONS.COUNT_ASSIGNED_TO_ME:
       return { ...state, countAssignedToMe: action.payload };
     case ACTIONS.GET_TICKET_DATA:
-      return { ...state, ticketData: action.payload };
+      return { ...state, ticketData: action.payload, ticketUpdated: false };
     case ACTIONS.GET_AGENTS:
       return { ...state, agents: action.payload };
     case ACTIONS.GET_INBOX_TICKETS:
-      return { ...state, inboxTickets: action.payload };
+      return { ...state, inboxTickets: action.payload, ticketUpdated: false };
     case ACTIONS.ADD_INBOX_TICKET:
       return {
         ...state,
         inboxTickets: [action.payload, ...state.inboxTickets],
+        ticketUpdated: true,
+      };
+    case ACTIONS.UPDATE_INBOX_TICKET:
+      return {
+        ...state,
+        inboxTickets: state.inboxTickets.map((ticket) =>
+          ticket.id === action.payload.id ? action.payload : ticket
+        ),
+        ticketUpdated: true,
+      };
+    case ACTIONS.DELETE_INBOX_TICKET:
+      return {
+        ...state,
+        inboxTickets: state.inboxTickets.filter(
+          (ticket) => ticket.id !== action.payload
+        ),
+        ticketUpdated: true,
       };
     default:
       throw new Error(
@@ -68,6 +102,7 @@ const INITIAL_STATE = {
   ticketData: [],
   agents: [],
   inboxTickets: [],
+  ticketUpdated: false,
 };
 
 export const AppContext = createContext();

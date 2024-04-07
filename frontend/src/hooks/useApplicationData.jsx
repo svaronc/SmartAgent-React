@@ -31,29 +31,12 @@ const useApplicationData = () => {
    * @returns {void}
    */
   const getTicketCounts = () => {
-    useFetchData(
-      "api/v1/tickets", 
-      "countAll", 
-      dispatch
-    );
-    useFetchData(
-      "api/v1/tickets",
-      "countTriage",
-      dispatch
-    );
-    useFetchData(
-      "api/v1/tickets",
-      "countAssignedToMe",
-      dispatch
-    );
-    useFetchData(
-      "api/v1/tickets",
-      "countClosed",
-      dispatch
-    );
+    useFetchData("api/v1/tickets", "countAll", dispatch);
+    useFetchData("api/v1/tickets", "countTriage", dispatch);
+    useFetchData("api/v1/tickets", "countAssignedToMe", dispatch);
+    useFetchData("api/v1/tickets", "countClosed", dispatch);
   };
 
-  
   /**
    * This deletes the ticket
    * DELETE /tickets/:id
@@ -64,13 +47,12 @@ const useApplicationData = () => {
     axios
       .delete(`api/v1/tickets/${ticket_id}`)
       .then(() => {
-        dispatch({ type: ACTIONS.SET_VIEW, payload: "Triage - Open Tickets" });
+        dispatch({ type: ACTIONS.SET_VIEW, payload: "All Tickets" });
       })
       .catch((error) => {
         console.error("Error fetching requests", error);
       });
   };
-
 
   /**
    * This resolves the ticket
@@ -82,13 +64,12 @@ const useApplicationData = () => {
     axios
       .patch(`api/v1/tickets/${ticket_id}`, { status_id: 2 })
       .then(() => {
-        dispatch({ type: ACTIONS.VIEW_TICKET, payload: ticket_id });
+        dispatch({ type: ACTIONS.SET_VIEW, payload: state.ticketManagerView });
       })
       .catch((error) => {
         console.error("Error fetching requests", error);
       });
   };
-
 
   /**
    * This resolves the ticket
@@ -100,13 +81,12 @@ const useApplicationData = () => {
     axios
       .patch(`api/v1/tickets/${ticket_id}`, { agent_id })
       .then(() => {
-        dispatch({ type: ACTIONS.VIEW_TICKET, payload: ticket_id });
+        dispatch({ type: ACTIONS.SET_VIEW, payload: state.ticketManagerView });
       })
       .catch((error) => {
         console.error("Error fetching requests", error);
       });
   };
-
 
   /**
    * This opens a resolved ticket
@@ -118,13 +98,25 @@ const useApplicationData = () => {
     axios
       .patch(`api/v1/tickets/${ticket_id}`, { status_id: 1 })
       .then(() => {
-        dispatch({ type: ACTIONS.VIEW_TICKET, payload: ticket_id });
+        dispatch({ type: ACTIONS.SET_VIEW, payload: state.ticketManagerView });
       })
       .catch((error) => {
         console.error("Error fetching requests", error);
       });
   };
 
+  const sendRespond = (ticket_id, message) => {
+    axios
+      .post(`api/v1/tickets/${ticket_id}/respond`, {
+        response: message,
+      })
+      .then(() => {
+        dispatch({ type: ACTIONS.VIEW_TICKET, payload: ticket_id });
+      })
+      .catch((error) => {
+        console.error("Error fetching requests", error);
+      });
+  };
 
   /**
    * This sets the agents in context state. GET api/v1/agents
@@ -143,7 +135,8 @@ const useApplicationData = () => {
     getAgents,
     resolveTicket,
     transferTicket,
-    openTicket
+    openTicket,
+    sendRespond,
   };
 };
 

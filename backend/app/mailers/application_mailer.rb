@@ -15,9 +15,13 @@ class ApplicationMailer < ActionMailer::Base
     @attachments.each do |attachment|
       filename = attachment.original_filename
       file_content = File.read(attachment.tempfile)
-      conversation.attachments.attach(io: StringIO.new(file_content), filename:)
+      conversation.attachments.attach(io: StringIO.new(file_content), filename:filename)
       mail.attachments[filename] = file_content
     end
+
+    puts @ticket
+    ActionCable.server.broadcast('tickets', conversation)
+
 
     mail(to: @ticket.from_email, subject: "Re: [##{@ticket.id}] Ticket response")
   end

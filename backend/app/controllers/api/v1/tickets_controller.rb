@@ -41,11 +41,13 @@ class Api::V1::TicketsController < ApplicationController
       render json: @ticket.errors, status: :unprocessable_entity
     end
   end
-
+  
+  # POST api/v1/tickets/respond { ticket_id: 1, response: 'Response'}
   def respond
-    @ticket = Ticket.find(params[:ticket_id])
+    @ticket = Ticket.includes(:conversations).find(params[:ticket_id])
+   
     response = params[:response]
-    attachments = params[:attachments]
+    attachments = params[:attachments] || []
 
     return render json: { error: 'Response is missing' }, status: :unprocessable_entity if response.blank?
 
@@ -77,6 +79,7 @@ class Api::V1::TicketsController < ApplicationController
       @ticket.agent = agent
     end
     if @ticket.update(ticket_params)
+      ActionCable.server.broadcast('tickets', @ticket)
       render json: @ticket, status: :ok
     else
       render json: @ticket.errors, status: :unprocessable_entity
@@ -87,6 +90,7 @@ class Api::V1::TicketsController < ApplicationController
   # DELETE api/v1/tickets/1.json
   def destroy
     @ticket.destroy!
+    ActionCable.server.broadcast('tickets', {id: @ticket.id, delete: true})
   end
 
   private

@@ -22,9 +22,25 @@ class Api::V1::ConversationsController < ApplicationController
   # POST /conversations
   # POST /conversations.json
   def create
-    @conversation = Conversation.new(conversation_params)
+    @ticket = Ticket.find(params[:ticket_id])
+    @response = params[:response]
+    @attachments = params[:attachments]
 
-    if @conversation.save
+   if conversation = @ticket.conversations.create!(
+      body: @response,
+      from_customer: false
+    )
+
+    @attachments.each do |attachment|
+      filename = attachment.original_filename
+      file_content = File.read(attachment.tempfile)
+      conversation.attachments.attach(io: StringIO.new(file_content), filename: filename)
+    end
+
+    # ActionCable.server.broadcast(
+    #   "TicketChannel_#{@ticket.id}",
+    #   ticket: @ticket.as_json(include: :conversations)
+    # )
       render :show, status: :created, location: @conversation
     else
       render json: @conversation.errors, status: :unprocessable_entity

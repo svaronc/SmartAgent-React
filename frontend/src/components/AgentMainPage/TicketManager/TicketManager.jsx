@@ -7,7 +7,6 @@ import TicketInfo from "./TicketInfo";
 
 function TicketManager() {
   const { state } = useAppContext();
-
   return (
     <section className="flex flex-col w-full">
       <TicketManagerNav />

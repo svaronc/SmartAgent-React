@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
     @agent = Agent.find_by(email: params[:email])
     if @agent && @agent.authenticate(params[:password])
       session[:agent_id] = @agent.id
-      render json: { logged_in: true }, status: :created
+      render json: { logged_in: true, agent_id: @agent.id}, status: :created
     else
       render json: { error: 'Invalid username or password' }, status: :unauthorized
     end

@@ -1,5 +1,5 @@
 import { useAppContext } from "../../../context/AppContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Icons
 import { MdDelete } from "react-icons/md";
@@ -19,23 +19,32 @@ import useApplicationData from "../../../hooks/useApplicationData";
 
 function TicketInfo() {
   const { state, dispatch } = useAppContext();
-  const { deleteTicket, resolveTicket, transferTicket, openTicket } =
-    useApplicationData();
+  const {
+    deleteTicket,
+    resolveTicket,
+    transferTicket,
+    openTicket,
+    sendRespond,
+  } = useApplicationData();
   const ticket_id = state.viewTicketId;
   const agents = state.agents;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
   const [editorState, setEditorState] = useState();
-
-  useFetchTicketData(`api/v1/tickets/${ticket_id}`, dispatch);
+  useFetchTicketData(`api/v1/tickets/${ticket_id}`, dispatch, ticket_id);
   const ticket = state.ticketData;
-  
+  useEffect(() => {
+    console.log("how many times");
+  }, [])
   return (
     <section className="flex-col h-full m-4 overflow-y-auto">
-      <div id="ticket-info-header" className="flex flex-row justify-between items-center">
+      <div
+        id="ticket-info-header"
+        className="flex flex-row justify-between items-center"
+      >
         <h1 className="text-4xl font-bold mb-4">{ticket.title}</h1>
-        <p >Assigned to Agent ID: {ticket.agent_id}</p>
+        <p>Assigned to Agent ID: {ticket.agent_id}</p>
       </div>
-      <div className="flex-grow bg-base-100 border-2 border h-1/2 p-4 overflow-y-auto">
+      <div className="flex-grow bg-base-100 border-2  h-1/2 p-4 overflow-y-auto">
         {ticket.conversations &&
           ticket.conversations.map((conversation) => (
             <Conversation
@@ -148,7 +157,10 @@ function TicketInfo() {
               <li>
                 <button
                   className="flex items-center gap-2"
-                  onClick={() => console.log(editorState)}
+                  onClick={() => {
+                    sendRespond(ticket_id, editorState);
+                    setReplyIsVisible(!replyIsVisible);
+                  }}
                 >
                   <IoSend size="1.5rem" />
                   Send

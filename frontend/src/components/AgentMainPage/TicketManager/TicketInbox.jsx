@@ -85,7 +85,7 @@ function TicketInbox() {
                             onClick={(event) => {
                               event.stopPropagation();
                               transferTicket(ticket.id, agent.id)
-                              window.location.reload();
+                              // window.location.reload();
                             }}
                           >
                             <a>{agent.full_name}</a>
@@ -100,7 +100,7 @@ function TicketInbox() {
                           onClick={(event) => {
                             event.stopPropagation();
                             resolveTicket(ticket.id)
-                            window.location.reload();
+                            // window.location.reload();
                           }}
                         />
                       </li> : // Show the open ticket icon if the ticket has been resolved
@@ -110,7 +110,7 @@ function TicketInbox() {
                         onClick={(event) => {
                           event.stopPropagation();
                           openTicket(ticket.id)
-                          window.location.reload();
+                          // window.location.reload();
                         }}
                       />
                     </li>
@@ -124,7 +124,7 @@ function TicketInbox() {
                         onClick={(event) => {
                           event.stopPropagation();
                           deleteTicket(ticket.id)
-                          window.location.reload();
+                          // window.location.reload();
                         }}
                       />
                     </li>
