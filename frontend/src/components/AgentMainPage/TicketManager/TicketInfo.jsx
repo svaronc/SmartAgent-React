@@ -152,7 +152,6 @@ function TicketInfo() {
                   onClick={() => {
                     sendRespond(ticket_id, editorState)
                     setReplyIsVisible(!replyIsVisible)
-                    console.log(state.ticketData.conversations);
                   }}
                 >
                   <IoSend size="1.5rem" />

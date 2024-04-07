@@ -24,14 +24,14 @@ const useFetchTicketData = (API_URL, dispatch, ticket_id) => {
           // Establish WebSocket connection after fetching ticket data
           const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
           const subscription = cable.subscriptions.create(
-            { channel: "ConversationsChannel", ticket: ticket_id },
+            { channel: "TicketsChannel", ticket: ticket_id },
             {
               connected: () => {
                 console.log("Connected to WebSocket");
               },
               received: (data) => {
+                console.log("Received data", data);
                 if (data.ticket_id === ticket_id) {
-                  console.log("Received data", data);
                   dispatch({ type: ACTIONS.ADD_CONVERSATION, payload: data });
                 }
               },
@@ -48,7 +48,7 @@ const useFetchTicketData = (API_URL, dispatch, ticket_id) => {
         console.error("Error fetching ticket data", error);
       });
     }
-  }, []);
+  }, [API_URL, dispatch, ticket_id]);
 };
 
 export default useFetchTicketData;

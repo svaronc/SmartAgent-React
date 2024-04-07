@@ -20,7 +20,7 @@ class ApplicationMailer < ActionMailer::Base
     end
 
     puts @ticket
-    ActionCable.server.broadcast("conversation_#{ticket.id}", conversation)
+    ActionCable.server.broadcast('tickets', conversation)
 
 
     mail(to: @ticket.from_email, subject: "Re: [##{@ticket.id}] Ticket response")
