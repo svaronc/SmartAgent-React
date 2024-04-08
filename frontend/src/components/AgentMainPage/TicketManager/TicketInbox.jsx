@@ -21,7 +21,7 @@ function TicketInbox() {
   const { state } = useAppContext();
   const tickets = state.inboxTickets;
   const agents = state.agents;
-  console.log(state.loggedInAgent);
+  
   useFetchInboxTickets();
 
   const getTicketRowClassName = (ticket) => {
