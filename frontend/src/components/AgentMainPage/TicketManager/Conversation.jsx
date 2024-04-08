@@ -1,5 +1,8 @@
 import ConversationAuthor from "./ConversationAuthor";
 
+// Date formatting
+import ReactTimeAgo from 'react-time-ago';
+
 function Conversation({
   customer_name,
   from_customer,
@@ -50,7 +53,9 @@ function Conversation({
           )}
           <p>Subject: {title} </p>
         </div>
-        <div>{created_at}</div> {/* Need to format datetime */}
+        <div>
+          <ReactTimeAgo date={Date.parse(created_at)} locale="en-US"/>
+        </div> {/* Need to format datetime */}
       </div>
 
       {/* Divider */}
