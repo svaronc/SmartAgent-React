@@ -15,6 +15,7 @@ export const ACTIONS = {
   UPDATE_INBOX_TICKET: "UPDATE_INBOX_TICKET",
   DELETE_INBOX_TICKET: "DELETE_INBOX_TICKET",
   ADD_CONVERSATION: "ADD_CONVERSATION",
+  SET_AGENT: "SET_AGENT"
 };
 
 function reducer(state, action) {
@@ -83,6 +84,11 @@ function reducer(state, action) {
         ),
         ticketUpdated: true,
       };
+    case ACTIONS.SET_AGENT:
+      return {
+        ...state,
+        loggedInAgent: { agent_id: action.payload.agent_id, full_name: action.payload.full_name}
+      };
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
@@ -103,6 +109,7 @@ const INITIAL_STATE = {
   agents: [],
   inboxTickets: [],
   ticketUpdated: false,
+  loggedInAgent: {}
 };
 
 export const AppContext = createContext();

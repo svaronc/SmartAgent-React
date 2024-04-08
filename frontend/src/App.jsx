@@ -8,10 +8,12 @@ import Footer from "./components/Footer/Footer";
 import AgentMainPage from "./components/AgentMainPage/AgentMainPage";
 import { AppProvider } from "./context/AppContext";
 import useApplicationData from "./hooks/useApplicationData";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 const AppRoutes = () => {
-  const { getTicketCounts, getAgents } = useApplicationData();
-  getTicketCounts();
+  const { getAgents } = useApplicationData();
+  useLocalStorage();
+  
   getAgents();
   let routes = useRoutes([
     { path: "/", element: <Hero /> },

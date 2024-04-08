@@ -22,6 +22,11 @@ const useFetchInboxTickets = () => {
       let inboxTickets = [];
 
       switch (state.ticketManagerView) {
+        case "Assigned to Me":
+          inboxTickets = response.data.filter(
+            (ticket) => ticket.status_id === 1 && ticket.agent_id === state.loggedInAgent.agent_id
+          );
+          break;
         case "Triage - Open Tickets":
           inboxTickets = response.data.filter(
             (ticket) => ticket.status_id === 1 && ticket.agent_id === 1

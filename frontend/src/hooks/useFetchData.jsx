@@ -3,8 +3,8 @@ import { ACTIONS } from "../context/AppContext";
 import { useAppContext } from "../context/AppContext";
 import axios from "axios";
 
-const useFetchData = (API_URL, type, dispatch) => {
-  const { state } = useAppContext();
+const useFetchData = (API_URL) => {
+  const { state, dispatch } = useAppContext();
 
   useEffect(() => {
     axios
@@ -17,7 +17,7 @@ const useFetchData = (API_URL, type, dispatch) => {
         const countAll = res.data.length;
         const countTriage = res.data.filter(ticket => ticket.status_id === 1 && ticket.agent_id === 1).length;
         const countClosed = res.data.filter(ticket => ticket.status_id === 2).length;
-        const countAssignedToMe = res.data.filter(ticket => ticket.agent_id === 2).length;
+        const countAssignedToMe = res.data.filter(ticket => ticket.status_id === 1 && ticket.agent_id === state.loggedInAgent.agent_id).length;
 
         dispatch({ type: ACTIONS.COUNT_ALL, payload: countAll });
         dispatch({ type: ACTIONS.COUNT_TRIAGE, payload: countTriage });

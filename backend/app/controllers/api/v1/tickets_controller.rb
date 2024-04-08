@@ -4,10 +4,13 @@ class Api::V1::TicketsController < ApplicationController
   # GET api/v1/tickets
   # GET api/v1/tickets.json
   def index
-    @tickets = Ticket.order(created_at: :desc)
+    @tickets = Ticket.order(status_id: :asc, title: :asc, created_at: :desc)
     render json: @tickets.as_json(include: {
                                     conversations: {
                                       methods: :attachments_urls
+                                    },
+                                    agent: { 
+                                      only: [:id, :full_name] 
                                     }
                                   })
   end
@@ -19,6 +22,9 @@ class Api::V1::TicketsController < ApplicationController
     render json: ticket.as_json(include: {
                                   conversations: {
                                     methods: :attachments_urls
+                                  },
+                                  agent: { 
+                                    only: [:id, :full_name] 
                                   }
                                 })
   end
