@@ -9,6 +9,16 @@ import { FaReply } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { IoIosMailOpen } from "react-icons/io";
 
+// react-resizable-panels
+import {
+  getPanelElement,
+  getPanelGroupElement,
+  getResizeHandleElement,
+  Panel,
+  PanelGroup,
+  PanelResizeHandle,
+} from "react-resizable-panels";
+
 // Components
 import DraftEditor from "./DraftEditor";
 import Conversation from "./Conversation";
@@ -42,42 +52,18 @@ function TicketInfo() {
         <h1 className="text-4xl font-bold mb-4 text-gray-700 dark:text-white">
           {ticket.title}
         </h1>
-        <p className="font-bold text-gray-700 dark:text-white">
-          {ticket.agent &&
-          Number(state.loggedInAgent.agent_id) === ticket.agent.id
-            ? "Assigned to: Me"
-            : ticket.agent
-            ? `Assigned to: ${ticket.agent.full_name}`
-            : ""}
-        </p>
-      </div>
-      <div className="flex-grow bg-base-100 border-2  h-1/2 p-4 overflow-y-auto">
-        {ticket.conversations &&
-          ticket.conversations.map((conversation) => (
-            <Conversation
-              key={conversation.id}
-              customer_name={ticket.customer_name}
-              customer_email={ticket.from_email}
-              from_customer={conversation.from_customer}
-              created_at={conversation.created_at}
-              title={ticket.title}
-              body={conversation.body}
-            />
-          ))}
-      </div>
 
-      <div className="justify-end relative bottom-0">
-        <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
-          <li>
-            <button
-              className="flex items-center gap-2"
-              onClick={() => setReplyIsVisible(!replyIsVisible)}
-            >
-              <FaReply size="1.5rem" />
-              Reply
-            </button>
-          </li>
-          <li>
+        <div className="flex flex-row items-center">
+          <p className="font-bold text-gray-700 pb-2 dark:text-white">
+            {ticket.agent &&
+            Number(state.loggedInAgent.agent_id) === ticket.agent.id
+              ? "Assigned to: Me"
+              : ticket.agent
+              ? `Assigned to: ${ticket.agent.full_name}`
+              : ""}
+          </p>
+          <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
+            <li>
             <details className="dropdown">
               <summary className="btn">
                 Transfer
@@ -101,7 +87,37 @@ function TicketInfo() {
                 ))}
               </ul>
             </details>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="flex-grow bg-base-100 border-2 h-1/2 p-4 overflow-y-auto">
+        {ticket.conversations &&
+          ticket.conversations.map((conversation) => (
+            <Conversation
+              key={conversation.id}
+              customer_name={ticket.customer_name}
+              customer_email={ticket.from_email}
+              from_customer={conversation.from_customer}
+              created_at={conversation.created_at}
+              title={ticket.title}
+              body={conversation.body}
+            />
+          ))}
+      </div>
+  
+      <div className="justify-end relative bottom-0">
+        <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
+          <li>
+            <button
+              className="flex items-center gap-2"
+              onClick={() => setReplyIsVisible(!replyIsVisible)}
+            >
+              <FaReply size="1.5rem" />
+              Reply
+            </button>
           </li>
+          
           {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
             <li>
               <button
@@ -180,7 +196,7 @@ function TicketInfo() {
             </ul>
           </div>
         </div>
-      )}
+      )}    
     </section>
   );
 }
