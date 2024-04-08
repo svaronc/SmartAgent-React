@@ -5,12 +5,15 @@ import { AuthContext } from "../../context/AuthContext";
 import { FcGoogle } from "react-icons/fc";
 import "./styles.css";
 import loginImg from "../../assets/loginImg.svg";
+import useApplicationData from "../../hooks/useApplicationData";
 
 function Login() {
   const {login} = useContext(AuthContext);
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { setLoggedInAgent } = useApplicationData();
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -19,7 +22,10 @@ function Login() {
         password
     });
     console.log(response.data);
+    // setLoggedInAgent(response.data); // {logged_in: true, agent_id: 3, full_name: 'Gloria lim'}
     localStorage.setItem('isAuthenticated', 'true');
+    localStorage.setItem('full_name', response.data.full_name);
+    localStorage.setItem('agent_id', response.data.agent_id);
     navigate("/main");
     login();
   } catch (error) {

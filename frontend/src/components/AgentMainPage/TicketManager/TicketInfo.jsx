@@ -32,17 +32,20 @@ function TicketInfo() {
   const [editorState, setEditorState] = useState();
   useFetchTicketData(`api/v1/tickets/${ticket_id}`, dispatch, ticket_id);
   const ticket = state.ticketData;
-  useEffect(() => {
-    console.log("how many times");
-  }, [])
+
   return (
     <section className="flex-col h-full m-4 overflow-y-auto">
       <div
         id="ticket-info-header"
         className="flex flex-row justify-between items-center"
       >
-        <h1 className="text-4xl font-bold mb-4">{ticket.title}</h1>
-        <p>Assigned to Agent ID: {ticket.agent_id}</p>
+        <h1 className="text-4xl font-bold mb-4 text-gray-700 dark:text-white">{ticket.title}</h1>
+        <p className="font-bold text-gray-700 dark:text-white">
+          Assigned to:
+          {Number(state.loggedInAgent.agent_id) === ticket.agent.id
+            ? " Me"
+            : ` ${ticket.agent.full_name}`}
+        </p>
       </div>
       <div className="flex-grow bg-base-100 border-2  h-1/2 p-4 overflow-y-auto">
         {ticket.conversations &&
@@ -76,7 +79,7 @@ function TicketInfo() {
                 Transfer
                 <LuArrowLeftRight size="1.5rem" />
               </summary>
-              <ul className="shadow menu dropdown-content rounded-box">
+              <ul className="shadow menu dropdown-content rounded-box dark:text-gray-200">
                 {agents.map((agent) => (
                   <li
                     key={agent.id}
@@ -85,7 +88,11 @@ function TicketInfo() {
                       transferTicket(ticket.id, agent.id);
                     }}
                   >
-                    <a>{agent.full_name}</a>
+                    <a>
+                      {state.loggedInAgent.agent_id === agent.id
+                        ? "Me"
+                        : agent.full_name}
+                    </a>
                   </li>
                 ))}
               </ul>
