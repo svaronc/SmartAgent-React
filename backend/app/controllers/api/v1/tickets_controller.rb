@@ -27,7 +27,7 @@ class Api::V1::TicketsController < ApplicationController
   # POST api/v1/tickets.json
   def create
     @ticket = Ticket.new(ticket_params.except(:body, :attachments))
-  
+
     if @ticket.save
       @ticket.conversations.create!(body: ticket_params[:body], from_customer: true)
       if params[:attachments]
@@ -41,11 +41,11 @@ class Api::V1::TicketsController < ApplicationController
       render json: @ticket.errors, status: :unprocessable_entity
     end
   end
-  
+
   # POST api/v1/tickets/respond { ticket_id: 1, response: 'Response'}
   def respond
     @ticket = Ticket.includes(:conversations).find(params[:ticket_id])
-   
+
     response = params[:response]
     attachments = params[:attachments] || []
 
@@ -90,7 +90,7 @@ class Api::V1::TicketsController < ApplicationController
   # DELETE api/v1/tickets/1.json
   def destroy
     @ticket.destroy!
-    ActionCable.server.broadcast('tickets', {id: @ticket.id, delete: true})
+    ActionCable.server.broadcast('tickets', { id: @ticket.id, delete: true })
   end
 
   private
