@@ -7,13 +7,13 @@ import { ACTIONS, useAppContext } from "../context/AppContext";
  */
 
 const useLocalStorage = () => {
-  const { state, dispatch } = useAppContext();
+  const { dispatch } = useAppContext();
 
   // useEffect foe handling agent info stored in local storage
   useEffect(() => {
-    const localAgentId = window.localStorage.getItem("agent_id")
+    const localAgentId = Number(window.localStorage.getItem("agent_id"));
     const localAgentFullName = window.localStorage.getItem("full_name")
-    
+
     if (localAgentId && localAgentFullName) {
       // Set Agent data in state
       dispatch({ type: ACTIONS.SET_AGENT, payload: { agent_id: localAgentId, full_name: localAgentFullName }})
