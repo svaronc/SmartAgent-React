@@ -21,7 +21,7 @@ function RequestForm() {
   });
 
   const handleSubmit = (values, actions) => {
-    console.log(values);
+    console.log("this are the values for the form", values);
     axios
       .post("api/v1/tickets", { ticket: values })
       .then((response) => {
@@ -38,7 +38,6 @@ function RequestForm() {
         actions.setSubmitting(false);
       });
   };
-
   return (
     <div className="max-w-3xl mx-auto p-6 shadow-md rounded-md m-5">
       {submitted ? ( // Conditional rendering for thank you message
@@ -68,7 +67,7 @@ function RequestForm() {
             onSubmit={handleSubmit}
           >
             {({ isSubmitting }) => (
-              <Form>
+              <Form encType="multipart/form-data">
                 <div className="mb-4">
                   <label
                     htmlFor="customer_name"
@@ -153,7 +152,23 @@ function RequestForm() {
                     className="text-red-500 text-sm mt-1"
                   />
                 </div>
-
+                <Field name="attachments">
+                  {({ field, form }) => (
+                    <div>
+                      <input
+                        id="attachments"
+                        name="attachments"
+                        type="file"
+                        onChange={(event) => {
+                          const fileArray = Array.from(
+                            event.currentTarget.files
+                          );
+                          form.setFieldValue(field.name, fileArray);
+                        }}
+                      />
+                    </div>
+                  )}
+                </Field>
                 <button
                   type="submit"
                   className="mt-10 bg-blue-500 text-white py-2 px-4 rounded-md focus:outline-none hover:bg-blue-600"

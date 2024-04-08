@@ -35,14 +35,23 @@ class Api::V1::TicketsController < ApplicationController
     @ticket = Ticket.new(ticket_params.except(:body, :attachments))
 
     if @ticket.save
-      @ticket.conversations.create!(body: ticket_params[:body], from_customer: true)
-      if params[:attachments]
-        params[:attachments].each do |attachment|
-          @ticket.attachments.attach(attachment)
+      puts "Ticket created! #{ticket_params}"
+      conversation = @ticket.conversations.create!(body: ticket_params[:body], from_customer: true)
+      if params[:ticket][:attachments]
+        puts "Attachments found! #{params[:ticket][:attachments]}"
+        params[:ticket][:attachments].each do |attachment|
+          conversation.attachments.attach(attachment)
         end
       end
       ActionCable.server.broadcast('tickets', @ticket)
-      render json: @ticket, status: :created
+      render json: @ticket.as_json(include: {
+                                  conversations: {
+                                    methods: :attachments_urls
+                                  },
+                                  agent: { 
+                                    only: [:id, :full_name] 
+                                  }
+                                })
     else
       render json: @ticket.errors, status: :unprocessable_entity
     end
@@ -57,6 +66,7 @@ class Api::V1::TicketsController < ApplicationController
 
     return render json: { error: 'Response is missing' }, status: :unprocessable_entity if response.blank?
 
+    
     ApplicationMailer.ticket_response(@ticket, response, attachments).deliver_now
 
     render json: { message: 'Response sent' }, status: :ok
@@ -108,6 +118,6 @@ class Api::V1::TicketsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def ticket_params
-    params.require(:ticket).permit(:from_email, :customer_name, :title, :agent_id, :status_id, :body)
+    params.require(:ticket).permit(:from_email, :customer_name, :title, :agent_id, :status_id, :body, attachments: [{}])
   end
 end
