@@ -7,7 +7,6 @@ const useFetchTicketData = (API_URL, dispatch, ticket_id) => {
   useEffect(() => {
 
     if (API_URL && dispatch && ticket_id) {
-    console.log("useEffect called");
     let ticketId = ticket_id;
 
     axios
