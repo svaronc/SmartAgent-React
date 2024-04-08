@@ -91,7 +91,7 @@ function TicketInfo() {
           </ul>
         </div>
       </div>
-      <div className="flex-grow bg-base-100 border-2 h-1/2 p-4 overflow-y-auto">
+      <div className="bg-base-100 border-2 h-1/2 p-4 overflow-y-auto">
         {ticket.conversations &&
           ticket.conversations.map((conversation) => (
             <Conversation

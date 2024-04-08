@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import RequestForm from "./RequestForm";
+import Footer from "../Footer/Footer";
 
 function Hero() {
   return (
@@ -36,6 +37,8 @@ function Hero() {
       <div id="customer-request-form">
         <RequestForm />
       </div>
+
+      <Footer />
     </div>
   );
 }
