@@ -8,6 +8,9 @@ class Api::V1::TicketsController < ApplicationController
     render json: @tickets.as_json(include: {
                                     conversations: {
                                       methods: :attachments_urls
+                                    },
+                                    agent: { 
+                                      only: [:id, :full_name] 
                                     }
                                   })
   end
@@ -19,6 +22,9 @@ class Api::V1::TicketsController < ApplicationController
     render json: ticket.as_json(include: {
                                   conversations: {
                                     methods: :attachments_urls
+                                  },
+                                  agent: { 
+                                    only: [:id, :full_name] 
                                   }
                                 })
   end

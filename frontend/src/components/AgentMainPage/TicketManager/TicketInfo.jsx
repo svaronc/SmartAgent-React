@@ -42,9 +42,9 @@ function TicketInfo() {
         <h1 className="text-4xl font-bold mb-4 text-gray-700 dark:text-white">{ticket.title}</h1>
         <p className="font-bold text-gray-700 dark:text-white">
           Assigned to:
-          {state.loggedInAgent.agent_id === ticket.agent_id
+          {Number(state.loggedInAgent.agent_id) === ticket.agent.id
             ? " Me"
-            : ` ${ticket.agent_id}`}
+            : ` ${ticket.agent.full_name}`}
         </p>
       </div>
       <div className="flex-grow bg-base-100 border-2  h-1/2 p-4 overflow-y-auto">
