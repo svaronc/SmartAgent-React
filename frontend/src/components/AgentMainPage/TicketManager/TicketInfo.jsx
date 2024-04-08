@@ -9,6 +9,16 @@ import { FaReply } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { IoIosMailOpen } from "react-icons/io";
 
+// react-resizable-panels
+import {
+  getPanelElement,
+  getPanelGroupElement,
+  getResizeHandleElement,
+  Panel,
+  PanelGroup,
+  PanelResizeHandle,
+} from "react-resizable-panels";
+
 // Components
 import DraftEditor from "./DraftEditor";
 import Conversation from "./Conversation";
@@ -81,7 +91,7 @@ function TicketInfo() {
           </ul>
         </div>
       </div>
-      <div className="flex-grow bg-base-100 border-2  h-1/2 p-4 overflow-y-auto">
+      <div className="flex-grow bg-base-100 border-2 h-1/2 p-4 overflow-y-auto">
         {ticket.conversations &&
           ticket.conversations.map((conversation) => (
             <Conversation
@@ -95,7 +105,7 @@ function TicketInfo() {
             />
           ))}
       </div>
-
+  
       <div className="justify-end relative bottom-0">
         <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
           <li>
@@ -186,7 +196,7 @@ function TicketInfo() {
             </ul>
           </div>
         </div>
-      )}
+      )}    
     </section>
   );
 }
