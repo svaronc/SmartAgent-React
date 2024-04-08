@@ -99,9 +99,9 @@ function TicketInbox() {
 
                 {/* Assigned to agent */}
                 <td className="px-6 py-4">
-                  {state.loggedInAgent.agent_id === ticket.agent.id
+                  {ticket.agent && state.loggedInAgent.agent_id === ticket.agent.id
                     ? "Me"
-                    : ticket.agent.full_name}
+                    : ticket.agent ? ticket.agent.full_name : ""}
                 </td>
 
                 {/* Actions */}
