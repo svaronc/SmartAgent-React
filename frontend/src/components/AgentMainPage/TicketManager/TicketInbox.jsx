@@ -6,6 +6,16 @@ import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
 import { IoIosMailOpen } from "react-icons/io";
 
+// Date formatting
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
+import ru from 'javascript-time-ago/locale/ru';
+
+TimeAgo.addDefaultLocale(en);
+TimeAgo.addLocale(ru);
+
+import ReactTimeAgo from 'react-time-ago';
+
 // Hooks
 import useApplicationData from "../../../hooks/useApplicationData";
 import useFetchInboxTickets from "../../../hooks/inbox/useFetchInboxTickets";
@@ -86,7 +96,9 @@ function TicketInbox() {
                 </td>
 
                 {/* Created At */}
-                <td className="px-6 py-4">{ticket.created_at}</td>
+                <td className="px-6 py-4">
+                  <ReactTimeAgo date={ticket.created_at} locale="en-US"/>
+                </td>
 
                 {/* Assigned to agent */}
                 <td className="px-6 py-4">
