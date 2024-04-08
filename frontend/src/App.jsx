@@ -29,7 +29,6 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <AppRoutes />
-          <Footer />
         </BrowserRouter>
       </AppProvider>
     </AuthProvider>
