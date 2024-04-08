@@ -94,7 +94,7 @@ function TicketInbox() {
 
                 {/* Created At */}
                 <td className="px-6 py-4">
-                  <ReactTimeAgo date={ticket.created_at} locale="en-US"/>
+                  <ReactTimeAgo date={Date.parse(ticket.created_at)} locale="en-US"/>
                 </td>
 
                 {/* Assigned to agent */}
