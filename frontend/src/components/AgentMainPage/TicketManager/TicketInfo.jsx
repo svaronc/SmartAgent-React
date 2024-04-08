@@ -44,7 +44,7 @@ function TicketInfo() {
         </h1>
 
         <div className="flex flex-row items-center">
-          <p className="font-bold text-gray-700 dark:text-white">
+          <p className="font-bold text-gray-700 pb-2 dark:text-white">
             {ticket.agent &&
             Number(state.loggedInAgent.agent_id) === ticket.agent.id
               ? "Assigned to: Me"
