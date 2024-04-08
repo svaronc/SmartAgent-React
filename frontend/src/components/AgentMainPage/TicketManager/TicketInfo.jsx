@@ -39,12 +39,16 @@ function TicketInfo() {
         id="ticket-info-header"
         className="flex flex-row justify-between items-center"
       >
-        <h1 className="text-4xl font-bold mb-4 text-gray-700 dark:text-white">{ticket.title}</h1>
+        <h1 className="text-4xl font-bold mb-4 text-gray-700 dark:text-white">
+          {ticket.title}
+        </h1>
         <p className="font-bold text-gray-700 dark:text-white">
-          Assigned to:
-          {Number(state.loggedInAgent.agent_id) === ticket.agent.id
-            ? " Me"
-            : ` ${ticket.agent.full_name}`}
+          {ticket.agent &&
+          Number(state.loggedInAgent.agent_id) === ticket.agent.id
+            ? "Assigned to: Me"
+            : ticket.agent
+            ? `Assigned to: ${ticket.agent.full_name}`
+            : ""}
         </p>
       </div>
       <div className="flex-grow bg-base-100 border-2  h-1/2 p-4 overflow-y-auto">

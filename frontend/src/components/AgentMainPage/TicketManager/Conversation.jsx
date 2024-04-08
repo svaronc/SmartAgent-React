@@ -1,13 +1,6 @@
 import ConversationAuthor from "./ConversationAuthor";
 
 // Date formatting
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en';
-import ru from 'javascript-time-ago/locale/ru';
-
-TimeAgo.addDefaultLocale(en);
-TimeAgo.addLocale(ru);
-
 import ReactTimeAgo from 'react-time-ago';
 
 function Conversation({
@@ -61,7 +54,7 @@ function Conversation({
           <p>Subject: {title} </p>
         </div>
         <div>
-          <ReactTimeAgo date={created_at} locale="en-US"/>
+          <ReactTimeAgo date={Date.parse(created_at)} locale="en-US"/>
         </div> {/* Need to format datetime */}
       </div>
 

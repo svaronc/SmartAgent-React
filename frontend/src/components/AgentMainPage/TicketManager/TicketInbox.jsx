@@ -9,11 +9,8 @@ import { IoIosMailOpen } from "react-icons/io";
 // Date formatting
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
-import ru from 'javascript-time-ago/locale/ru';
 
 TimeAgo.addDefaultLocale(en);
-TimeAgo.addLocale(ru);
-
 import ReactTimeAgo from 'react-time-ago';
 
 // Hooks
@@ -97,7 +94,7 @@ function TicketInbox() {
 
                 {/* Created At */}
                 <td className="px-6 py-4">
-                  <ReactTimeAgo date={ticket.created_at} locale="en-US"/>
+                  <ReactTimeAgo date={Date.parse(ticket.created_at)} locale="en-US"/>
                 </td>
 
                 {/* Assigned to agent */}
