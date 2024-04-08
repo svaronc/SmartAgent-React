@@ -42,14 +42,44 @@ function TicketInfo() {
         <h1 className="text-4xl font-bold mb-4 text-gray-700 dark:text-white">
           {ticket.title}
         </h1>
-        <p className="font-bold text-gray-700 dark:text-white">
-          {ticket.agent &&
-          Number(state.loggedInAgent.agent_id) === ticket.agent.id
-            ? "Assigned to: Me"
-            : ticket.agent
-            ? `Assigned to: ${ticket.agent.full_name}`
-            : ""}
-        </p>
+
+        <div className="flex flex-row items-center">
+          <p className="font-bold text-gray-700 dark:text-white">
+            {ticket.agent &&
+            Number(state.loggedInAgent.agent_id) === ticket.agent.id
+              ? "Assigned to: Me"
+              : ticket.agent
+              ? `Assigned to: ${ticket.agent.full_name}`
+              : ""}
+          </p>
+          <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
+            <li>
+            <details className="dropdown">
+              <summary className="btn">
+                Transfer
+                <LuArrowLeftRight size="1.5rem" />
+              </summary>
+              <ul className="shadow menu dropdown-content rounded-box dark:text-gray-200">
+                {agents.map((agent) => (
+                  <li
+                    key={agent.id}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      transferTicket(ticket.id, agent.id);
+                    }}
+                  >
+                    <a>
+                      {state.loggedInAgent.agent_id === agent.id
+                        ? "Me"
+                        : agent.full_name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </details>
+            </li>
+          </ul>
+        </div>
       </div>
       <div className="flex-grow bg-base-100 border-2  h-1/2 p-4 overflow-y-auto">
         {ticket.conversations &&
@@ -77,31 +107,7 @@ function TicketInfo() {
               Reply
             </button>
           </li>
-          <li>
-            <details className="dropdown">
-              <summary className="btn">
-                Transfer
-                <LuArrowLeftRight size="1.5rem" />
-              </summary>
-              <ul className="shadow menu dropdown-content rounded-box dark:text-gray-200">
-                {agents.map((agent) => (
-                  <li
-                    key={agent.id}
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      transferTicket(ticket.id, agent.id);
-                    }}
-                  >
-                    <a>
-                      {state.loggedInAgent.agent_id === agent.id
-                        ? "Me"
-                        : agent.full_name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </details>
-          </li>
+          
           {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
             <li>
               <button
