@@ -41,7 +41,14 @@ class Api::V1::TicketsController < ApplicationController
           @ticket.attachments.attach(attachment)
         end
       end
-      ActionCable.server.broadcast('tickets', @ticket)
+      ActionCable.server.broadcast('tickets', @ticket.as_json(include: {
+        conversations: {
+          methods: :attachments_urls
+        },
+        agent: { 
+          only: [:id, :full_name] 
+        }
+      }))
       render json: @ticket, status: :created
     else
       render json: @ticket.errors, status: :unprocessable_entity
@@ -85,7 +92,14 @@ class Api::V1::TicketsController < ApplicationController
       @ticket.agent = agent
     end
     if @ticket.update(ticket_params)
-      ActionCable.server.broadcast('tickets', @ticket)
+      ActionCable.server.broadcast('tickets', @ticket.as_json(include: {
+        conversations: {
+          methods: :attachments_urls
+        },
+        agent: { 
+          only: [:id, :full_name] 
+        }
+      }))
       render json: @ticket, status: :ok
     else
       render json: @ticket.errors, status: :unprocessable_entity
