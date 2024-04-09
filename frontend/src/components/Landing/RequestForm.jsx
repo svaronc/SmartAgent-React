@@ -21,9 +21,24 @@ function RequestForm() {
   });
 
   const handleSubmit = (values, actions) => {
-    console.log("this are the values for the form", values);
+    let formData = new FormData();
+    formData.append("ticket[customer_name]", values.customer_name);
+    formData.append("ticket[from_email]", values.from_email);
+    formData.append("ticket[title]", values.title);
+    formData.append("ticket[body]", values.body);
+    formData.append("ticket[status_id]", values.status_id);
+    formData.append("ticket[agent_id]", values.agent_id);
+    // Assuming 'attachments' is the file to be uploaded
+    if (values.attachments) {
+      Array.from(values.attachments).forEach((file ) => {
+        formData.append(`ticket[attachments][]`, file);
+      });
+    }
+    console.log("Form data:", formData);
     axios
-      .post("api/v1/tickets", { ticket: values })
+      .post("api/v1/tickets", formData, {
+        headers: { "content-type": "multipart/form-data" },
+      })
       .then((response) => {
         console.log("Form submission successful:", response.data);
         alert("Form submitted successfully!");
@@ -62,6 +77,7 @@ function RequestForm() {
               body: "",
               status_id: 1,
               agent_id: 1,
+              attachments: null,
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -153,17 +169,17 @@ function RequestForm() {
                   />
                 </div>
                 <Field name="attachments">
-                  {({ field, form }) => (
+                  {({ form }) => (
                     <div>
                       <input
                         id="attachments"
                         name="attachments"
                         type="file"
+                        multiple
+                        className="form-control block w-full px-3 py-2 text-base font-normal text-gray-700 border border-solidrounded-smfocus:outline-none focus:ring-2 focus:ring-blue-500"
                         onChange={(event) => {
-                          const fileArray = Array.from(
-                            event.currentTarget.files
-                          );
-                          form.setFieldValue(field.name, fileArray);
+                          const files = event.currentTarget.files;
+                          form.setFieldValue("attachments", files);
                         }}
                       />
                     </div>

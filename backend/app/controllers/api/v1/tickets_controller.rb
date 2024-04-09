@@ -33,9 +33,9 @@ class Api::V1::TicketsController < ApplicationController
   # POST api/v1/tickets.json
   def create
     @ticket = Ticket.new(ticket_params.except(:body, :attachments))
+    puts "Ticket created! #{ticket_params}"
 
     if @ticket.save
-      puts "Ticket created! #{ticket_params}"
       conversation = @ticket.conversations.create!(body: ticket_params[:body], from_customer: true)
       if params[:ticket][:attachments]
         puts "Attachments found! #{params[:ticket][:attachments]}"
@@ -51,7 +51,14 @@ class Api::V1::TicketsController < ApplicationController
           only: [:id, :full_name] 
         }
       }))
-      render json: @ticket, status: :created
+      render json: @ticket.as_json(include: {
+        conversations: {
+          methods: :attachments_urls
+        },
+        agent: { 
+          only: [:id, :full_name] 
+        }
+      }), status: :created
     else
       render json: @ticket.errors, status: :unprocessable_entity
     end
@@ -100,7 +107,7 @@ class Api::V1::TicketsController < ApplicationController
           methods: :attachments_urls
         },
         agent: { 
-          only: [:id, :full_name] 
+          only: [:id, :full_name]
         }
       }))
       render json: @ticket, status: :ok
@@ -125,6 +132,6 @@ class Api::V1::TicketsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def ticket_params
-    params.require(:ticket).permit(:from_email, :customer_name, :title, :agent_id, :status_id, :body, attachments: [{}])
+    params.require(:ticket).permit(:from_email, :customer_name, :title, :agent_id, :status_id, :body, attachments: [])
   end
 end
