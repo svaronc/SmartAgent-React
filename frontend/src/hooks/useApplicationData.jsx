@@ -102,10 +102,17 @@ const useApplicationData = () => {
       });
   };
 
-  const sendRespond = (ticket_id, message) => {
+  const sendRespond = (ticket_id, message, attachments) => {
+    let formData = new FormData();
+    formData.append("response", message);
+    if (attachments) {
+      Array.from(attachments).forEach((file, index) => {
+        formData.append(`attachments[${index}]`, file);
+      });
+    }
     axios
-      .post(`api/v1/tickets/${ticket_id}/respond`, {
-        response: message,
+      .post(`api/v1/tickets/${ticket_id}/respond`,formData, {
+        headers: { "content-type": "multipart/form-data" },
       })
       .then(() => {
         dispatch({ type: ACTIONS.VIEW_TICKET, payload: ticket_id });

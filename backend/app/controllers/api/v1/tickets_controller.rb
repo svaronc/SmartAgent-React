@@ -69,7 +69,7 @@ class Api::V1::TicketsController < ApplicationController
     @ticket = Ticket.includes(:conversations).find(params[:ticket_id])
 
     response = params[:response]
-    attachments = params[:attachments] || []
+    attachments = params[:attachments] ? params[:attachments].values : []
 
     return render json: { error: 'Response is missing' }, status: :unprocessable_entity if response.blank?
 
