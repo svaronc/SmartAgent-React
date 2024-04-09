@@ -45,7 +45,7 @@ function TicketInfo() {
   const ticket = state.ticketData;
 
   return (
-    <section className="flex-col w-9/10 m-4 overflow-hidden">
+    <section className="flex-col w-9/10 m-4 overflow-y-auto">
       <div
         id="ticket-info-header"
         className="flex flex-row justify-between items-center"
