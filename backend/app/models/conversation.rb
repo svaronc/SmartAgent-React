@@ -4,7 +4,10 @@ class Conversation < ApplicationRecord
 
   def attachments_urls
     attachments.map do |attachment|
-      Rails.application.routes.url_helpers.rails_blob_url(attachment)
+      {
+        url: Rails.application.routes.url_helpers.rails_blob_url(attachment),
+        filename: attachment.filename.to_s
+      }
     end
   end
 end

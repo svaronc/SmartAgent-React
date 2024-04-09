@@ -102,6 +102,7 @@ function TicketInfo() {
               created_at={conversation.created_at}
               title={ticket.title}
               body={conversation.body}
+              attachments_urls={conversation.attachments_urls}
             />
           ))}
       </div>
