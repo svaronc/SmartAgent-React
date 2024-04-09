@@ -181,14 +181,15 @@ function TicketInfo() {
             editorState={editorState}
             setEditorState={setEditorState}
           />
-          <div className="justify-end relative mt-5">
             <input
               type="file"
               multiple
+              className="form-control block w-full py-2 mt-4 dark:text-white cursor-pointer font-normal text-gray-700"
               onChange={(event) => {
                 setAttachments(event.target.files);
               }}
             />
+          <div className="justify-end relative mt-5">
             <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
               <li>
                 <button
