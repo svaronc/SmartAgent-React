@@ -13,15 +13,14 @@ function DraftEditor({ value, onChange }) {
           theme="snow"
           modules={modules}
           formats={formats}
-          placeholder="..."
           value={value}
           onChange={onChange}
           style={{ height: "17em", width: "100%" }}
         ></ReactQuill>
       </div>
       {/* Delete the below after testing is completed */}
-      <h2 className="mt-10">Editor Content:</h2>
-      <p>{value}</p> Display the editor content
+      {/* <h2 className="mt-10">Editor Content:</h2>
+      <p>{value}</p> Display the editor content */}
     </div>
   );
 }
