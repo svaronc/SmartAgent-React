@@ -4,7 +4,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def ticket_response(ticket, response, attachments = [])
     @ticket = ticket
-    @response = response
+    @response = ActionController::Base.helpers.sanitize(response).html_safe
     @attachments = Array(attachments)
 
     # Create a new conversation for the ticket with the body of the response
@@ -19,8 +19,8 @@ class ApplicationMailer < ActionMailer::Base
       mail.attachments[filename] = file_content
     end
 
-    puts @ticket
-    ActionCable.server.broadcast('tickets', conversation)
+    puts @response
+    ActionCable.server.broadcast('tickets', conversation.as_json(methods: :attachments_urls))
 
 
     mail(to: @ticket.from_email, subject: "Re: [##{@ticket.id}] Ticket response")

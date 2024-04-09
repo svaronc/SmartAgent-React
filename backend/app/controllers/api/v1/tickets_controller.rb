@@ -33,12 +33,14 @@ class Api::V1::TicketsController < ApplicationController
   # POST api/v1/tickets.json
   def create
     @ticket = Ticket.new(ticket_params.except(:body, :attachments))
-  
+    puts "Ticket created! #{ticket_params}"
+
     if @ticket.save
-      @ticket.conversations.create!(body: ticket_params[:body], from_customer: true)
-      if params[:attachments]
-        params[:attachments].each do |attachment|
-          @ticket.attachments.attach(attachment)
+      conversation = @ticket.conversations.create!(body: ticket_params[:body], from_customer: true)
+      if params[:ticket][:attachments]
+        puts "Attachments found! #{params[:ticket][:attachments]}"
+        params[:ticket][:attachments].each do |attachment|
+          conversation.attachments.attach(attachment)
         end
       end
       ActionCable.server.broadcast('tickets', @ticket.as_json(include: {
@@ -49,21 +51,29 @@ class Api::V1::TicketsController < ApplicationController
           only: [:id, :full_name] 
         }
       }))
-      render json: @ticket, status: :created
+      render json: @ticket.as_json(include: {
+        conversations: {
+          methods: :attachments_urls
+        },
+        agent: { 
+          only: [:id, :full_name] 
+        }
+      }), status: :created
     else
       render json: @ticket.errors, status: :unprocessable_entity
     end
   end
-  
+
   # POST api/v1/tickets/respond { ticket_id: 1, response: 'Response'}
   def respond
     @ticket = Ticket.includes(:conversations).find(params[:ticket_id])
-   
+
     response = params[:response]
-    attachments = params[:attachments] || []
+    attachments = params[:attachments] ? params[:attachments].values : []
 
     return render json: { error: 'Response is missing' }, status: :unprocessable_entity if response.blank?
 
+    
     ApplicationMailer.ticket_response(@ticket, response, attachments).deliver_now
 
     render json: { message: 'Response sent' }, status: :ok
@@ -97,7 +107,7 @@ class Api::V1::TicketsController < ApplicationController
           methods: :attachments_urls
         },
         agent: { 
-          only: [:id, :full_name] 
+          only: [:id, :full_name]
         }
       }))
       render json: @ticket, status: :ok
@@ -110,7 +120,7 @@ class Api::V1::TicketsController < ApplicationController
   # DELETE api/v1/tickets/1.json
   def destroy
     @ticket.destroy!
-    ActionCable.server.broadcast('tickets', {id: @ticket.id, delete: true})
+    ActionCable.server.broadcast('tickets', { id: @ticket.id, delete: true })
   end
 
   private
@@ -122,6 +132,6 @@ class Api::V1::TicketsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def ticket_params
-    params.require(:ticket).permit(:from_email, :customer_name, :title, :agent_id, :status_id, :body)
+    params.require(:ticket).permit(:from_email, :customer_name, :title, :agent_id, :status_id, :body, attachments: [])
   end
 end

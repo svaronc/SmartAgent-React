@@ -21,9 +21,24 @@ function RequestForm() {
   });
 
   const handleSubmit = (values, actions) => {
-    console.log(values);
+    let formData = new FormData();
+    formData.append("ticket[customer_name]", values.customer_name);
+    formData.append("ticket[from_email]", values.from_email);
+    formData.append("ticket[title]", values.title);
+    formData.append("ticket[body]", values.body);
+    formData.append("ticket[status_id]", values.status_id);
+    formData.append("ticket[agent_id]", values.agent_id);
+    // Assuming 'attachments' is the file to be uploaded
+    if (values.attachments) {
+      Array.from(values.attachments).forEach((file ) => {
+        formData.append(`ticket[attachments][]`, file);
+      });
+    }
+    console.log("Form data:", formData);
     axios
-      .post("api/v1/tickets", { ticket: values })
+      .post("api/v1/tickets", formData, {
+        headers: { "content-type": "multipart/form-data" },
+      })
       .then((response) => {
         console.log("Form submission successful:", response.data);
         alert("Form submitted successfully!");
@@ -38,7 +53,6 @@ function RequestForm() {
         actions.setSubmitting(false);
       });
   };
-
   return (
     <div className="max-w-3xl mx-auto p-6 shadow-md rounded-md m-5">
       {submitted ? ( // Conditional rendering for thank you message
@@ -63,12 +77,13 @@ function RequestForm() {
               body: "",
               status_id: 1,
               agent_id: 1,
+              attachments: null,
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
             {({ isSubmitting }) => (
-              <Form>
+              <Form encType="multipart/form-data">
                 <div className="mb-4">
                   <label
                     htmlFor="customer_name"
@@ -153,7 +168,23 @@ function RequestForm() {
                     className="text-red-500 text-sm mt-1"
                   />
                 </div>
-
+                <Field name="attachments">
+                  {({ form }) => (
+                    <div>
+                      <input
+                        id="attachments"
+                        name="attachments"
+                        type="file"
+                        multiple
+                        className="form-control block w-full px-3 py-2 text-base font-normal text-gray-700 border border-solidrounded-smfocus:outline-none focus:ring-2 focus:ring-blue-500"
+                        onChange={(event) => {
+                          const files = event.currentTarget.files;
+                          form.setFieldValue("attachments", files);
+                        }}
+                      />
+                    </div>
+                  )}
+                </Field>
                 <button
                   type="submit"
                   className="mt-10 bg-blue-500 text-white py-2 px-4 rounded-md focus:outline-none hover:bg-blue-600"

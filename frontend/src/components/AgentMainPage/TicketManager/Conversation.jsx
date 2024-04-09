@@ -1,7 +1,8 @@
 import ConversationAuthor from "./ConversationAuthor";
-
+import { CgAttachment } from "react-icons/cg";
 // Date formatting
 import ReactTimeAgo from 'react-time-ago';
+import PropTypes from 'prop-types';
 
 function Conversation({
   customer_name,
@@ -10,6 +11,7 @@ function Conversation({
   created_at,
   title,
   body,
+  attachments_urls,
 }) {
   const getConversationDivClassName = (from_customer) => {
     return from_customer
@@ -66,8 +68,27 @@ function Conversation({
         className="dark:text-white"
         dangerouslySetInnerHTML={{ __html: body }}
       />
+      <div className="mt-5">
+      {attachments_urls &&
+          attachments_urls.map((attachments, index) => (
+            <a key={index} href={attachments.url} target="_blank" rel="noopener noreferrer" >
+              <CgAttachment className="h-[20px] w-[20px] inline"/> {attachments.filename}
+            </a>
+          ))}
+      </div>
     </div>
   );
 }
+
+Conversation.propTypes = {
+  customer_name: PropTypes.string.isRequired,
+  from_customer: PropTypes.bool.isRequired,
+  customer_email: PropTypes.string.isRequired,
+  created_at: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  attachments_urls: PropTypes.array,
+};
+
 
 export default Conversation;
