@@ -45,7 +45,7 @@ function TicketInfo() {
   const ticket = state.ticketData;
 
   return (
-    <section className="flex-col h-full m-4 overflow-y-auto">
+    <section className="flex-col w-9/10 m-4 overflow-y-auto">
       <div
         id="ticket-info-header"
         className="flex flex-row justify-between items-center"
@@ -181,14 +181,15 @@ function TicketInfo() {
             editorState={editorState}
             setEditorState={setEditorState}
           />
-          <div className="justify-end relative mt-5">
             <input
               type="file"
               multiple
+              className="form-control block w-full py-2 mt-4 dark:text-white cursor-pointer font-normal text-gray-700"
               onChange={(event) => {
                 setAttachments(event.target.files);
               }}
             />
+          <div className="justify-end relative mt-5">
             <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
               <li>
                 <button
