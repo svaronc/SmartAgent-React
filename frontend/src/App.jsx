@@ -3,8 +3,11 @@ import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Hero from "./components/Landing/Hero";
 import Login from "./components/Login/Login";
+import IconSidebar from "./components/AgentMainPage/SidePanel/IconSidebar";
 import Navbar from "./components/AgentMainPage/Navbar";
 import AgentMainPage from "./components/AgentMainPage/AgentMainPage";
+import Agents from "./components/Agents/Agents";
+import Dashboard from "./components/Dashboard/Dashboard";
 import { AppProvider } from "./context/AppContext";
 import useApplicationData from "./hooks/useApplicationData";
 import useLocalStorage from "./hooks/useLocalStorage";
@@ -18,6 +21,9 @@ const AppRoutes = () => {
     { path: "/", element: <Hero /> },
     { path: "/login", element: <Login /> },
     { path: "/main", element: <PrivateRoute><AgentMainPage/></PrivateRoute>},
+    { path: "/agents", element: <PrivateRoute><Agents/></PrivateRoute>},
+    { path: "/dashboard", element: <PrivateRoute><Dashboard/></PrivateRoute>},
+
   ]);
   return routes;
 };

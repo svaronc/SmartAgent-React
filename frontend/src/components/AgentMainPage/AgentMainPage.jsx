@@ -1,14 +1,14 @@
 import Navbar from "./Navbar"
-import IconSidebar from "./SidePanel/IconSidebar"
+// import IconSidebar from "./SidePanel/IconSidebar"
 import TicketSidePanel from "./SidePanel/TicketSidePanel"
 import TicketManager from "./TicketManager/TicketManager"
 
 function AgentMainPage() {
   return (
     <div className="h-screen w-screen flex flex-col">
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="flex flex-row flex-grow h-full">
-        <IconSidebar />
+        {/* <IconSidebar /> */}
         <TicketSidePanel/>
         <TicketManager />
       </div>
