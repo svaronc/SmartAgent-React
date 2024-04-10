@@ -119,8 +119,13 @@ class Api::V1::TicketsController < ApplicationController
   # DELETE api/v1/tickets/1
   # DELETE api/v1/tickets/1.json
   def destroy
-    @ticket.destroy!
+    @ticket = Ticket.find(params[:id])
+   if @ticket.destroy!
     ActionCable.server.broadcast('tickets', { id: @ticket.id, delete: true })
+    render json: { message: 'Ticket deleted' }, status: :ok
+   else
+    render json: { error: 'Ticket not found' }, status: :not_found
+   end
   end
 
   private

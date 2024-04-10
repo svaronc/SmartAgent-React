@@ -7,11 +7,11 @@ import { CgCheckO } from "react-icons/cg";
 import { IoIosMailOpen } from "react-icons/io";
 
 // Date formatting
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en';
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 
 TimeAgo.addDefaultLocale(en);
-import ReactTimeAgo from 'react-time-ago';
+import ReactTimeAgo from "react-time-ago";
 
 // Hooks
 import useApplicationData from "../../../hooks/useApplicationData";
@@ -28,7 +28,7 @@ function TicketInbox() {
   const { state } = useAppContext();
   const tickets = state.inboxTickets;
   const agents = state.agents;
-  
+
   useFetchInboxTickets();
 
   const getTicketRowClassName = (ticket) => {
@@ -86,7 +86,7 @@ function TicketInbox() {
 
                 {/* Ticket ID */}
                 <td className="px-6 py-4">{ticket.id}</td>
-                
+
                 {/* Status */}
                 <td className="px-6 py-4">
                   {ticket.status_id === 1 ? "Open" : "Closed"}
@@ -94,14 +94,22 @@ function TicketInbox() {
 
                 {/* Created At */}
                 <td className="px-6 py-4">
-                  <ReactTimeAgo date={Date.parse(ticket.created_at)} locale="en-US"/>
+                  {ticket && !isNaN(Date.parse(ticket.created_at)) && (
+                    <ReactTimeAgo
+                      date={Date.parse(ticket.created_at)}
+                      locale="en-US"
+                    />
+                  )}
                 </td>
 
                 {/* Assigned to agent */}
                 <td className="px-6 py-4">
-                  {ticket.agent && state.loggedInAgent.agent_id === ticket.agent.id
+                  {ticket.agent &&
+                  state.loggedInAgent.agent_id === ticket.agent.id
                     ? "Me"
-                    : ticket.agent ? ticket.agent.full_name : ""}
+                    : ticket.agent
+                      ? ticket.agent.full_name
+                      : ""}
                 </td>
 
                 {/* Actions */}
