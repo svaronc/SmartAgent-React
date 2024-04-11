@@ -25,6 +25,14 @@ Agent.create(email: 'sebastianvaron96@gmail.com', full_name: 'Sebastian varon', 
 Agent.create(email: 'glorialimartt@gmail.com', full_name: 'Gloria lim', password: 'password',
              role_id: admin_role.id)
 
+             7.times do
+              Agent.create(
+                email: Faker::Internet.unique.email,
+                full_name: Faker::Name.name,
+                password: 'password',
+                role_id: admin_role.id
+              )
+            end
 # Seed data for statuses
 Status.create(description: 'Open')
 Status.create(description: 'Closed')
@@ -165,3 +173,16 @@ conversation21 = ticket4.conversations.create!(
    body: "Your service has been cancelled. If you need any further assistance, feel free to reach out to us.", 
    from_customer: false
    )
+
+   # db/seeds.rb
+
+# Assuming you have some agents in your database
+agent1 = Agent.first
+agent2 = Agent.second
+
+# Create some direct chats
+DirectChat.create(sender_id: agent1.id, receiver_id: agent2.id, message: "Hello, how can I help you?")
+DirectChat.create(sender_id: agent2.id, receiver_id: agent1.id, message: "I have a question about my account.")
+DirectChat.create(sender_id: agent1.id, receiver_id: agent2.id, message: "Sure, I'd be happy to help. What's your question?")
+DirectChat.create(sender_id: agent2.id, receiver_id: agent1.id, message: "I can't seem to access my account. Can you assist?")
+DirectChat.create(sender_id: agent1.id, receiver_id: agent2.id, message: "Of course. Let's see what we can do.")
