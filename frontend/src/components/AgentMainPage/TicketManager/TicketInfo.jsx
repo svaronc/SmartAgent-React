@@ -56,19 +56,16 @@ function TicketInfo() {
         </h1>
 
         <div className="flex flex-row items-center">
-          <p className="font-bold text-gray-700 pb-2 dark:text-white">
-            {ticket.agent &&
-            Number(state.loggedInAgent.agent_id) === ticket.agent.id
-              ? "Assigned to: Me"
-              : ticket.agent
-                ? `Assigned to: ${ticket.agent.full_name}`
-                : ""}
-          </p>
           <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
             <li>
               <details className="dropdown">
-                <summary className="btn">
-                  Transfer
+                <summary className="btn font-bold text-gray-700 dark:text-white">
+                  {ticket.agent &&
+                  Number(state.loggedInAgent.agent_id) === ticket.agent.id
+                    ? "Assigned to: Me"
+                    : ticket.agent
+                    ? `Assigned to: ${ticket.agent.full_name}`
+                    : ""}
                   <LuArrowLeftRight size="1.5rem" />
                 </summary>
                 <ul className="shadow menu dropdown-content rounded-box dark:text-gray-200">
@@ -94,133 +91,131 @@ function TicketInfo() {
         </div>
       </div>
 
-    <PanelGroup direction="vertical">
-      <Panel>
-      <div className="bg-base-100 border-2 h-full p-4 overflow-y-auto">
-        {ticket.conversations &&
-          ticket.conversations.map((conversation) => (
-            <Conversation
-              key={conversation.id}
-              customer_name={ticket.customer_name}
-              customer_email={ticket.from_email}
-              from_customer={conversation.from_customer}
-              created_at={conversation.created_at}
-              title={ticket.title}
-              body={conversation.body}
-              attachments_urls={conversation.attachments_urls}
-            />
-          ))}
-      </div>
-      </Panel>
-      <PanelResizeHandle className="draggable-arrow hover:cursor-grab flex flex-row items-center justify-center mt-2 bg-slate-300 hover:bg-slate-200 dark:bg-slate-700 dark-hover:bg-slate-200  rounded-box">
-
-      <div className="draggable-arrow p-1">
-        <FaArrowsUpDown size="1.5rem"/>
-      </div>
-      </PanelResizeHandle>
-      <Panel>
-      <div className="justify-end relative bottom-0">
-        <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
-          <li>
-            <button
-              className="flex items-center gap-2"
-              onClick={() => setReplyIsVisible(!replyIsVisible)}
-            >
-              <FaReply size="1.5rem" />
-              Reply
-            </button>
-          </li>
-
-          {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
-            <li>
-              <button
-                className="flex items-center gap-2"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  resolveTicket(ticket.id);
-                  window.location.reload();
-                }}
-              >
-                <CgCheckO size="1.5rem" /> Resolve
-              </button>
-            </li>
-          ) : (
-            // Show the open ticket icon if the ticket has been resolved
-            <li>
-              <button
-                className="flex items-center gap-2"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  openTicket(ticket.id);
-                  window.location.reload();
-                }}
-              >
-                <IoIosMailOpen size="1.5rem" />
-                Open
-              </button>
-            </li>
-          )}
-          <li>
-            <button
-              className="flex items-center gap-2"
-              onClick={(event) => {
-                event.stopPropagation();
-                deleteTicket(ticket.id);
-                window.location.reload();
-              }}
-            >
-              <MdDelete size="1.5rem" />
-              Delete
-            </button>
-          </li>
-        </ul>
-      </div>
-      {replyIsVisible && (
-        <div className="overflow-y-auto">
-          <div className="reply-details mb-2">
-            <div className="flex flex-row gap-5">
-              <p>From: SmartAgent &lt;smartagents3@gmail.com&gt;</p>
-              <p>|</p>
-              <p>
-                To: {ticket.customer_name} &lt;{ticket.from_email}&gt;
-              </p>
-            </div>
-            <p>Re: {ticket.title}</p>
+      <PanelGroup direction="vertical">
+        <Panel>
+          <div className="bg-base-100 border-2 h-full p-4 overflow-y-auto">
+            {ticket.conversations &&
+              ticket.conversations.map((conversation) => (
+                <Conversation
+                  key={conversation.id}
+                  customer_name={ticket.customer_name}
+                  customer_email={ticket.from_email}
+                  from_customer={conversation.from_customer}
+                  created_at={conversation.created_at}
+                  title={ticket.title}
+                  body={conversation.body}
+                  attachments_urls={conversation.attachments_urls}
+                />
+              ))}
           </div>
-          <DraftEditor
-            customer_name={ticket?.customer_name ?? ""}
-            editorState={editorState}
-            setEditorState={setEditorState}
-          />
-            <input
-              type="file"
-              multiple
-              className="form-control block w-full py-2 mt-4 dark:text-white cursor-pointer font-normal text-gray-700"
-              onChange={(event) => {
-                setAttachments(event.target.files);
-              }}
-            />
-          <div className="justify-end relative mt-5">
+        </Panel>
+        <PanelResizeHandle className="draggable-arrow hover:cursor-grab flex flex-row items-center justify-center mt-2 bg-slate-300 hover:bg-slate-200 dark:bg-slate-700 dark-hover:bg-slate-200  rounded-box">
+          <div className="draggable-arrow p-1">
+            <FaArrowsUpDown size="1.5rem" />
+          </div>
+        </PanelResizeHandle>
+        <Panel>
+          <div className="justify-end relative bottom-0">
             <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
               <li>
                 <button
                   className="flex items-center gap-2"
-                  onClick={() => {
-                    sendRespond(ticket_id, editorState,attachments);
-                    setReplyIsVisible(!replyIsVisible);
+                  onClick={() => setReplyIsVisible(!replyIsVisible)}
+                >
+                  <FaReply size="1.5rem" />
+                  Reply
+                </button>
+              </li>
+
+              {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
+                <li>
+                  <button
+                    className="flex items-center gap-2"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      resolveTicket(ticket.id);
+                      window.location.reload();
+                    }}
+                  >
+                    <CgCheckO size="1.5rem" /> Resolve
+                  </button>
+                </li>
+              ) : (
+                // Show the open ticket icon if the ticket has been resolved
+                <li>
+                  <button
+                    className="flex items-center gap-2"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      openTicket(ticket.id);
+                      window.location.reload();
+                    }}
+                  >
+                    <IoIosMailOpen size="1.5rem" />
+                    Open
+                  </button>
+                </li>
+              )}
+              <li>
+                <button
+                  className="flex items-center gap-2"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    deleteTicket(ticket.id);
+                    window.location.reload();
                   }}
                 >
-                  <IoSend size="1.5rem" />
-                  Send
+                  <MdDelete size="1.5rem" />
+                  Delete
                 </button>
               </li>
             </ul>
           </div>
-        </div>
-      )}
-      </Panel>
-    </PanelGroup>
-
+          {replyIsVisible && (
+            <div className="overflow-y-auto">
+              <div className="reply-details mb-2">
+                <div className="flex flex-row gap-5">
+                  <p>From: SmartAgent &lt;smartagents3@gmail.com&gt;</p>
+                  <p>|</p>
+                  <p>
+                    To: {ticket.customer_name} &lt;{ticket.from_email}&gt;
+                  </p>
+                </div>
+                <p>Re: {ticket.title}</p>
+              </div>
+              <DraftEditor
+                customer_name={ticket?.customer_name ?? ""}
+                editorState={editorState}
+                setEditorState={setEditorState}
+              />
+              <input
+                type="file"
+                multiple
+                className="form-control block w-full py-2 mt-4 dark:text-white cursor-pointer font-normal text-gray-700"
+                onChange={(event) => {
+                  setAttachments(event.target.files);
+                }}
+              />
+              <div className="justify-end relative mt-5">
+                <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
+                  <li>
+                    <button
+                      className="flex items-center gap-2"
+                      onClick={() => {
+                        sendRespond(ticket_id, editorState, attachments);
+                        setReplyIsVisible(!replyIsVisible);
+                      }}
+                    >
+                      <IoSend size="1.5rem" />
+                      Send
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          )}
+        </Panel>
+      </PanelGroup>
     </section>
   );
 }
