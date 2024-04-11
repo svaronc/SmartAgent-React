@@ -9,7 +9,6 @@ function Conversation({
   from_customer,
   customer_email,
   created_at,
-  title,
   body,
   attachments_urls,
 }) {
@@ -53,7 +52,6 @@ function Conversation({
               </p>
             </div>
           )}
-          <p>Subject: {title} </p>
         </div>
         <div>
           <ReactTimeAgo date={Date.parse(created_at)} locale="en-US"/>
@@ -85,7 +83,6 @@ Conversation.propTypes = {
   from_customer: PropTypes.bool.isRequired,
   customer_email: PropTypes.string.isRequired,
   created_at: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
   attachments_urls: PropTypes.array,
 };
