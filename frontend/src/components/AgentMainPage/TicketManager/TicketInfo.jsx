@@ -52,7 +52,7 @@ function TicketInfo() {
         className="flex flex-row justify-between items-center"
       >
         <h1 className="text-4xl font-bold mb-4 text-gray-700 dark:text-white">
-          {ticket.title}
+          {`${ticket.id}: ${ticket.title}`}
         </h1>
 
         <div className="flex flex-row items-center">
@@ -102,7 +102,6 @@ function TicketInfo() {
                   customer_email={ticket.from_email}
                   from_customer={conversation.from_customer}
                   created_at={conversation.created_at}
-                  title={ticket.title}
                   body={conversation.body}
                   attachments_urls={conversation.attachments_urls}
                 />
