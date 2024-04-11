@@ -8,6 +8,7 @@ import { CgCheckO } from "react-icons/cg";
 import { FaReply } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { IoIosMailOpen } from "react-icons/io";
+import { FaArrowsUpDown } from "react-icons/fa6";
 
 // react-resizable-panels
 import {
@@ -45,7 +46,7 @@ function TicketInfo() {
   const ticket = state.ticketData;
 
   return (
-    <section className="flex-col w-9/10 m-4 overflow-y-auto">
+    <section className="flex-col w-9/10 h-full m-4 overflow-y-auto">
       <div
         id="ticket-info-header"
         className="flex flex-row justify-between items-center"
@@ -92,7 +93,10 @@ function TicketInfo() {
           </ul>
         </div>
       </div>
-      <div className="bg-base-100 border-2 h-1/2 p-4 overflow-y-auto">
+
+    <PanelGroup direction="vertical">
+      <Panel>
+      <div className="bg-base-100 border-2 h-full p-4 overflow-y-auto">
         {ticket.conversations &&
           ticket.conversations.map((conversation) => (
             <Conversation
@@ -107,7 +111,14 @@ function TicketInfo() {
             />
           ))}
       </div>
+      </Panel>
+      <PanelResizeHandle className="draggable-arrow hover:cursor-grab flex flex-row items-center justify-center mt-2 bg-slate-300 hover:bg-slate-200 dark:bg-slate-700 dark-hover:bg-slate-200  rounded-box">
 
+      <div className="draggable-arrow p-1">
+        <FaArrowsUpDown size="1.5rem"/>
+      </div>
+      </PanelResizeHandle>
+      <Panel>
       <div className="justify-end relative bottom-0">
         <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
           <li>
@@ -207,6 +218,9 @@ function TicketInfo() {
           </div>
         </div>
       )}
+      </Panel>
+    </PanelGroup>
+
     </section>
   );
 }
