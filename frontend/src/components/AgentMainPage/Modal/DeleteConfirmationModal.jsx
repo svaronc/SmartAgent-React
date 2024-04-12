@@ -7,6 +7,7 @@ function DeleteConfirmationModal({ ticket_id }) {
     <div className="m-0 p-0">
       <input type="checkbox" id="my_modal_7" className="modal-toggle" />
       <div className="modal" role="dialog">
+        <label className="modal-backdrop" htmlFor="my_modal_7">Close</label>
         <div className="modal-box pb-1">
           <h3 className="text-lg font-bold dark:text-white">
             This action is reversible!
