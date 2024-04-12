@@ -1,5 +1,5 @@
 import { useAppContext } from "../../../context/AppContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // Icons
 import { MdDelete } from "react-icons/md";
@@ -27,11 +27,11 @@ import Conversation from "./Conversation";
 // Hooks
 import useFetchTicketData from "../../../hooks/useFetchTicketData";
 import useApplicationData from "../../../hooks/useApplicationData";
+import DeleteConfirmationModal from "../Modal/DeleteConfirmationModal";
 
 function TicketInfo() {
   const { state, dispatch } = useAppContext();
   const {
-    deleteTicket,
     resolveTicket,
     transferTicket,
     openTicket,
@@ -156,17 +156,21 @@ function TicketInfo() {
                 </li>
               )}
               <li>
-                <button
+                {/* <button
                   className="flex items-center gap-2"
                   onClick={(event) => {
                     event.stopPropagation();
-                    deleteTicket(ticket.id);
-                    window.location.reload();
                   }}
                 >
-                  <MdDelete size="1.5rem" />
-                  Delete
-                </button>
+                  
+                  
+                  
+                </button> */}
+                <label htmlFor="my_modal_7" className="flex flex-row justify-center items-center gap-2">
+                        <MdDelete size="1.5rem" />
+                        Delete
+                      </label>
+                <DeleteConfirmationModal ticket_id={ticket.id} />
               </li>
             </ul>
           </div>
