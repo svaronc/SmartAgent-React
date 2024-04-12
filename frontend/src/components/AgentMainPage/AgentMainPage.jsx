@@ -5,7 +5,7 @@ import TicketManager from "./TicketManager/TicketManager"
 
 function AgentMainPage() {
   return (
-    <div className="h-screen w-screen flex flex-col">
+    <div className="h-screen flex flex-col w-[100%]">
       {/* <Navbar /> */}
       <div className="flex flex-row flex-grow h-full">
         {/* <IconSidebar /> */}

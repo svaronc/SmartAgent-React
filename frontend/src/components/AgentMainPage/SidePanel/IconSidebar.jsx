@@ -20,7 +20,7 @@ function IconSidebar() {
   };
 
   return (
-    <ul className="menu bg-base-100 content-center w-[75px] border-r-8 border-double h-full">
+    <ul className=" flex flex-col items-center bg-base-100 border-r-8 border-double h-full">
       {menuItems.map((item, index) => (
         <li key={index}>
           <Link

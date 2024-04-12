@@ -3,9 +3,9 @@ import { useAppContext } from "../../../context/AppContext";
 function TicketManagerNav() {
   const { state } = useAppContext();
   return (
-    <nav>
+    <>
         {state.ticketInboxView ? 
-          <section className="flex content-start navbar bg-base-100 shadow-md pl-5 w-full">
+          <section className="flex bg-base-100 shadow-md pl-5">
             <div className="flex-col items-start mt-2">
               <h1 className="text-2xl font-bold mb-4">{state.ticketManagerView}</h1>
               <div className="mb-4">       
@@ -17,7 +17,7 @@ function TicketManagerNav() {
           {/* <h1 className="text-2xl font-bold mb-4">Ticket Assigned to: </h1> */}
           </>
         }
-    </nav>
+   </>
   )
 }
 
