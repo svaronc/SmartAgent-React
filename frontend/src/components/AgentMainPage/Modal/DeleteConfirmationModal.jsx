@@ -4,7 +4,7 @@ function DeleteConfirmationModal({ ticket_id }) {
   const { deleteTicket } = useApplicationData();
 
   return (
-    <div>
+    <div className="m-0 p-0">
       <input type="checkbox" id="my_modal_7" className="modal-toggle" />
       <div className="modal" role="dialog">
         <div className="modal-box pb-1">
