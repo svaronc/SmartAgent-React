@@ -2,7 +2,6 @@ import useApplicationData from "../../../hooks/useApplicationData";
 import { useAppContext } from "../../../context/AppContext";
 import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import axios from "axios";
 
 import { LuArrowLeftRight } from "react-icons/lu";
@@ -20,10 +19,6 @@ function TransferConfirmationModal({ ticket }) {
   };
 
   const [submitted, setSubmitted] = useState(false);
-
-  const validationSchema = Yup.object().shape({
-    note: Yup.string().required("Name is required")
-  });
 
   const onSubmit = (values, actions) => {
     // Handle form submission logic here
@@ -113,7 +108,7 @@ function TransferConfirmationModal({ ticket }) {
 
           <div className="flex flex-col justify-center items-center gap-2">
           
-            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+            <Formik initialValues={initialValues} onSubmit={onSubmit}>
               <Form className="p-4 w-full">
                 {/* Form fields */}
                 <div className="mb-4">
