@@ -3,20 +3,32 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import ActionCable from "actioncable";
 
+/**
+ * DirectChat component represents a chat interface for direct messaging between agents.
+ *
+ * @param {Object} agent - The agent object.
+ * @param {number} currentAgentId - The ID of the current agent.
+ * @returns {JSX.Element} - The DirectChat component.
+ */
 const DirectChat = ({ agent, currentAgentId }) => {
   const [text, setText] = useState("");
   const [apiMessages, setApiMessages] = useState([]);
   const messagesEndRef = useRef(null);
 
+  /**
+   * Scrolls to the bottom of the message list.
+   */
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(scrollToBottom, [apiMessages]);
+
   useEffect(() => {
     console.log("Current agent ID:", currentAgentId);
     const endpoint = `api/v1/direct_chats?sender_id=${agent.id}&receiver_id=${currentAgentId}`;
-    // Replace with your API endpoint
+
+    // Fetch initial messages from the server
     axios
       .get(endpoint)
       .then((response) => {
@@ -29,8 +41,11 @@ const DirectChat = ({ agent, currentAgentId }) => {
       .catch((error) => {
         console.error("There was an error!", error);
       });
+
+    // Create a WebSocket connection
     const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
 
+    // Subscribe to the DirectChatChannel
     const subscription = cable.subscriptions.create("DirectChatChannel", {
       connected: () => {
         console.log("Connected to the WebSocket!");
@@ -51,12 +66,20 @@ const DirectChat = ({ agent, currentAgentId }) => {
     };
   }, [currentAgentId, agent.id]);
 
+  /**
+   * Handles the input change event.
+   * @param {Object} event - The input change event.
+   */
   const handleInputChange = (event) => {
     setText(event.target.value);
   };
 
+  /**
+   * Handles sending a message.
+   */
   const handleSendMessage = () => {
     if (text.trim() !== "") {
+      // Send the message to the server
       axios
         .post("api/v1/direct_chats", {
           sender_id: currentAgentId,
@@ -73,8 +96,10 @@ const DirectChat = ({ agent, currentAgentId }) => {
       setText("");
     }
   };
+
   return (
     <div className="flex flex-col h-screen  overflow-y-auto bg-gray-100  rounded-lg w-[800px]">
+      {/* Agent header */}
       <div
         key={agent.id}
         className=" bg-white shadow-lg rounded-lg flex items-center w-full"
@@ -86,6 +111,7 @@ const DirectChat = ({ agent, currentAgentId }) => {
           <h2 className="font-bold text-lg">{agent.full_name}</h2>
         </div>
       </div>
+
       {/* Message list */}
       <div className="overflow-y-auto max-h-screen">
         {apiMessages.map((message, index) => (
@@ -107,8 +133,9 @@ const DirectChat = ({ agent, currentAgentId }) => {
             </div>
           </div>
         ))}
-      <div ref={messagesEndRef} />
+        <div ref={messagesEndRef} />
       </div>
+
       {/* Input field */}
       <div className="flex mt-auto mb-3">
         <input

@@ -6,26 +6,27 @@ import "react-tooltip/dist/react-tooltip.css";
 import DirectChat from "../DirectChat/DirectChat";
 
 const Agents = () => {
-  const [agents, setAgents] = useState([]);
-  const [selecAgent, setSelecAgent] = useState(null);
-  const [currentAgentId, setCurrentAgentId] = useState(null);
+  const [agents, setAgents] = useState([]); // State variable to store the list of agents
+  const [selecAgent, setSelecAgent] = useState(null); // State variable to store the selected agent
+  const [currentAgentId, setCurrentAgentId] = useState(null); // State variable to store the current agent's ID
 
   useEffect(() => {
     axios
-      .get("/api/v1/agents")
-      .then((data) => setAgents(data.data))
+      .get("/api/v1/agents") // Fetches the list of agents from the API
+      .then((data) => setAgents(data.data)) // Updates the state variable with the fetched agents
       .catch((error) => {
         console.error("There was an error!", error);
       });
-      const storedAgentId = localStorage.getItem("agent_id")
+      const storedAgentId = localStorage.getItem("agent_id"); // Retrieves the agent ID from local storage
       if (storedAgentId) {
-        setCurrentAgentId(storedAgentId)
+        setCurrentAgentId(storedAgentId); // Updates the state variable with the stored agent ID
       }
   }, []);
 
   const handleChatClick = (agent) => {
-    setSelecAgent(agent);
+    setSelecAgent(agent); // Sets the selected agent when the chat icon is clicked
   };
+
   return (
     <div className="flex h-screen">
       <div className="flex h-screen flex-col bg-base-200 border-r-4 border-double w-[600px]">
@@ -33,7 +34,7 @@ const Agents = () => {
           <h1 className="text-2xl">Agents</h1>
         </div>
         {agents.map((agent) => (
-          agent.id !== Number(currentAgentId) && (
+          agent.id !== Number(currentAgentId) && ( // Renders the agent card only if the agent ID is not equal to the current agent's ID
           <div
             key={agent.id}
             className="m-4 bg-white shadow-lg rounded-lg overflow-hidden flex items-center"
@@ -54,7 +55,7 @@ const Agents = () => {
                 href="#"
                 className="tool tooltip tooltip-left"
                 data-tip="Chat"
-                onClick={() => handleChatClick(agent)}
+                onClick={() => handleChatClick(agent)} // Calls the handleChatClick function when the chat icon is clicked
               >
                 <IoMdChatboxes className="self-end w-5 h-5" data-tip="Chat" />
               </a>

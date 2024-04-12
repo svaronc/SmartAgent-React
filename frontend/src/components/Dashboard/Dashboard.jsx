@@ -28,18 +28,19 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-  const [tickets, setTickets] = useState([]);
-  const { state } = useAppContext();
-  const agentsNames = state.agents.map((agent) => agent.full_name);
-  const agentsIds = state.agents.map((agent) => agent.id);
-  const agentId = localStorage.getItem("agent_id");
-  const agentName = localStorage.getItem("full_name");
+  const [tickets, setTickets] = useState([]); // State to store tickets
+  const { state } = useAppContext(); // Accessing state from AppContext
+  const agentsNames = state.agents.map((agent) => agent.full_name); // Extracting agent names from state
+  const agentsIds = state.agents.map((agent) => agent.id); // Extracting agent IDs from state
+  const agentId = localStorage.getItem("agent_id"); // Getting agent ID from local storage
+  const agentName = localStorage.getItem("full_name"); // Getting agent name from local storage
 
   useEffect(() => {
+    // Fetching tickets from API
     axios
       .get("/api/v1/tickets")
       .then((response) => {
-        setTickets(response.data);
+        setTickets(response.data); // Updating tickets state with fetched data
       })
       .catch((error) => {
         console.error("There was an error!", error);
@@ -47,29 +48,29 @@ const Dashboard = () => {
   }, []);
 
   const agentTickets = tickets.filter(
-    (ticket) => ticket.agent_id === Number(agentId)
+    (ticket) => ticket.agent_id === Number(agentId) // Filtering tickets based on agent ID
   );
   const resolvedTickets = agentTickets.filter(
-    (ticket) => ticket.status_id === 3
+    (ticket) => ticket.status_id === 3 // Filtering resolved tickets
   ).length;
   const openTickets = agentTickets.filter(
-    (ticket) => ticket.status_id === 1
+    (ticket) => ticket.status_id === 1 // Filtering open tickets
   ).length;
   const pendingTickets = agentTickets.filter(
-    (ticket) => ticket.status_id === 2
+    (ticket) => ticket.status_id === 2 // Filtering pending tickets
   ).length;
-  const allResolvedTickets = tickets.filter((ticket) => ticket.status_id === 3);
+  const allResolvedTickets = tickets.filter((ticket) => ticket.status_id === 3); // Filtering all resolved tickets
   const resolvedTicketsPerAgent = agentsIds.map((agent) => {
     return allResolvedTickets.filter((ticket) => ticket.agent_id === agent)
-      .length;
+      .length; // Counting resolved tickets per agent
   });
-  const loginAgent = state.agents.find((agent) => agent.id === Number(agentId));
+  const loginAgent = state.agents.find((agent) => agent.id === Number(agentId)); // Finding the logged-in agent from state
   const data = {
-    labels: [...agentsNames],
+    labels: [...agentsNames], // Labels for the chart
     datasets: [
       {
         label: "Resolved Tickets",
-        data: resolvedTicketsPerAgent,
+        data: resolvedTicketsPerAgent, // Data for the chart
         backgroundColor: "rgba(54, 162, 235, 0.6)",
         borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 1,
@@ -92,7 +93,7 @@ const Dashboard = () => {
     labels: ["Open Tickets", "Pending Tickets", "Resolved Tickets"],
     datasets: [
       {
-        data: [openTickets, pendingTickets, resolvedTickets],
+        data: [openTickets, pendingTickets, resolvedTickets], // Data for the doughnut chart
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)",
           "rgba(54, 162, 235, 0.6)",
@@ -141,7 +142,6 @@ const Dashboard = () => {
           <div className="flex flex-col justify-center mt-5 items-center">
             <div className="avatar">
               <div className="w-24 rounded-full">
-                <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
               </div>
             </div>
             <h2 className="text-2xl mt-3">{agentName}</h2>
