@@ -109,9 +109,9 @@ const Dashboard = () => {
     ],
   };
   return (
-    <div className="min-h-screen flex items-center pl-52">
+    <div className="min-h-screen flex items-center lg:pl-52 w-[95%]">
       <div className="grid grid-cols-4 gap-4">
-        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 w-72 flex flex-col items-center justify-center">
+        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
           <div className="flex mt-3">
             <BsEnvelopeOpenFill className="w-5 h-5 mx-3 text-blue-600" />
             <p className="text-2xl text-blue-600">
@@ -120,7 +120,7 @@ const Dashboard = () => {
           </div>
           <h2 className="text-2xl">Open Tickets</h2>
         </div>
-        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 w-72 flex flex-col items-center justify-center">
+        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
           <div className="flex mt-3">
             <MdPending className="w-5 h-5 mx-3 text-blue-600" />
             <p className="text-2xl text-blue-600">
@@ -129,7 +129,7 @@ const Dashboard = () => {
           </div>
           <h2 className="text-2xl">Pending Tickets</h2>
         </div>
-        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 w-72 flex flex-col items-center justify-center">
+        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
           <div className="flex mt-3">
             <BsFillEnvelopeCheckFill className="w-5 h-5 mx-3 text-blue-600" />
             <p className="text-2xl text-blue-600">
@@ -147,7 +147,7 @@ const Dashboard = () => {
             </div>
             <h2 className="text-2xl mt-3">{agentName}</h2>
             {loginAgent ? (
-              <p className="text text-slate-400">{loginAgent.email}</p>
+              <p className="lg:text-lg text-sm text-slate-400">{loginAgent.email}</p>
             ) : (
               <p></p>
             )}

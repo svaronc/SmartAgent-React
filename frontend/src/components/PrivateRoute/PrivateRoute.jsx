@@ -9,7 +9,7 @@ function PrivateRoute({ children }) {
   return isAuthenticated ? (
     <div className="app flex h-screen bg-base-200">
       <IconSidebar />
-      <div className="content">{children}</div>
+      <div className="content w-[100%] bg-base-200">{children}</div>
     </div>
   ) : (
     <Navigate to="/login" />
