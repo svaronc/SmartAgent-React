@@ -169,7 +169,7 @@ function TicketInbox() {
                         event.stopPropagation();
                       }}
                     >
-                      <label htmlFor="my_modal_7" className="">
+                      <label htmlFor="my_modal_7">
                         <MdDelete size="1.5rem" />
                       </label>
                       <DeleteConfirmationModal ticket_id={ticket.id} />
