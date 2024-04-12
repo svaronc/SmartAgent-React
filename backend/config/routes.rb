@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
+  resources :notes
   namespace :api do
     namespace :v1 do
+      resources :direct_chats
       resources :roles
       resources :statuses
       resources :conversations

@@ -7,7 +7,7 @@ function PrivateRoute({ children }) {
   const { isAuthenticated } = useContext(AuthContext);
 
   return isAuthenticated ? (
-    <div className="app flex h-screen">
+    <div className="app flex h-screen bg-base-200">
       <IconSidebar />
       <div className="content">{children}</div>
     </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_04_181903) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_10_185703) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -70,6 +70,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_04_181903) do
     t.index ["ticket_id"], name: "index_conversations_on_ticket_id"
   end
 
+  create_table "direct_chats", force: :cascade do |t|
+    t.integer "sender_id"
+    t.integer "receiver_id"
+    t.text "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.bigint "ticket_id", null: false
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ticket_id"], name: "index_notes_on_ticket_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "role", null: false
     t.string "description", null: false
@@ -99,4 +115,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_04_181903) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agents", "roles"
   add_foreign_key "conversations", "tickets"
+  add_foreign_key "notes", "tickets"
 end
