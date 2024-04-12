@@ -28,7 +28,7 @@ const Agents = () => {
   };
   return (
     <div className="flex h-screen">
-      <div className="flex h-screen flex-col bg-base-200 border-r-4 border-double w-[400px]">
+      <div className="flex h-screen flex-col bg-base-200 border-r-4 border-double w-[600px]">
         <div className="text-center mt-10">
           <h1 className="text-2xl">Agents</h1>
         </div>

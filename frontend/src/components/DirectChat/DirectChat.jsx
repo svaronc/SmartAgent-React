@@ -1,13 +1,18 @@
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import ActionCable from "actioncable";
 
 const DirectChat = ({ agent, currentAgentId }) => {
   const [text, setText] = useState("");
   const [apiMessages, setApiMessages] = useState([]);
+  const messagesEndRef = useRef(null);
 
-  
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(scrollToBottom, [apiMessages]);
   useEffect(() => {
     console.log("Current agent ID:", currentAgentId);
     const endpoint = `api/v1/direct_chats?sender_id=${agent.id}&receiver_id=${currentAgentId}`;
@@ -69,45 +74,55 @@ const DirectChat = ({ agent, currentAgentId }) => {
     }
   };
   return (
-    <div className="flex flex-col h-full overflow-y-auto bg-gray-100 p-4 rounded-lg">
+    <div className="flex flex-col h-screen  overflow-y-auto bg-gray-100  rounded-lg w-[800px]">
+      <div
+        key={agent.id}
+        className=" bg-white shadow-lg rounded-lg flex items-center w-full"
+      >
+        <div className="flex justify-center items-center h-8 w-8 bg-gray-200 text-gray-700 rounded-full mx-3">
+          <span className=" text-sm">{agent.full_name.charAt(0)}</span>
+        </div>
+        <div className="p-4 flex-grow text-center">
+          <h2 className="font-bold text-lg">{agent.full_name}</h2>
+        </div>
+      </div>
       {/* Message list */}
-      {apiMessages.map((message, index) => (
-        <div
-          key={index}
-          className={`flex items-center mb-3 ${
-            message.sender === "me" ? "justify-end" : "justify-start"
-          }`}
-        >
-          {/* User avatar (optional) */}
-          {message.sender !== "me" && (
-            <img
-              src={message.avatar}
-              alt="User avatar"
-              className="w-8 h-8 rounded-full mr-3"
-            />
-          )}
-
-          {/* Message bubble */}
+      <div className="overflow-y-auto max-h-screen">
+        {apiMessages.map((message, index) => (
           <div
-            className={`px-4 py-2 rounded-lg shadow-sm ${
-              message.sender === "me"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-700"
+            key={index}
+            className={`flex items-center mb-3 p-4 ${
+              message.sender === "me" ? "justify-start" : "justify-end"
             }`}
           >
-            {message.message}
+            {/* Message bubble */}
+            <div
+              className={`px-4 py-2 rounded-lg shadow-sm ${
+                message.sender === "me"
+                  ? "bg-gray-200 text-gray-700"
+                  : "bg-blue-500 text-white"
+              }`}
+            >
+              {message.message}
+            </div>
           </div>
-        </div>
-      ))}
-
+        ))}
+      <div ref={messagesEndRef} />
+      </div>
       {/* Input field */}
-      <div className="flex mt-auto">
+      <div className="flex mt-auto mb-3">
         <input
           type="text"
           placeholder="Type a message..."
           className="flex-grow rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:border-blue-500"
           value={text}
           onChange={handleInputChange}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              handleSendMessage();
+              event.preventDefault();
+            }
+          }}
         />
         <button
           className="ml-3 bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-700"

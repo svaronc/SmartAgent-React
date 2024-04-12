@@ -35,8 +35,8 @@ Agent.create(email: 'glorialimartt@gmail.com', full_name: 'Gloria lim', password
             end
 # Seed data for statuses
 Status.create(description: 'Open')
-Status.create(description: 'Closed')
-
+Status.create(description: 'Pending')
+Status.create(description: 'Resolved')
 # Create some tickets
 
 ticket1 = Ticket.create!(
@@ -186,3 +186,14 @@ DirectChat.create(sender_id: agent2.id, receiver_id: agent1.id, message: "I have
 DirectChat.create(sender_id: agent1.id, receiver_id: agent2.id, message: "Sure, I'd be happy to help. What's your question?")
 DirectChat.create(sender_id: agent2.id, receiver_id: agent1.id, message: "I can't seem to access my account. Can you assist?")
 DirectChat.create(sender_id: agent1.id, receiver_id: agent2.id, message: "Of course. Let's see what we can do.")
+
+
+50.times do
+  Ticket.create!(
+    title: Faker::Lorem.sentence(word_count: 3),
+    from_email:  Faker::Internet.email,
+    customer_name: Faker::Name.name,
+    agent_id: [1,2,3,4,5,6,7,8,9,10].sample,
+    status_id: [1,2,3].sample
+  )
+end
