@@ -16,15 +16,11 @@ import ReactTimeAgo from "react-time-ago";
 // Hooks
 import useApplicationData from "../../../hooks/useApplicationData";
 import useFetchInboxTickets from "../../../hooks/inbox/useFetchInboxTickets";
+import DeleteConfirmationModal from "../Modal/DeleteConfirmationModal";
 
 function TicketInbox() {
-  const {
-    setTicketView,
-    deleteTicket,
-    resolveTicket,
-    transferTicket,
-    openTicket,
-  } = useApplicationData();
+  const { setTicketView, resolveTicket, transferTicket, openTicket } =
+    useApplicationData();
   const { state } = useAppContext();
   const tickets = state.inboxTickets;
   const agents = state.agents;
@@ -108,8 +104,8 @@ function TicketInbox() {
                   state.loggedInAgent.agent_id === ticket.agent.id
                     ? "Me"
                     : ticket.agent
-                      ? ticket.agent.full_name
-                      : ""}
+                    ? ticket.agent.full_name
+                    : ""}
                 </td>
 
                 {/* Actions */}
@@ -171,10 +167,12 @@ function TicketInbox() {
                       data-tip="Delete Ticket"
                       onClick={(event) => {
                         event.stopPropagation();
-                        deleteTicket(ticket.id);
                       }}
                     >
-                      <MdDelete size="1.5rem" />
+                      <label htmlFor="my_modal_7">
+                        <MdDelete size="1.5rem" />
+                      </label>
+                      <DeleteConfirmationModal ticket_id={ticket.id} />
                     </li>
                   </div>
                 </td>

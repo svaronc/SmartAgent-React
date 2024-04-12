@@ -6,8 +6,14 @@ function TicketSidePanel() {
   const { state } = useAppContext();
   const { setTicketManagerView } = useApplicationData();
   return (
-    <div className="bg-base-200 border-r-4 border-double w-1/5 mt-5">
-      <h1 className="text-2xl font-bold mb-4 ml-4">Tickets</h1>
+    <div className="bg-base-200 border-r-4 border-double w-1/5 mt-2">
+      <div className="flex-1 p-3">          
+          <a className="btn btn-ghost text-3xl font-bold">
+            <img src="/SmartAgent-icon.svg" alt="SmartAgent icon" width="45" />SmartAgent
+          </a>
+        </div>
+      
+      <h1 className="text-2xl font-bold mb-4 ml-4 mt-2">Tickets</h1>
       
       <div>
         <ul>
