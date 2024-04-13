@@ -5,6 +5,7 @@ class Api::V1::NotesController < ApplicationController
   # GET /notes.json
   def index
     @notes = Note.all
+    render json: @notes
   end
 
   # GET /notes/1
@@ -18,7 +19,8 @@ class Api::V1::NotesController < ApplicationController
     @note = Note.new(note_params)
 
     if @note.save
-      render :show, status: :created, location: @note
+      ActionCable.server.broadcast('notes_channel', @note)
+      render json: @note 
     else
       render json: @note.errors, status: :unprocessable_entity
     end

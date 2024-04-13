@@ -3,8 +3,8 @@ import { useState, useRef, useEffect } from "react";
 
 // Icons
 import { MdDelete } from "react-icons/md";
-import { LuArrowLeftRight } from "react-icons/lu";
-import { CgCheckO } from "react-icons/cg";
+// import { LuArrowLeftRight } from "react-icons/lu";
+import { CgCheckO, CgNotes } from "react-icons/cg";
 import { FaReply } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { IoIosMailOpen } from "react-icons/io";
@@ -26,6 +26,7 @@ import TransferConfirmationModal from "../Modal/TransferConfirmationModal";
 // Components
 import DraftEditor from "./DraftEditor";
 import Conversation from "./Conversation";
+import NotesSidePanel from "../SidePanel/NotesSidePanel";
 
 // Hooks
 import useFetchTicketData from "../../../hooks/useFetchTicketData";
@@ -39,6 +40,7 @@ function TicketInfo() {
   const ticket_id = state.viewTicketId;
   const agents = state.agents;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
+  const [notesPanel, setNotesPanel] = useState(false)
   const [editorState, setEditorState] = useState();
   const [attachments, setAttachments] = useState([]);
   const conversationsEndRef = useRef(null);
@@ -58,8 +60,46 @@ function TicketInfo() {
       >
         <h1 className="lg:text-4xl font-bold mb-4 text-gray-700 dark:text-white text-xl">
           {`${ticket.id}: ${ticket.title}`}
-        </h1>
-
+ 
+        {/* <div className="flex flex-row items-center">
+          <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
+            <li>
+              <details className="dropdown">
+                <summary className="btn font-bold text-gray-700 dark:text-white ">
+                  {ticket.agent &&
+                  Number(state.loggedInAgent.agent_id) === ticket.agent.id
+                    ? "Assigned to: Me"
+                    : ticket.agent
+                      ? `Assigned to: ${ticket.agent.full_name}`
+                      : ""}
+                  <LuArrowLeftRight size="1.5rem" />
+                </summary>
+                <ul className="shadow menu dropdown-content rounded-box dark:text-gray-200">
+                  {agents.map((agent) => (
+                    <li
+                      key={agent.id}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        transferTicket(ticket.id, agent.id);
+                      }}
+                    >
+                      <a>
+                        {state.loggedInAgent.agent_id === agent.id
+                          ? "Me"
+                          : agent.full_name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </li>
+          </ul>
+        </div> */}
+        <div className="py-2 flex items-center justify-center" onClick={(event) => event.stopPropagation()}>
+        <button onClick={() => setNotesPanel(prev => !prev)} className="btn btn-ghost">
+        <CgNotes />
+        </button>
+        </div>
         <h1 className="font-bold lg:text-2xl text-gray-500 dark:text-white ">
           {ticket.agent &&
           Number(state.loggedInAgent.agent_id) === ticket.agent.id
@@ -69,7 +109,7 @@ function TicketInfo() {
             : ""}
         </h1>
       </div>
-
+      {notesPanel && <NotesSidePanel ticket_id = {ticket_id} />}
       <div className="bg-base-100 border-2  overflow-y-auto w-[100%] h-[86%]">
         {ticket.conversations &&
           ticket.conversations.map((conversation) => (
@@ -143,6 +183,7 @@ function TicketInfo() {
         )}
         <div ref={conversationsEndRef} />
       </div>
+
       <div className="relative bottom-0">
         <ul className="menu menu-vertical sm:menu-horizontal bg-base-200 rounded-box gap-4">
           <li>
