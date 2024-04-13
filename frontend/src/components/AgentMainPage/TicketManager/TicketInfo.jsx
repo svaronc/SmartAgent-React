@@ -3,8 +3,8 @@ import { useState, useRef, useEffect } from "react";
 
 // Icons
 import { MdDelete } from "react-icons/md";
-import { LuArrowLeftRight } from "react-icons/lu";
-import { CgCheckO } from "react-icons/cg";
+// import { LuArrowLeftRight } from "react-icons/lu";
+import { CgCheckO, CgNotes } from "react-icons/cg";
 import { FaReply } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { IoIosMailOpen } from "react-icons/io";
@@ -25,6 +25,7 @@ import ConversationAuthor from "./ConversationAuthor";
 // Components
 import DraftEditor from "./DraftEditor";
 import Conversation from "./Conversation";
+import NotesSidePanel from "../SidePanel/NotesSidePanel";
 
 // Hooks
 import useFetchTicketData from "../../../hooks/useFetchTicketData";
@@ -38,6 +39,7 @@ function TicketInfo() {
   const ticket_id = state.viewTicketId;
   const agents = state.agents;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
+  const [notesPanel, setNotesPanel] = useState(false)
   const [editorState, setEditorState] = useState();
   const [attachments, setAttachments] = useState([]);
   const conversationsEndRef = useRef(null);
@@ -93,11 +95,14 @@ function TicketInfo() {
             </li>
           </ul>
         </div> */}
-        <div className="py-2" onClick={(event) => event.stopPropagation()}>
+        <div className="py-2 flex items-center justify-center" onClick={(event) => event.stopPropagation()}>
+        <button onClick={() => setNotesPanel(prev => !prev)}>
+        <CgNotes />
+        </button>
           <input
             list="agents"
             placeholder="Transfer to..."
-            className="input input-bordered"
+            className="input input-bordered ml-5"
             onChange={(event) => {
               const agent = agents.find(
                 (agent) => agent.full_name === event.target.value
@@ -118,7 +123,7 @@ function TicketInfo() {
           </datalist>
         </div>
       </div>
-
+      {notesPanel && <NotesSidePanel ticket_id = {ticket_id} />}
       <div className="bg-base-100 border-2  overflow-y-auto w-[100%] h-[86%]">
         {ticket.conversations &&
           ticket.conversations.map((conversation) => (
@@ -204,6 +209,7 @@ function TicketInfo() {
         )}
         <div ref={conversationsEndRef} />
       </div>
+
       <div className="relative bottom-0">
         <ul className="menu menu-vertical sm:menu-horizontal bg-base-200 rounded-box">
           <li>

@@ -197,3 +197,12 @@ DirectChat.create(sender_id: agent1.id, receiver_id: agent2.id, message: "Of cou
     status_id: [1,2,3].sample
   )
 end
+
+Ticket.all.each do |ticket|
+  3.times do
+    Note.create(
+      ticket_id: ticket.id,
+      body: Faker::Lorem.sentence(word_count: 10)
+    )
+  end
+end
