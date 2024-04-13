@@ -174,7 +174,7 @@ function TransferConfirmationModal({ ticket }) {
                   className="modal-action pb-6"
                   onClick={closeModal}
                 >
-                  <label htmlFor="my_modal_11" className="btn btn-primary">
+                  <label htmlFor="my_modal_11" className="btn bg-gray dark:bg-neutral">
                     Close
                   </label>
                 </button>

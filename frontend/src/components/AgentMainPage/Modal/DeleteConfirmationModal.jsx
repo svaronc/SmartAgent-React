@@ -56,7 +56,7 @@ function DeleteConfirmationModal({ ticket_id }) {
                 document.getElementById("modal-box").Modal.close();
               }}
             >
-              <label htmlFor="my_modal_7" className="btn bg-gray">
+              <label htmlFor="my_modal_7" className="btn bg-gray dark:bg-neutral">
                 Close
               </label>
             </button>

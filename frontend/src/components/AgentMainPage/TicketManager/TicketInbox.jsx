@@ -273,9 +273,9 @@ function TicketInbox() {
                               </div>
 
                               {/* Add Note button */}
-                              <div className="flex flex-row justify-center items-center gap-10">
+                              <div className="flex flex-row justify-center items-center">
                                 <button
-                                  className="btn btn-primary"
+                                  className="btn btn-primary ml-2"
                                   onClick={() => {
                                     createNote(newNoteBody, ticket.id);
                                     console.log(newNoteBody);
@@ -286,10 +286,11 @@ function TicketInbox() {
                                   Add Note
                                 </button>
 
+                                
                                 {/* Close modal x button */}
                                 <form method="dialog">
                                   <button
-                                    className="modal-action m-0"
+                                    className="modal-action ml-2"
                                     onClick={closeModal}
                                   >
                                     <label
@@ -310,7 +311,7 @@ function TicketInbox() {
                                   >
                                     <label
                                       htmlFor={`transfer_modal_${ticket.id}`}
-                                      className="btn btn-primary"
+                                      className="btn bg-gray dark:bg-neutral"
                                     >
                                       Close
                                     </label>
@@ -427,7 +428,7 @@ function TicketInbox() {
                               >
                                 <label
                                   htmlFor={`delete_modal_${ticket.id}`}
-                                  className="btn bg-gray"
+                                  className="btn bg-gray dark:bg-neutral"
                                 >
                                   Close
                                 </label>
