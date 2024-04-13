@@ -14,12 +14,16 @@ function TransferConfirmationModal({ ticket }) {
 
   const inputRef = useRef(null);
 
-  const closeModal = () => {
+  const clearRef = () => {
     if (inputRef.current) {
       inputRef.current.value = ""; // Clear the input value
     }
-    document.getElementById("modal-box").Modal.close()
   }
+
+  const closeModal = () => {
+    clearRef()
+    document.getElementById("modal-box")?.Modal.close();
+  };
 
   const initialValues = {
     note: "",
@@ -31,7 +35,6 @@ function TransferConfirmationModal({ ticket }) {
     // Handle form submission logic here
     console.log(values);
     actions.setSubmitting(false);
-    
 
     let formData = new FormData();
     formData.append("note[body]", values.note);
@@ -62,7 +65,11 @@ function TransferConfirmationModal({ ticket }) {
       <input type="checkbox" id="my_modal_7" className="modal-toggle" />
       <div className="modal" role="dialog">
         {/* Close the modal when clicking on the backdrop */}
-        <label className="modal-backdrop" htmlFor="my_modal_7" onClick={closeModal}>
+        <label
+          className="modal-backdrop"
+          htmlFor="my_modal_7"
+          onClick={closeModal}
+        >
           Close
         </label>
 
@@ -70,7 +77,7 @@ function TransferConfirmationModal({ ticket }) {
           <h3 className="text-4xl font-bold dark:text-white">
             Transfer Ticket
           </h3>
-          <p className="pt-4 text-2xl mb-2 dark:text-white flex flex-col items-center justify-center gap-2">
+          <p className="pt-6 text-2xl mb-2 dark:text-white flex flex-col items-center justify-center gap-2">
             Currently Assigned to:
             <p className="font-bold">
               {Number(state.loggedInAgent.agent_id) === ticket.agent.id
@@ -107,8 +114,18 @@ function TransferConfirmationModal({ ticket }) {
           </datalist>
 
           <div className="flex flex-col justify-center items-center gap-2">
+            <button
+              type="submit"
+              className="modal-action"
+              onClick={clearRef}
+            >
+              <label className="btn bg-grey">
+                Clear Transfer
+              </label>
+            </button>
+
             <Formik initialValues={initialValues} onSubmit={onSubmit}>
-              <Form className="p-4 w-full">
+              <Form className="p-2 w-full">
                 {/* Form fields */}
                 <div>
                   <label htmlFor="note"></label>
@@ -128,10 +145,7 @@ function TransferConfirmationModal({ ticket }) {
                 </div>
 
                 {/* Other form fields go here */}
-                <div
-                  className="modal-action m-0"
-                  onClick={closeModal}
-                >
+                <div className="modal-action m-0" onClick={closeModal}>
                   <label
                     htmlFor="my_modal_7"
                     className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-white"
