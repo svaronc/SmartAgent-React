@@ -93,7 +93,7 @@ function TransferConfirmationModal({ ticket }) {
             ref={inputRef}
             list="agents"
             placeholder="Transfer to..."
-            className="input input-bordered"
+            className="input input-bordered dark:text-white"
             onChange={(event) => {
               const agent = agents.find(
                 (agent) => agent.full_name === event.target.value
