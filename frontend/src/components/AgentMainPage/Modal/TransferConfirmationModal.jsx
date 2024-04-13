@@ -119,7 +119,7 @@ function TransferConfirmationModal({ ticket }) {
               className="modal-action"
               onClick={clearRef}
             >
-              <label className="btn bg-grey">
+              <label className="btn bg-grey dark:bg-gray-700">
                 Clear Transfer
               </label>
             </button>
