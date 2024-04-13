@@ -162,7 +162,7 @@ function TicketInbox() {
                       onClick={(event) => {
                         event.stopPropagation();
                         document
-                          .getElementById(`my_modal_${ticket.id}`)
+                          .getElementById(`transfer_modal_${ticket.id}`)
                           .showModal();
                       }}
                     >
@@ -171,12 +171,12 @@ function TicketInbox() {
                         {/* <label htmlFor="my_modal_11">
                         </label> */}
 
-                        <dialog id={`my_modal_${ticket.id}`} className="modal">
+                        <dialog id={`transfer_modal_${ticket.id}`} className="modal">
                           <div className="modal-box">
                             {/* Close the modal when clicking on the backdrop */}
                             <label
                               className="modal-backdrop"
-                              htmlFor={`my_modal_${ticket.id}`}
+                              htmlFor={`transfer_modal_${ticket.id}`}
                               onClick={closeModal}
                             >
                               Close
@@ -280,7 +280,7 @@ function TicketInbox() {
                                     onClick={closeModal}
                                   >
                                     <label
-                                      htmlFor={`my_modal_${ticket.id}`}
+                                      htmlFor={`transfer_modal_${ticket.id}`}
                                       className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-white"
                                     >
                                       ✕
@@ -296,7 +296,7 @@ function TicketInbox() {
                                     onClick={closeModal}
                                   >
                                     <label
-                                      htmlFor={`my_modal_${ticket.id}`}
+                                      htmlFor={`transfer_modal_${ticket.id}`}
                                       className="btn btn-primary"
                                     >
                                       Close
