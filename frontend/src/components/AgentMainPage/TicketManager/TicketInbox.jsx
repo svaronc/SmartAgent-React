@@ -45,7 +45,6 @@ function TicketInbox() {
     // clearInboxInputRef();
     setNewNoteBody("");
     setSubmitNote(false);
-    console.log("closeModal");
     document.getElementById("modal-box")?.Modal.close();
   };
 
@@ -57,8 +56,6 @@ function TicketInbox() {
     axios
       .post("api/v1/notes", { ticket_id: ticket_id, body: value })
       .then((response) => {
-        // const newNote = response.data;
-        // setnotes([...notes, newNote]);
         console.log(response.data);
       });
   };
@@ -411,7 +408,7 @@ function TicketInbox() {
                               className="btn btn-primary"
                               onClick={() => {
                                 deleteTicket(ticket.id);
-                                console.log("deleteTicket")
+                                console.log("deleteTicket");
                               }}
                             >
                               Delete
