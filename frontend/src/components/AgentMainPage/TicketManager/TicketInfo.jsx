@@ -1,5 +1,5 @@
 import { useAppContext } from "../../../context/AppContext";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 // Icons
 import { MdDelete } from "react-icons/md";
@@ -8,17 +8,19 @@ import { CgCheckO } from "react-icons/cg";
 import { FaReply } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { IoIosMailOpen } from "react-icons/io";
-import { FaArrowsUpDown } from "react-icons/fa6";
+import ConversationAuthor from "./ConversationAuthor";
+
+// import { FaArrowsUpDown } from "react-icons/fa6";
 
 // react-resizable-panels
-import {
-  getPanelElement,
-  getPanelGroupElement,
-  getResizeHandleElement,
-  Panel,
-  PanelGroup,
-  PanelResizeHandle,
-} from "react-resizable-panels";
+// import {
+//   getPanelElement,
+//   getPanelGroupElement,
+//   getResizeHandleElement,
+//   Panel,
+//   PanelGroup,
+//   PanelResizeHandle,
+// } from "react-resizable-panels";
 
 // Components
 import DraftEditor from "./DraftEditor";
@@ -31,41 +33,43 @@ import DeleteConfirmationModal from "../Modal/DeleteConfirmationModal";
 
 function TicketInfo() {
   const { state, dispatch } = useAppContext();
-  const {
-    resolveTicket,
-    transferTicket,
-    openTicket,
-    sendRespond,
-  } = useApplicationData();
+  const { resolveTicket, transferTicket, openTicket, sendRespond } =
+    useApplicationData();
   const ticket_id = state.viewTicketId;
   const agents = state.agents;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
   const [editorState, setEditorState] = useState();
   const [attachments, setAttachments] = useState([]);
+  const conversationsEndRef = useRef(null);
+  const scrollToBottom = () => {
+    conversationsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(scrollToBottom, [state.ticketData, replyIsVisible]);
+
   useFetchTicketData(`api/v1/tickets/${ticket_id}`, dispatch, ticket_id);
   const ticket = state.ticketData;
 
   return (
-    <section className="flex-col w-9/10 h-full m-4 overflow-y-auto">
+    <section className="flex-col w-[97%] h-screen m-4 overflow-y-auto bg-base-200">
       <div
         id="ticket-info-header"
         className="flex flex-row justify-between items-center"
       >
-        <h1 className="text-4xl font-bold mb-4 text-gray-700 dark:text-white">
+        <h1 className="lg:text-4xl font-bold mb-4 text-gray-700 dark:text-white text-xl">
           {`${ticket.id}: ${ticket.title}`}
         </h1>
 
-        <div className="flex flex-row items-center">
+        {/* <div className="flex flex-row items-center">
           <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
             <li>
               <details className="dropdown">
-                <summary className="btn font-bold text-gray-700 dark:text-white">
+                <summary className="btn font-bold text-gray-700 dark:text-white ">
                   {ticket.agent &&
                   Number(state.loggedInAgent.agent_id) === ticket.agent.id
                     ? "Assigned to: Me"
                     : ticket.agent
-                    ? `Assigned to: ${ticket.agent.full_name}`
-                    : ""}
+                      ? `Assigned to: ${ticket.agent.full_name}`
+                      : ""}
                   <LuArrowLeftRight size="1.5rem" />
                 </summary>
                 <ul className="shadow menu dropdown-content rounded-box dark:text-gray-200">
@@ -88,137 +92,181 @@ function TicketInfo() {
               </details>
             </li>
           </ul>
+        </div> */}
+        <div className="py-2" onClick={(event) => event.stopPropagation()}>
+          <input
+            list="agents"
+            placeholder="Transfer to..."
+            className="input input-bordered"
+            onChange={(event) => {
+              const agent = agents.find(
+                (agent) => agent.full_name === event.target.value
+              );
+              if (agent) {
+                transferTicket(ticket.id, agent.id);
+              }
+            }}
+          />
+          <datalist id="agents">
+            {agents.map((agent) => (
+              <option key={agent.id} value={agent.full_name}>
+                {state.loggedInAgent.agent_id === agent.id
+                  ? "Me"
+                  : agent.full_name}
+              </option>
+            ))}
+          </datalist>
         </div>
       </div>
 
-      <PanelGroup direction="vertical">
-        <Panel>
-          <div className="bg-base-100 border-2 h-full p-4 overflow-y-auto">
-            {ticket.conversations &&
-              ticket.conversations.map((conversation) => (
-                <Conversation
-                  key={conversation.id}
-                  customer_name={ticket.customer_name}
-                  customer_email={ticket.from_email}
-                  from_customer={conversation.from_customer}
-                  created_at={conversation.created_at}
-                  body={conversation.body}
-                  attachments_urls={conversation.attachments_urls}
-                />
-              ))}
-          </div>
-        </Panel>
-        <PanelResizeHandle className="draggable-arrow hover:cursor-grab flex flex-row items-center justify-center mt-2 bg-slate-300 hover:bg-slate-200 dark:bg-slate-700 dark-hover:bg-slate-200  rounded-box">
-          <div className="draggable-arrow p-1">
-            <FaArrowsUpDown size="1.5rem" />
-          </div>
-        </PanelResizeHandle>
-        <Panel>
-          <div className="justify-end relative bottom-0">
-            <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
-              <li>
-                <button
-                  className="flex items-center gap-2"
-                  onClick={() => setReplyIsVisible(!replyIsVisible)}
-                >
-                  <FaReply size="1.5rem" />
-                  Reply
-                </button>
-              </li>
+      <div className="bg-base-100 border-2  overflow-y-auto w-[100%] h-[86%]">
+        {ticket.conversations &&
+          ticket.conversations.map((conversation) => (
+            <Conversation
+              key={conversation.id}
+              customer_name={ticket.customer_name}
+              customer_email={ticket.from_email}
+              from_customer={conversation.from_customer}
+              created_at={conversation.created_at}
+              body={conversation.body}
+              attachments_urls={conversation.attachments_urls}
+            />
+          ))}
 
-              {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
-                <li>
-                  <button
-                    className="flex items-center gap-2"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      resolveTicket(ticket.id);
-                      window.location.reload();
-                    }}
-                  >
-                    <CgCheckO size="1.5rem" /> Resolve
-                  </button>
-                </li>
-              ) : (
-                // Show the open ticket icon if the ticket has been resolved
-                <li>
-                  <button
-                    className="flex items-center gap-2"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      openTicket(ticket.id);
-                      window.location.reload();
-                    }}
-                  >
-                    <IoIosMailOpen size="1.5rem" />
-                    Open
-                  </button>
-                </li>
-              )}
-              <li>
-                {/* <button
-                  className="flex items-center gap-2"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                  }}
-                >
-                  
-                  
-                  
-                </button> */}
-                <label htmlFor="my_modal_7" className="flex flex-row justify-center items-center gap-2">
-                        <MdDelete size="1.5rem" />
-                        Delete
-                      </label>
-                <DeleteConfirmationModal ticket_id={ticket.id} />
-              </li>
-            </ul>
-          </div>
-          {replyIsVisible && (
-            <div className="overflow-y-auto">
-              <div className="reply-details mb-2">
-                <div className="flex flex-row gap-5">
-                  <p>From: SmartAgent &lt;smartagents3@gmail.com&gt;</p>
-                  <p>|</p>
-                  <p>
-                    To: {ticket.customer_name} &lt;{ticket.from_email}&gt;
-                  </p>
-                </div>
-                <p>Re: {ticket.title}</p>
+        {replyIsVisible && (
+          <div className="overflow-y-auto">
+            {/* <div className="reply-details mb-2">
+              <div className="flex flex-row gap-5">
+                <p>From: SmartAgent &lt;smartagents3@gmail.com&gt;</p>
+                <p>|</p>
+                <p>
+                  To: {ticket.customer_name} &lt;{ticket.from_email}&gt;
+                </p>
               </div>
-              <DraftEditor
-                customer_name={ticket?.customer_name ?? ""}
-                editorState={editorState}
-                setEditorState={setEditorState}
-              />
-              <input
-                type="file"
-                multiple
-                className="form-control block w-full py-2 mt-4 dark:text-white cursor-pointer font-normal text-gray-700"
-                onChange={(event) => {
-                  setAttachments(event.target.files);
-                }}
-              />
-              <div className="justify-end relative mt-5">
-                <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
-                  <li>
-                    <button
-                      className="flex items-center gap-2"
-                      onClick={() => {
-                        sendRespond(ticket_id, editorState, attachments);
-                        setReplyIsVisible(!replyIsVisible);
-                      }}
-                    >
-                      <IoSend size="1.5rem" />
-                      Send
-                    </button>
-                  </li>
-                </ul>
+              <p>Re: {ticket.title}</p>
+            </div> */}
+            <div className="mb-10 border p-5 bg-gray-100 dark:bg-inherit">
+              <div
+                id="conversation-info-heading"
+                className="flex flex-row justify-between"
+              >
+                <div className="mb-4 text-gray-500">
+                  <div>
+                    <ConversationAuthor initial="S" author="SmartAgent" />
+
+                    {/* To customer email details */}
+                    <p>From: SmartAgent &lt;smartagents3@gmail.com&gt;</p>
+                    <p>
+                      To: {ticket.customer_name} &lt;{ticket.from_email}&gt;
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="flex-grow border-t dark:inherit mb-4"></div>
+
+              {/* Body of conversation */}
+              <div>
+                <DraftEditor
+                  customer_name={ticket?.customer_name ?? ""}
+                  editorState={editorState}
+                  setEditorState={setEditorState}
+                />
+                <input
+                  type="file"
+                  multiple
+                  className="form-control block w-full py-2 mt-4 dark:text-white cursor-pointer font-normal text-gray-700"
+                  onChange={(event) => {
+                    setAttachments(event.target.files);
+                  }}
+                />
               </div>
             </div>
+
+            {/* <div className="justify-end relative mt-5">
+              <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
+                <li>
+                  <button
+                    className="flex items-center gap-2"
+                    onClick={() => {
+                      sendRespond(ticket_id, editorState, attachments);
+                      setReplyIsVisible(!replyIsVisible);
+                    }}
+                  >
+                    <IoSend size="1.5rem" />
+                    Send
+                  </button>
+                </li>
+              </ul>
+            </div> */}
+          </div>
+        )}
+        <div ref={conversationsEndRef} />
+      </div>
+      <div className="relative bottom-0">
+        <ul className="menu menu-vertical sm:menu-horizontal bg-base-200 rounded-box">
+          <li>
+            <button
+              className="flex items-center gap-2"
+              onClick={() => setReplyIsVisible(!replyIsVisible)}
+            >
+              <FaReply size="1.5rem" />
+              Reply
+            </button>
+          </li>
+          {replyIsVisible && (
+            <li>
+              <button
+                className="flex items-center gap-2"
+                onClick={() => {
+                  sendRespond(ticket_id, editorState, attachments);
+                  setReplyIsVisible(!replyIsVisible);
+                }}
+              >
+                <IoSend size="1.5rem" />
+                Send
+              </button>
+            </li>
           )}
-        </Panel>
-      </PanelGroup>
+          {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
+            <li>
+              <button
+                className="flex items-center gap-2"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  resolveTicket(ticket.id);
+                  window.location.reload();
+                }}
+              >
+                <CgCheckO size="1.5rem" /> Resolve
+              </button>
+            </li>
+          ) : (
+            // Show the open ticket icon if the ticket has been resolved
+            <li>
+              <button
+                className="flex items-center gap-2"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  openTicket(ticket.id);
+                  window.location.reload();
+                }}
+              >
+                <IoIosMailOpen size="1.5rem" />
+                Open
+              </button>
+            </li>
+          )}
+          <li>
+            <label htmlFor="my_modal_7" className="flex  items-center gap-2">
+              <MdDelete size="1.5rem" />
+              Delete
+            </label>
+            <DeleteConfirmationModal ticket_id={ticket.id} />
+          </li>
+        </ul>
+      </div>
     </section>
   );
 }

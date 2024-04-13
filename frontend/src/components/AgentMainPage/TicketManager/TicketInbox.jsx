@@ -2,9 +2,10 @@ import { useAppContext } from "../../../context/AppContext";
 
 // Icons
 import { MdDelete } from "react-icons/md";
-import { LuArrowLeftRight } from "react-icons/lu";
+// import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
 import { IoIosMailOpen } from "react-icons/io";
+// import TicketManagerNav from "./TicketManagerNav";
 
 // Date formatting
 import TimeAgo from "javascript-time-ago";
@@ -34,7 +35,16 @@ function TicketInbox() {
   };
 
   return (
-    <section className="flex flex-col w-full">
+    <section className="flex flex-col">
+      {/* <TicketManagerNav /> */}
+      <section className="flex bg-base-100 shadow-md pl-5">
+            <div className="flex-col items-start mt-2">
+              <h1 className="text-2xl font-bold mb-4">{state.ticketManagerView}</h1>
+              <div className="mb-4">       
+                <input type="search" name="search" id="search" placeholder=" Search" className="bg-slate-100"/>
+              </div>
+            </div> 
+          </section> 
       <div className="relative">
         <table className="w-full text-sm text-left rtl:text-right">
           <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-300">
@@ -45,7 +55,7 @@ function TicketInbox() {
               <th scope="col" className="px-6 py-3">
                 Customer
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="py-3">
                 Ticket ID
               </th>
               <th scope="col" className="px-6 py-3">
@@ -72,7 +82,7 @@ function TicketInbox() {
                 {/* Request title */}
                 <th
                   scope="row"
-                  className="px-6 py-4 font-bold whitespace-nowrap"
+                  className="px-6 py-4 font-bold whitespace-wrap"
                 >
                   {ticket.title}
                 </th>
@@ -81,7 +91,7 @@ function TicketInbox() {
                 <td className="px-6 py-4">{ticket.customer_name}</td>
 
                 {/* Ticket ID */}
-                <td className="px-6 py-4">{ticket.id}</td>
+                <td className="px-2 py-4">{ticket.id}</td>
 
                 {/* Status */}
                 <td className="px-6 py-4">
@@ -99,19 +109,19 @@ function TicketInbox() {
                 </td>
 
                 {/* Assigned to agent */}
-                <td className="px-6 py-4">
+                <td className="py-4">
                   {ticket.agent &&
                   state.loggedInAgent.agent_id === ticket.agent.id
                     ? "Me"
                     : ticket.agent
-                    ? ticket.agent.full_name
-                    : ""}
+                      ? ticket.agent.full_name
+                      : ""}
                 </td>
 
                 {/* Actions */}
                 <td className="px-6">
-                  <div className="flex flex-row hover:ring-slate-300">
-                    <div
+                  <div className="flex flex-row hover:ring-slate-300 items-center">
+                    {/* <div
                       className="dropdown dropdown-hover px-3 py-4"
                       onClick={(event) => event.stopPropagation()}
                     >
@@ -138,6 +148,33 @@ function TicketInbox() {
                           </li>
                         ))}
                       </ul>
+                    </div> */}
+                    <div
+                      className="px-3 py-4"
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      <input
+                        list="agents"
+                        placeholder="Transfer to..."
+                        className="input input-bordered"
+                        onChange={(event) => {
+                          const agent = agents.find(
+                            (agent) => agent.full_name === event.target.value
+                          );
+                          if (agent) {
+                            transferTicket(ticket.id, agent.id);
+                          }
+                        }}
+                      />
+                      <datalist id="agents">
+                        {agents.map((agent) => (
+                          <option key={agent.id} value={agent.full_name}>
+                            {state.loggedInAgent.agent_id === agent.id
+                              ? "Me"
+                              : agent.full_name}
+                          </option>
+                        ))}
+                      </datalist>
                     </div>
                     {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
                       <li
