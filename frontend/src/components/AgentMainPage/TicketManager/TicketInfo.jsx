@@ -96,7 +96,7 @@ function TicketInfo() {
           </ul>
         </div> */}
         <div className="py-2 flex items-center justify-center" onClick={(event) => event.stopPropagation()}>
-        <button onClick={() => setNotesPanel(prev => !prev)}>
+        <button onClick={() => setNotesPanel(prev => !prev)} className="btn btn-ghost">
         <CgNotes />
         </button>
           <input
