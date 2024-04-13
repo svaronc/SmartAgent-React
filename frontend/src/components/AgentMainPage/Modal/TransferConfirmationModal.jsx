@@ -15,7 +15,7 @@ function TransferConfirmationModal({ ticket }) {
   const closeModal = () => document.getElementById("modal-box").Modal.close();
 
   const initialValues = {
-    note: ""
+    note: "",
   };
 
   const [submitted, setSubmitted] = useState(false);
@@ -24,17 +24,11 @@ function TransferConfirmationModal({ ticket }) {
     // Handle form submission logic here
     console.log(values);
     actions.setSubmitting(false);
-    closeModal(); // Close the modal after form submission
+    
 
     let formData = new FormData();
-    // formData.append("ticket[customer_name]", values.note);
-    formData.append("ticket[agent_id]", values.agent_id);
-    // Assuming 'attachments' is the file to be uploaded
-    if (values.attachments) {
-      Array.from(values.attachments).forEach((file ) => {
-        formData.append(`ticket[attachments][]`, file);
-      });
-    }
+    formData.append("note[body]", values.note);
+
     console.log("Form data:", formData);
     // axios
     //   .post("api/v1/notes", formData, {
@@ -45,6 +39,7 @@ function TransferConfirmationModal({ ticket }) {
     //     alert("Form submitted successfully!");
     //     setSubmitted(true);
     //     actions.resetForm();
+    //     closeModal(); // Close the modal after form submission
     //   })
     //   .catch((error) => {
     //     console.error("Error submitting form:", error);
@@ -54,7 +49,6 @@ function TransferConfirmationModal({ ticket }) {
     //     actions.setSubmitting(false);
     //   });
   };
-
 
   return (
     <div className="m-0 p-0">
@@ -66,57 +60,54 @@ function TransferConfirmationModal({ ticket }) {
         </label>
 
         <div className="modal-box pb-1">
-          <h3 className="text-3xl font-bold dark:text-white">
+          <h3 className="text-4xl font-bold dark:text-white">
             Transfer Ticket
           </h3>
-          <p className="pt-4 text-2xl mb-3 dark:text-white">
+          <p className="pt-4 text-2xl mb-2 dark:text-white flex flex-col items-center justify-center gap-2">
             Currently Assigned to:
-            {Number(state.loggedInAgent.agent_id) === ticket.agent.id
-              ? " Me"
-              : ticket.agent.full_name
-              ? ` ${ticket.agent.full_name}`
-              : ""}
+            <p className="font-bold">
+              {Number(state.loggedInAgent.agent_id) === ticket.agent.id
+                ? " Me"
+                : ticket.agent.full_name
+                ? ` ${ticket.agent.full_name}`
+                : ""}
+            </p>
+            <LuArrowLeftRight />
           </p>
 
-          <details className="">
-            <summary className="btn font-bold text-gray-700 dark:text-white">
-              {Number(state.loggedInAgent.agent_id) === ticket.agent.id
-                ? "Assign to: Me"
-                : ticket.agent.full_name
-                ? `Assign to: ${ticket.agent.full_name}`
-                : ""}
-              <LuArrowLeftRight size="1.5rem" />
-            </summary>
-            <ul className="shadow menu dropdown-content rounded-box dark:text-gray-200">
-              {agents.map((agent) => (
-                <li
-                  key={agent.id}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    transferTicket(ticket.id, agent.id);
-                  }}
-                >
-                  <a>
-                    {state.loggedInAgent.agent_id === agent.id
-                      ? "Me"
-                      : agent.full_name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </details>
+          <input
+            list="agents"
+            placeholder="Transfer to..."
+            className="input input-bordered"
+            onChange={(event) => {
+              const agent = agents.find(
+                (agent) => agent.full_name === event.target.value
+              );
+              if (agent) {
+                transferTicket(ticket.id, agent.id);
+              }
+            }}
+          />
+          <datalist id="agents">
+            {agents.map((agent) => (
+              <option key={agent.id} value={agent.full_name}>
+                {state.loggedInAgent.agent_id === agent.id
+                  ? "Me"
+                  : agent.full_name}
+              </option>
+            ))}
+          </datalist>
 
           <div className="flex flex-col justify-center items-center gap-2">
-          
             <Formik initialValues={initialValues} onSubmit={onSubmit}>
               <Form className="p-4 w-full">
                 {/* Form fields */}
-                <div className="mb-4">
+                <div>
                   <label htmlFor="note"></label>
                   <Field
                     id="note"
                     name="note"
-                    placeholder="Transfer Note"
+                    placeholder="Add Transfer Note"
                     className="textarea textarea-bordered textarea-lg mt-4 w-full max-w-xs dark:text-white"
                     component="textarea"
                     rows="2"
@@ -139,11 +130,7 @@ function TransferConfirmationModal({ ticket }) {
                     htmlFor="my_modal_7"
                     className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-white"
                   >
-                    <div
-                      onClick={closeModal}
-                    >
-                      ✕
-                    </div>
+                    <div onClick={closeModal}>✕</div>
                   </label>
                 </div>
 
@@ -155,7 +142,7 @@ function TransferConfirmationModal({ ticket }) {
                       // transferTicket(ticket_id, agent_id);
                     }}
                   >
-                    Transfer
+                    Add Note
                   </button>
 
                   <button
@@ -170,7 +157,6 @@ function TransferConfirmationModal({ ticket }) {
                 </div>
               </Form>
             </Formik>
-
           </div>
         </div>
       </div>
