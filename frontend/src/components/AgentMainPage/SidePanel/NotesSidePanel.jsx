@@ -82,7 +82,7 @@ function NotesSidePanel({ ticket_id }) {
             <ul key={note.id}>
               <li className="ring-yellow-600/20 ml-2 mr-2 mb-1 pt-1 pb-1 pl-2 pr-2  w-[90%]">
                 <p className="text-slate-400">{formattedDate}</p>
-                <span className="inline-flex items-center mr-2 rounded-sm bg-yellow-50 px-2 py-1 font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
+                <span className="inline-flex items-center mr-2 rounded-sm bg-yellow-50 px-2 py-1 font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 whitespace-pre-wrap">
                   {note.body}
                 </span>
               </li>
