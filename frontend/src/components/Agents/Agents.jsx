@@ -37,7 +37,8 @@ const Agents = () => {
           agent.id !== Number(currentAgentId) && ( // Renders the agent card only if the agent ID is not equal to the current agent's ID
           <div
             key={agent.id}
-            className="m-4 bg-white shadow-lg rounded-lg overflow-hidden flex items-center"
+            className="m-4 bg-white shadow-lg rounded-lg overflow-hidden flex items-center cursor-pointer"
+            onClick={() => handleChatClick(agent)}
           >
             <div
               data-tooltip-id={agent.email}
@@ -47,15 +48,14 @@ const Agents = () => {
               <span className=" text-sm">{agent.full_name.charAt(0)}</span>
               <ReactTooltip id={agent.email} effect="solid" />
             </div>
-            <div className="p-4 flex-grow">
+            <div className="p-4 flex-grow"> 
               <h2 className="font-bold text-lg">{agent.full_name}</h2>
             </div>
             <div className="flex justify-end mr-5">
               <a
                 href="#"
                 className="tool tooltip tooltip-left"
-                data-tip="Chat"
-                onClick={() => handleChatClick(agent)} // Calls the handleChatClick function when the chat icon is clicked
+                data-tip="Chat"                
               >
                 <IoMdChatboxes className="self-end w-5 h-5" data-tip="Chat" />
               </a>
