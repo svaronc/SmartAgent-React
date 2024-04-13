@@ -1,6 +1,6 @@
 import useApplicationData from "../../../hooks/useApplicationData";
 import { useAppContext } from "../../../context/AppContext";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import axios from "axios";
 
@@ -12,7 +12,14 @@ function TransferConfirmationModal({ ticket }) {
 
   const agents = state.agents;
 
-  const closeModal = () => document.getElementById("modal-box").Modal.close();
+  const inputRef = useRef(null);
+
+  const closeModal = () => {
+    if (inputRef.current) {
+      inputRef.current.value = ""; // Clear the input value
+    }
+    document.getElementById("modal-box").Modal.close()
+  }
 
   const initialValues = {
     note: "",
@@ -55,7 +62,7 @@ function TransferConfirmationModal({ ticket }) {
       <input type="checkbox" id="my_modal_7" className="modal-toggle" />
       <div className="modal" role="dialog">
         {/* Close the modal when clicking on the backdrop */}
-        <label className="modal-backdrop" htmlFor="my_modal_7">
+        <label className="modal-backdrop" htmlFor="my_modal_7" onClick={closeModal}>
           Close
         </label>
 
@@ -76,6 +83,7 @@ function TransferConfirmationModal({ ticket }) {
           </p>
 
           <input
+            ref={inputRef}
             list="agents"
             placeholder="Transfer to..."
             className="input input-bordered"
@@ -122,15 +130,13 @@ function TransferConfirmationModal({ ticket }) {
                 {/* Other form fields go here */}
                 <div
                   className="modal-action m-0"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                  }}
+                  onClick={closeModal}
                 >
                   <label
                     htmlFor="my_modal_7"
                     className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-white"
                   >
-                    <div onClick={closeModal}>✕</div>
+                    ✕
                   </label>
                 </div>
 
