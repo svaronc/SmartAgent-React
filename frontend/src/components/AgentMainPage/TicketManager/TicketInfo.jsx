@@ -9,6 +9,7 @@ import { FaReply } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { IoIosMailOpen } from "react-icons/io";
 import ConversationAuthor from "./ConversationAuthor";
+import TransferConfirmationModal from "../Modal/TransferConfirmationModal";
 
 // import { FaArrowsUpDown } from "react-icons/fa6";
 
@@ -59,64 +60,14 @@ function TicketInfo() {
           {`${ticket.id}: ${ticket.title}`}
         </h1>
 
-        {/* <div className="flex flex-row items-center">
-          <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
-            <li>
-              <details className="dropdown">
-                <summary className="btn font-bold text-gray-700 dark:text-white ">
-                  {ticket.agent &&
-                  Number(state.loggedInAgent.agent_id) === ticket.agent.id
-                    ? "Assigned to: Me"
-                    : ticket.agent
-                      ? `Assigned to: ${ticket.agent.full_name}`
-                      : ""}
-                  <LuArrowLeftRight size="1.5rem" />
-                </summary>
-                <ul className="shadow menu dropdown-content rounded-box dark:text-gray-200">
-                  {agents.map((agent) => (
-                    <li
-                      key={agent.id}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        transferTicket(ticket.id, agent.id);
-                      }}
-                    >
-                      <a>
-                        {state.loggedInAgent.agent_id === agent.id
-                          ? "Me"
-                          : agent.full_name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            </li>
-          </ul>
-        </div> */}
-        <div className="py-2" onClick={(event) => event.stopPropagation()}>
-          <input
-            list="agents"
-            placeholder="Transfer to..."
-            className="input input-bordered"
-            onChange={(event) => {
-              const agent = agents.find(
-                (agent) => agent.full_name === event.target.value
-              );
-              if (agent) {
-                transferTicket(ticket.id, agent.id);
-              }
-            }}
-          />
-          <datalist id="agents">
-            {agents.map((agent) => (
-              <option key={agent.id} value={agent.full_name}>
-                {state.loggedInAgent.agent_id === agent.id
-                  ? "Me"
-                  : agent.full_name}
-              </option>
-            ))}
-          </datalist>
-        </div>
+        <h1 className="font-bold lg:text-2xl text-gray-500 dark:text-white ">
+          {ticket.agent &&
+          Number(state.loggedInAgent.agent_id) === ticket.agent.id
+            ? "Assigned to: Me"
+            : ticket.agent
+            ? `Assigned to: ${ticket.agent.full_name}`
+            : ""}
+        </h1>
       </div>
 
       <div className="bg-base-100 border-2  overflow-y-auto w-[100%] h-[86%]">
@@ -134,8 +85,18 @@ function TicketInfo() {
           ))}
 
         {replyIsVisible && (
-          <div className="overflow-y-auto">
-            {/* <div className="reply-details mb-2">
+          <div className="overflow-y-auto p-2 dark:bg-neutral">
+            <div className="reply-details mb-2 w-full">
+              <div className="conversation-author flex flex-row items-center gap-2 font-bold text-gray-700 dark:text-white text-2xl mb-1">
+                <div className="avatar placeholder">
+                  <div className="bg-neutral dark:bg-gray-400 text-neutral-content dark:text-white rounded-full w-20">
+                    <span>S</span>
+                  </div>
+                </div>
+              <span className="lg:text-4xl font-bold mb-4 text-gray-700 dark:text-white text-xl">
+                SmartAgent <span className="font-normal">Reply</span>
+              </span>
+              </div>
               <div className="flex flex-row gap-5">
                 <p>From: SmartAgent &lt;smartagents3@gmail.com&gt;</p>
                 <p>|</p>
@@ -144,46 +105,24 @@ function TicketInfo() {
                 </p>
               </div>
               <p>Re: {ticket.title}</p>
-            </div> */}
-            <div className="mb-10 border p-5 bg-gray-100 dark:bg-inherit">
-              <div
-                id="conversation-info-heading"
-                className="flex flex-row justify-between"
-              >
-                <div className="mb-4 text-gray-500">
-                  <div>
-                    <ConversationAuthor initial="S" author="SmartAgent" />
-
-                    {/* To customer email details */}
-                    <p>From: SmartAgent &lt;smartagents3@gmail.com&gt;</p>
-                    <p>
-                      To: {ticket.customer_name} &lt;{ticket.from_email}&gt;
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Divider */}
-              <div className="flex-grow border-t dark:inherit mb-4"></div>
-
-              {/* Body of conversation */}
-              <div>
-                <DraftEditor
-                  customer_name={ticket?.customer_name ?? ""}
-                  editorState={editorState}
-                  setEditorState={setEditorState}
-                />
-                <input
-                  type="file"
-                  multiple
-                  className="form-control block w-full py-2 mt-4 dark:text-white cursor-pointer font-normal text-gray-700"
-                  onChange={(event) => {
-                    setAttachments(event.target.files);
-                  }}
-                />
-              </div>
             </div>
 
+            {/* Body of conversation */}
+            <div>
+              <DraftEditor
+                customer_name={ticket?.customer_name ?? ""}
+                editorState={editorState}
+                setEditorState={setEditorState}
+              />
+              <input
+                type="file"
+                multiple
+                className="form-control block w-full py-2 mt-4 dark:text-white cursor-pointer font-normal text-gray-700"
+                onChange={(event) => {
+                  setAttachments(event.target.files);
+                }}
+              />
+            </div>
             {/* <div className="justify-end relative mt-5">
               <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
                 <li>
@@ -205,10 +144,10 @@ function TicketInfo() {
         <div ref={conversationsEndRef} />
       </div>
       <div className="relative bottom-0">
-        <ul className="menu menu-vertical sm:menu-horizontal bg-base-200 rounded-box">
+        <ul className="menu menu-vertical sm:menu-horizontal bg-base-200 rounded-box gap-4">
           <li>
             <button
-              className="flex items-center gap-2"
+              className="btn btn-ghost flex items-center gap-2"
               onClick={() => setReplyIsVisible(!replyIsVisible)}
             >
               <FaReply size="1.5rem" />
@@ -218,7 +157,7 @@ function TicketInfo() {
           {replyIsVisible && (
             <li>
               <button
-                className="flex items-center gap-2"
+                className="btn btn-primary flex items-center gap-2"
                 onClick={() => {
                   sendRespond(ticket_id, editorState, attachments);
                   setReplyIsVisible(!replyIsVisible);
@@ -232,7 +171,7 @@ function TicketInfo() {
           {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
             <li>
               <button
-                className="flex items-center gap-2"
+                className="btn btn-ghost flex items-center gap-2"
                 onClick={(event) => {
                   event.stopPropagation();
                   resolveTicket(ticket.id);
@@ -246,7 +185,7 @@ function TicketInfo() {
             // Show the open ticket icon if the ticket has been resolved
             <li>
               <button
-                className="flex items-center gap-2"
+                className="btn btn-ghost flex items-center gap-2"
                 onClick={(event) => {
                   event.stopPropagation();
                   openTicket(ticket.id);
@@ -259,11 +198,22 @@ function TicketInfo() {
             </li>
           )}
           <li>
-            <label htmlFor="my_modal_7" className="flex  items-center gap-2">
-              <MdDelete size="1.5rem" />
-              Delete
-            </label>
+            <button className="btn btn-ghost">
+              <label htmlFor="my_modal_7" className="flex items-center gap-2">
+                <MdDelete size="1.5rem" />
+                Delete
+              </label>
+            </button>
             <DeleteConfirmationModal ticket_id={ticket.id} />
+          </li>
+          <li>
+            <button className="btn btn-ghost">
+              <label htmlFor="my_modal_11" className="flex items-center gap-2">
+                <LuArrowLeftRight size="1.5rem" />
+                Transfer
+              </label>
+            </button>
+            <TransferConfirmationModal ticket={ticket} />
           </li>
         </ul>
       </div>

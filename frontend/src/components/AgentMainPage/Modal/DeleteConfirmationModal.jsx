@@ -40,9 +40,9 @@ function DeleteConfirmationModal({ ticket_id }) {
 
           <div className="flex flex-row justify-center items-center gap-10">
             <button
-              className="btn"
+              className="btn btn-primary"
               onClick={(event) => {
-                event.stopPropagation();
+                // event.stopPropagation();
                 deleteTicket(ticket_id);
               }}
             >
@@ -56,7 +56,7 @@ function DeleteConfirmationModal({ ticket_id }) {
                 document.getElementById("modal-box").Modal.close();
               }}
             >
-              <label htmlFor="my_modal_7" className="btn">
+              <label htmlFor="my_modal_7" className="btn bg-gray">
                 Close
               </label>
             </button>

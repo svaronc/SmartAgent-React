@@ -2,7 +2,7 @@ import { useAppContext } from "../../../context/AppContext";
 
 // Icons
 import { MdDelete } from "react-icons/md";
-// import { LuArrowLeftRight } from "react-icons/lu";
+import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
 import { IoIosMailOpen } from "react-icons/io";
 // import TicketManagerNav from "./TicketManagerNav";
@@ -18,6 +18,7 @@ import ReactTimeAgo from "react-time-ago";
 import useApplicationData from "../../../hooks/useApplicationData";
 import useFetchInboxTickets from "../../../hooks/inbox/useFetchInboxTickets";
 import DeleteConfirmationModal from "../Modal/DeleteConfirmationModal";
+import TransferConfirmationModal from "../Modal/TransferConfirmationModal";
 
 function TicketInbox() {
   const { setTicketView, resolveTicket, transferTicket, openTicket } =
@@ -95,7 +96,7 @@ function TicketInbox() {
 
                 {/* Status */}
                 <td className="px-6 py-4">
-                  {ticket.status_id === 1 ? "Open" : "Closed"}
+                  {ticket.status_id === 1 ? "Open" : "Resolved"}
                 </td>
 
                 {/* Created At */}
@@ -121,60 +122,16 @@ function TicketInbox() {
                 {/* Actions */}
                 <td className="px-6">
                   <div className="flex flex-row hover:ring-slate-300 items-center">
-                    {/* <div
+                    <div
                       className="dropdown dropdown-hover px-3 py-4"
                       onClick={(event) => event.stopPropagation()}
                     >
                       <li className="tooltip tooltip-right" data-tip="Transfer">
-                        <LuArrowLeftRight size="1.5rem" />
-                      </li>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box dark:text-gray-200"
-                      >
-                        {agents.map((agent) => (
-                          <li
-                            key={agent.id}
-                            onClick={(event) => {
-                              event.stopPropagation();
-                              transferTicket(ticket.id, agent.id);
-                            }}
-                          >
-                            <a>
-                              {state.loggedInAgent.agent_id === agent.id
-                                ? "Me"
-                                : agent.full_name}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div> */}
-                    <div
-                      className="px-3 py-4"
-                      onClick={(event) => event.stopPropagation()}
-                    >
-                      <input
-                        list="agents"
-                        placeholder="Transfer to..."
-                        className="input input-bordered"
-                        onChange={(event) => {
-                          const agent = agents.find(
-                            (agent) => agent.full_name === event.target.value
-                          );
-                          if (agent) {
-                            transferTicket(ticket.id, agent.id);
-                          }
-                        }}
-                      />
-                      <datalist id="agents">
-                        {agents.map((agent) => (
-                          <option key={agent.id} value={agent.full_name}>
-                            {state.loggedInAgent.agent_id === agent.id
-                              ? "Me"
-                              : agent.full_name}
-                          </option>
-                        ))}
-                      </datalist>
+                        <label htmlFor="my_modal_11">
+                          <LuArrowLeftRight size="1.5rem" />
+                        </label>
+                        <TransferConfirmationModal ticket={ticket} />
+                      </li>                      
                     </div>
                     {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
                       <li
