@@ -109,8 +109,8 @@ const Dashboard = () => {
     ],
   };
   return (
-    <div className="min-h-screen flex items-center lg:pl-52 w-[95%]">
-      <div className="grid grid-cols-4 gap-4">
+    <div className="min-h-screen flex items-center justify-center lg:pl-52 w-[95%]">
+      <div className="grid grid-cols-4 gap-4 cursor-pointer">
         <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
           <div className="flex mt-3">
             <BsEnvelopeOpenFill className="w-5 h-5 mx-3 text-blue-600" />

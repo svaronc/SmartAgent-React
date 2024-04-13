@@ -32,7 +32,7 @@ function DraftEditor({ customer_name, editorState, setEditorState }) {
 
   return (
     <div>
-      <div className="pb-10">
+      <div className="pb-10 dark:text-white">
         <ReactQuill
           theme="snow"
           modules={modules}
@@ -44,17 +44,6 @@ function DraftEditor({ customer_name, editorState, setEditorState }) {
         >
         </ReactQuill>
       </div>
-      
-      {/* Delete the below after testing is completed */}
-      <h2 className="text-2xl font-bold mb-4 text-gray-700 dark:text-white">HTML</h2>
-      <p>{htmlState}</p> {/* Display the editor content */}
-      <br />
-      <h2 className="text-2xl font-bold mb-4 text-gray-700 dark:text-white">editorState, parameter in sendRespond to backend:</h2>
-      <p>{editorState}</p> {/* Display the editor content */}
-      <br />
-      {/* The below is when we attempt to render the markdown data from the backend */}
-      <h1 className="text-2xl font-bold mb-4 text-gray-700 dark:text-white">Markdown component below will be rendered data from backend:</h1>
-      <Markdown>{editorState}</Markdown>
     </div>
   );
 };
