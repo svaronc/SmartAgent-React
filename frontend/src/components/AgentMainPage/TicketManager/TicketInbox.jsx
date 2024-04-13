@@ -16,14 +16,18 @@ import ReactTimeAgo from "react-time-ago";
 // Hooks
 import useApplicationData from "../../../hooks/useApplicationData";
 import useFetchInboxTickets from "../../../hooks/inbox/useFetchInboxTickets";
-import DeleteConfirmationModal from "../Modal/DeleteConfirmationModal";
 
 import { useState, useRef } from "react";
 import axios from "axios";
 
 function TicketInbox() {
-  const { setTicketView, resolveTicket, transferTicket, openTicket } =
-    useApplicationData();
+  const {
+    setTicketView,
+    resolveTicket,
+    transferTicket,
+    openTicket,
+    deleteTicket,
+  } = useApplicationData();
   const { state } = useAppContext();
   const tickets = state.inboxTickets;
   const agents = state.agents;
@@ -157,8 +161,7 @@ function TicketInbox() {
                 <td className="px-6">
                   <div className="flex flex-row hover:ring-slate-300 items-center">
                     <div
-                      className="dropdown dropdown-hover px-3 py-4"
-                      // onClick={(event) => handleTransferClick(event, ticket.id, ticket)}
+                      className="flex flex-col justify-center px-3 py-4"
                       onClick={(event) => {
                         event.stopPropagation();
                         document
@@ -168,20 +171,12 @@ function TicketInbox() {
                     >
                       <li className="tooltip tooltip-right" data-tip="Transfer">
                         <LuArrowLeftRight size="1.5rem" />
-                        {/* <label htmlFor="my_modal_11">
-                        </label> */}
-
-                        <dialog id={`transfer_modal_${ticket.id}`} className="modal">
+                        {/* Transfer Modal starts here */}
+                        <dialog
+                          id={`transfer_modal_${ticket.id}`}
+                          className="modal"
+                        >
                           <div className="modal-box">
-                            {/* Close the modal when clicking on the backdrop */}
-                            <label
-                              className="modal-backdrop"
-                              htmlFor={`transfer_modal_${ticket.id}`}
-                              onClick={closeModal}
-                            >
-                              Close
-                            </label>
-
                             <div className="flex flex-col items-center">
                               <h3 className="text-4xl font-bold dark:text-white">
                                 Transfer Ticket
@@ -252,9 +247,30 @@ function TicketInbox() {
                                 rows="2"
                               />
 
-                              <div className={`mt-5 ${submitNote ? "visible": "invisible"}`}>
-                                <div role="alert" className={`alert alert-success ${submitNote ? "" : "hidden"}`}>
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                              <div
+                                className={`mt-5 ${
+                                  submitNote ? "visible" : "invisible"
+                                }`}
+                              >
+                                <div
+                                  role="alert"
+                                  className={`alert alert-success ${
+                                    submitNote ? "" : "hidden"
+                                  }`}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="stroke-current shrink-0 h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                  </svg>
                                   <span>Your note has been added!</span>
                                 </div>
                               </div>
@@ -306,12 +322,14 @@ function TicketInbox() {
                               </div>
                             </div>
                           </div>
+                          {/* Close the modal when clicking on the backdrop */}
                           <form method="dialog" className="modal-backdrop">
                             <button onClick={closeModal}>close</button>
                           </form>
                         </dialog>
+                        {/* Transfer Modal ends here */}
 
-                        {/* <TransferConfirmationModal ticket={state.openModalTicket} /> */}
+                        {/* <TransferConfirmationModal ticket={state.openModalTicket} /> - old */}
                       </li>
                     </div>
                     {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
@@ -337,17 +355,95 @@ function TicketInbox() {
                         <IoIosMailOpen size="1.5rem" />
                       </li>
                     )}
+
                     <li
                       className="tooltip tooltip-right px-3 py-4"
                       data-tip="Delete Ticket"
                       onClick={(event) => {
                         event.stopPropagation();
+                        document
+                          .getElementById(`delete_modal_${ticket.id}`)
+                          .showModal();
                       }}
                     >
-                      <label htmlFor="my_modal_7">
-                        <MdDelete size="1.5rem" />
-                      </label>
-                      <DeleteConfirmationModal ticket_id={ticket.id} />
+                      <MdDelete size="1.5rem" />
+
+                      {/* Delete Modal starts here */}
+                      <dialog
+                        id={`delete_modal_${ticket.id}`}
+                        className="modal"
+                      >
+                        <div className="modal-box pb-1">
+                          <h3 className="text-lg font-bold dark:text-white">
+                            This action is reversible!
+                          </h3>
+                          <p className="pt-4 dark:text-white">
+                            Are you sure you want to delete this ticket?
+                          </p>
+
+                          <div
+                            className="modal-action m-0"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                            }}
+                          >
+                            {/* Close modal x button */}
+                            <form method="dialog">
+                              <button
+                                onClick={() =>
+                                  document
+                                    .getElementById("modal-box")
+                                    .Modal.close()
+                                }
+                              >
+                                <label
+                                  htmlFor={`delete_modal_${ticket.id}`}
+                                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-white"
+                                >
+                                  ✕
+                                </label>
+                              </button>
+                            </form>
+                          </div>
+
+                          <div className="flex flex-row justify-center items-center gap-10">
+                            <button
+                              className="btn btn-primary"
+                              onClick={() => {
+                                deleteTicket(ticket.id);
+                                console.log("deleteTicket")
+                              }}
+                            >
+                              Delete
+                            </button>
+
+                            <form method="dialog">
+                              <button
+                                className="modal-action pb-6"
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  document
+                                    .getElementById("modal-box")
+                                    .Modal.close();
+                                }}
+                              >
+                                <label
+                                  htmlFor={`delete_modal_${ticket.id}`}
+                                  className="btn bg-gray"
+                                >
+                                  Close
+                                </label>
+                              </button>
+                            </form>
+                          </div>
+                        </div>
+                        {/* Close the modal when clicking on the backdrop */}
+                        <form method="dialog" className="modal-backdrop">
+                          <button onClick={closeModal}>close</button>
+                        </form>
+                      </dialog>
+                      {/* Delete Modal ends here */}
+                      {/* <DeleteConfirmationModal ticket_id={ticket.id} /> - old*/}
                     </li>
                   </div>
                 </td>
