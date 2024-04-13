@@ -9,6 +9,7 @@ import { FaReply } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { IoIosMailOpen } from "react-icons/io";
 import ConversationAuthor from "./ConversationAuthor";
+import TransferConfirmationModal from "../Modal/TransferConfirmationModal";
 
 // import { FaArrowsUpDown } from "react-icons/fa6";
 
@@ -59,64 +60,14 @@ function TicketInfo() {
           {`${ticket.id}: ${ticket.title}`}
         </h1>
 
-        {/* <div className="flex flex-row items-center">
-          <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
-            <li>
-              <details className="dropdown">
-                <summary className="btn font-bold text-gray-700 dark:text-white ">
-                  {ticket.agent &&
-                  Number(state.loggedInAgent.agent_id) === ticket.agent.id
-                    ? "Assigned to: Me"
-                    : ticket.agent
-                      ? `Assigned to: ${ticket.agent.full_name}`
-                      : ""}
-                  <LuArrowLeftRight size="1.5rem" />
-                </summary>
-                <ul className="shadow menu dropdown-content rounded-box dark:text-gray-200">
-                  {agents.map((agent) => (
-                    <li
-                      key={agent.id}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        transferTicket(ticket.id, agent.id);
-                      }}
-                    >
-                      <a>
-                        {state.loggedInAgent.agent_id === agent.id
-                          ? "Me"
-                          : agent.full_name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            </li>
-          </ul>
-        </div> */}
-        <div className="py-2" onClick={(event) => event.stopPropagation()}>
-          <input
-            list="agents"
-            placeholder="Transfer to..."
-            className="input input-bordered"
-            onChange={(event) => {
-              const agent = agents.find(
-                (agent) => agent.full_name === event.target.value
-              );
-              if (agent) {
-                transferTicket(ticket.id, agent.id);
-              }
-            }}
-          />
-          <datalist id="agents">
-            {agents.map((agent) => (
-              <option key={agent.id} value={agent.full_name}>
-                {state.loggedInAgent.agent_id === agent.id
-                  ? "Me"
-                  : agent.full_name}
-              </option>
-            ))}
-          </datalist>
-        </div>
+        <h1 className="font-bold lg:text-2xl text-gray-500 dark:text-white ">
+          {ticket.agent &&
+          Number(state.loggedInAgent.agent_id) === ticket.agent.id
+            ? "Assigned to: Me"
+            : ticket.agent
+            ? `Assigned to: ${ticket.agent.full_name}`
+            : ""}
+        </h1>
       </div>
 
       <div className="bg-base-100 border-2  overflow-y-auto w-[100%] h-[86%]">
@@ -259,11 +210,18 @@ function TicketInfo() {
             </li>
           )}
           <li>
-            <label htmlFor="my_modal_7" className="flex  items-center gap-2">
+            <label htmlFor="my_modal_7" className="flex items-center gap-2">
               <MdDelete size="1.5rem" />
               Delete
             </label>
             <DeleteConfirmationModal ticket_id={ticket.id} />
+          </li>
+          <li>
+            <label htmlFor="my_modal_11" className="flex items-center gap-2">
+              <LuArrowLeftRight size="1.5rem" />
+              Transfer
+            </label>
+            <TransferConfirmationModal ticket={ticket} />
           </li>
         </ul>
       </div>
