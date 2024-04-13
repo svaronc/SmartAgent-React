@@ -74,6 +74,7 @@ function TransferConfirmationModal({ ticket }) {
         </label>
 
         <div className="modal-box pb-1">
+          <div className="flex flex-col items-center">
           <h3 className="text-4xl font-bold dark:text-white">
             Transfer Ticket
           </h3>
@@ -112,7 +113,7 @@ function TransferConfirmationModal({ ticket }) {
               </option>
             ))}
           </datalist>
-
+          </div>
           <div className="flex flex-col justify-center items-center gap-2">
             <button
               type="submit"
@@ -127,7 +128,7 @@ function TransferConfirmationModal({ ticket }) {
             <Formik initialValues={initialValues} onSubmit={onSubmit}>
               <Form className="p-2 w-full">
                 {/* Form fields */}
-                <div>
+                <div className="flex flex-col justify-center items-center">
                   <label htmlFor="note"></label>
                   <Field
                     id="note"
