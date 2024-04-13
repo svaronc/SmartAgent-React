@@ -91,8 +91,8 @@ function TransferConfirmationModal({ ticket }) {
               ))}
             </datalist>
           </div>
-          <div className="flex flex-col justify-center items-center gap-2">
-            {/* <button
+
+          {/* <button
               type="submit"
               className="modal-action"
               onClick={clearRef}
@@ -102,84 +102,84 @@ function TransferConfirmationModal({ ticket }) {
               </label>
             </button> */}
 
-            {/* Form fields */}
-            <div className="flex flex-col justify-center items-center gap-2 mt-5">
-              <textarea
-                id="note"
-                name="note"
-                value={newNoteBody}
-                onChange={(e) => {
-                  setNewNoteBody(e.target.value);
-                  setSubmitNote(false);
-                }}
-                placeholder="Add a note"
-                className="textarea textarea-bordered textarea-lg mt-4 w-full max-w-xs dark:text-white"
-                component="textarea"
-                rows="2"
-              />
+          {/* Form fields */}
+          <div className="flex flex-col justify-center items-center gap-2 mt-5">
+            <textarea
+              id="note"
+              name="note"
+              value={newNoteBody}
+              onChange={(e) => {
+                setNewNoteBody(e.target.value);
+                setSubmitNote(false);
+              }}
+              placeholder="Add a note"
+              className="textarea textarea-bordered textarea-lg mt-4 w-full max-w-xs dark:text-white"
+              component="textarea"
+              rows="2"
+            />
 
-              <div className={`mt-5 ${submitNote ? "visible" : "invisible"}`}>
-                <div
-                  role="alert"
-                  className={`alert alert-success ${
-                    submitNote ? "" : "hidden"
-                  }`}
+            <div className={`mt-5 ${submitNote ? "visible" : "invisible"}`}>
+              <div
+                role="alert"
+                className={`alert alert-success ${submitNote ? "" : "hidden"}`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="stroke-current shrink-0 h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <span>Your note has been added!</span>
-                </div>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>Your note has been added!</span>
               </div>
             </div>
+          </div>
 
-            <div className="flex flex-row justify-center items-center gap-10">
-              {/* Add Note button */}
-              <button
-                className="btn btn-primary"
-                onClick={() => {
-                  createNote(newNoteBody, ticket.id);
-                  setNewNoteBody("");
-                  setSubmitNote(true);
-                }}
-              >
-                Add Note
-              </button>
+          <div className="flex flex-row justify-center items-center gap-10">
+            {/* Add Note button */}
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                createNote(newNoteBody, ticket.id);
+                setNewNoteBody("");
+                setSubmitNote(true);
+              }}
+            >
+              Add Note
+            </button>
 
-              {/* Close modal x button */}
-              <form method="dialog">
-                <button className="modal-action m-0" onClick={closeModal}>
-                  <label
-                    htmlFor="my_modal_11"
-                    className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-white"
-                  >
-                    ✕
-                  </label>
-                </button>
-              </form>
-
-              <form method="dialog">
-                <button
-                  type="submit"
-                  className="modal-action pb-6"
-                  onClick={closeModal}
+            {/* Close modal x button */}
+            <form method="dialog">
+              <button className="modal-action m-0" onClick={closeModal}>
+                <label
+                  htmlFor="my_modal_11"
+                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-white"
                 >
-                  <label htmlFor="my_modal_11" className="btn bg-gray dark:bg-neutral">
-                    Close
-                  </label>
-                </button>
-              </form>
-            </div>
+                  ✕
+                </label>
+              </button>
+            </form>
+
+            <form method="dialog">
+              <button
+                type="submit"
+                className="modal-action pb-6"
+                onClick={closeModal}
+              >
+                <label
+                  htmlFor="my_modal_11"
+                  className="btn bg-gray dark:bg-neutral"
+                >
+                  Close
+                </label>
+              </button>
+            </form>
           </div>
         </div>
       </div>

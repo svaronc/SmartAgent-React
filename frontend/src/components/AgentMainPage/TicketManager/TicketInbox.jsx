@@ -171,7 +171,7 @@ function TicketInbox() {
                         {/* Transfer Modal starts here */}
                         <dialog
                           id={`transfer_modal_${ticket.id}`}
-                          className="modal"
+                          className="modal text-black dark:text-white"
                         >
                           <div className="modal-box">
                             <div className="flex flex-col items-center">
