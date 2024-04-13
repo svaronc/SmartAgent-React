@@ -29,15 +29,13 @@ function TicketInbox() {
   const agents = state.agents;
 
   // For transfer modal
-  const inboxInputRef = useRef(null);
-  const noteRef = useRef(null);
-  console.log(noteRef);
-  const clearInboxInputRef = () => {
-    console.log("Input clearinboxInputRef");
-    if (inboxInputRef.current) {
-      return (inboxInputRef.current.value = ""); // Clear the input value
-    }
-  };
+  // const inboxInputRef = useRef(null);
+  // const clearInboxInputRef = () => {
+  //   console.log("Input clearinboxInputRef");
+  //   if (inboxInputRef.current) {
+  //     return (inboxInputRef.current.value = ""); // Clear the input value
+  //   }
+  // };
 
   const closeModal = () => {
     // clearInboxInputRef();
@@ -202,7 +200,7 @@ function TicketInbox() {
                               </p>
 
                               <input
-                                ref={inboxInputRef}
+                                // ref={inboxInputRef}
                                 list="agents"
                                 placeholder="Transfer to..."
                                 className="input input-bordered dark:text-white"
