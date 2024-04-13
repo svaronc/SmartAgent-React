@@ -5,7 +5,6 @@ import { MdDelete } from "react-icons/md";
 import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
 import { IoIosMailOpen } from "react-icons/io";
-// import TicketManagerNav from "./TicketManagerNav";
 
 // Date formatting
 import TimeAgo from "javascript-time-ago";
@@ -18,7 +17,9 @@ import ReactTimeAgo from "react-time-ago";
 import useApplicationData from "../../../hooks/useApplicationData";
 import useFetchInboxTickets from "../../../hooks/inbox/useFetchInboxTickets";
 import DeleteConfirmationModal from "../Modal/DeleteConfirmationModal";
-import TransferConfirmationModal from "../Modal/TransferConfirmationModal";
+
+import { useState, useRef } from "react";
+import axios from "axios";
 
 function TicketInbox() {
   const { setTicketView, resolveTicket, transferTicket, openTicket } =
@@ -26,6 +27,39 @@ function TicketInbox() {
   const { state } = useAppContext();
   const tickets = state.inboxTickets;
   const agents = state.agents;
+
+  // For transfer modal
+  const inboxInputRef = useRef(null);
+  const noteRef = useRef(null);
+  console.log(noteRef);
+  const clearInboxInputRef = () => {
+    console.log("Input clearinboxInputRef");
+    if (inboxInputRef.current) {
+      return (inboxInputRef.current.value = ""); // Clear the input value
+    }
+  };
+
+  const closeModal = () => {
+    // clearInboxInputRef();
+    setNewNoteBody("");
+    setSubmitNote(false);
+    console.log("closeModal");
+    document.getElementById("modal-box")?.Modal.close();
+  };
+
+  // For Notes
+  const [newNoteBody, setNewNoteBody] = useState("");
+  const [submitNote, setSubmitNote] = useState(false);
+
+  const createNote = (value, ticket_id) => {
+    axios
+      .post("api/v1/notes", { ticket_id: ticket_id, body: value })
+      .then((response) => {
+        // const newNote = response.data;
+        // setnotes([...notes, newNote]);
+        console.log(response.data);
+      });
+  };
 
   useFetchInboxTickets();
 
@@ -37,15 +71,20 @@ function TicketInbox() {
 
   return (
     <section className="flex flex-col">
-      {/* <TicketManagerNav /> */}
       <section className="flex bg-base-100 shadow-md pl-5">
-            <div className="flex-col items-start mt-2">
-              <h1 className="text-2xl font-bold mb-4">{state.ticketManagerView}</h1>
-              <div className="mb-4">       
-                <input type="search" name="search" id="search" placeholder=" Search" className="bg-slate-100"/>
-              </div>
-            </div> 
-          </section> 
+        <div className="flex-col items-start mt-2">
+          <h1 className="text-2xl font-bold mb-4">{state.ticketManagerView}</h1>
+          <div className="mb-4">
+            <input
+              type="search"
+              name="search"
+              id="search"
+              placeholder=" Search"
+              className="bg-slate-100"
+            />
+          </div>
+        </div>
+      </section>
       <div className="relative">
         <table className="w-full text-sm text-left rtl:text-right">
           <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-300">
@@ -81,10 +120,7 @@ function TicketInbox() {
                 onClick={() => setTicketView(ticket.id)}
               >
                 {/* Request title */}
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-bold whitespace-wrap"
-                >
+                <th scope="row" className="px-6 py-4 font-bold whitespace-wrap">
                   {ticket.title}
                 </th>
 
@@ -115,8 +151,8 @@ function TicketInbox() {
                   state.loggedInAgent.agent_id === ticket.agent.id
                     ? "Me"
                     : ticket.agent
-                      ? ticket.agent.full_name
-                      : ""}
+                    ? ticket.agent.full_name
+                    : ""}
                 </td>
 
                 {/* Actions */}
@@ -124,14 +160,161 @@ function TicketInbox() {
                   <div className="flex flex-row hover:ring-slate-300 items-center">
                     <div
                       className="dropdown dropdown-hover px-3 py-4"
-                      onClick={(event) => event.stopPropagation()}
+                      // onClick={(event) => handleTransferClick(event, ticket.id, ticket)}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        document
+                          .getElementById(`my_modal_${ticket.id}`)
+                          .showModal();
+                      }}
                     >
                       <li className="tooltip tooltip-right" data-tip="Transfer">
-                        <label htmlFor="my_modal_11">
-                          <LuArrowLeftRight size="1.5rem" />
-                        </label>
-                        <TransferConfirmationModal ticket={ticket} />
-                      </li>                      
+                        <LuArrowLeftRight size="1.5rem" />
+                        {/* <label htmlFor="my_modal_11">
+                        </label> */}
+
+                        <dialog id={`my_modal_${ticket.id}`} className="modal">
+                          <div className="modal-box">
+                            {/* Close the modal when clicking on the backdrop */}
+                            <label
+                              className="modal-backdrop"
+                              htmlFor={`my_modal_${ticket.id}`}
+                              onClick={closeModal}
+                            >
+                              Close
+                            </label>
+
+                            <div className="flex flex-col items-center">
+                              <h3 className="text-4xl font-bold dark:text-white">
+                                Transfer Ticket
+                              </h3>
+                              <p className="pt-6 text-2xl mb-2 dark:text-white flex flex-col items-center justify-center gap-2">
+                                Currently Assigned to:
+                                <p className="font-bold">
+                                  {Number(state.loggedInAgent?.agent_id) ===
+                                  ticket.agent?.id
+                                    ? " Me"
+                                    : ticket.agent?.full_name
+                                    ? ` ${ticket.agent?.full_name}`
+                                    : ""}
+                                </p>
+                                <LuArrowLeftRight />
+                              </p>
+
+                              <input
+                                ref={inboxInputRef}
+                                list="agents"
+                                placeholder="Transfer to..."
+                                className="input input-bordered dark:text-white"
+                                onChange={(event) => {
+                                  const agent = agents.find(
+                                    (agent) =>
+                                      agent.full_name === event.target.value
+                                  );
+                                  if (agent) {
+                                    transferTicket(ticket.id, agent.id);
+                                  }
+                                }}
+                              />
+                              <datalist id="agents">
+                                {agents.map((agent) => (
+                                  <option
+                                    key={agent.id}
+                                    value={agent.full_name}
+                                  >
+                                    {state.loggedInAgent.agent_id === agent.id
+                                      ? "Me"
+                                      : agent.full_name}
+                                  </option>
+                                ))}
+                              </datalist>
+                              {/* Bug with clear name button for resolved tickets in inbox view */}
+                              {/* <button
+                                type="submit"
+                                className="modal-action"
+                                onClick={clearInboxInputRef}
+                              >
+                                <label className="btn bg-grey dark:bg-gray-700">
+                                  Clear Name
+                                </label>
+                              </button> */}
+                            </div>
+                            <div className="flex flex-col justify-center items-center gap-2 mt-5">
+                              <textarea
+                                id="note"
+                                name="note"
+                                value={newNoteBody}
+                                onChange={(e) => {
+                                  setNewNoteBody(e.target.value);
+                                  setSubmitNote(false);
+                                }}
+                                placeholder="Add a note"
+                                className="textarea textarea-bordered textarea-lg mt-4 w-full max-w-xs dark:text-white"
+                                component="textarea"
+                                rows="2"
+                              />
+
+                              <div className={`mt-5 ${submitNote ? "visible": "invisible"}`}>
+                                <div role="alert" className={`alert alert-success ${submitNote ? "" : "hidden"}`}>
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                  <span>Your note has been added!</span>
+                                </div>
+                              </div>
+
+                              {/* Add Note button */}
+                              <div className="flex flex-row justify-center items-center gap-10">
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={() => {
+                                    createNote(newNoteBody, ticket.id);
+                                    console.log(newNoteBody);
+                                    setNewNoteBody("");
+                                    setSubmitNote(true);
+                                  }}
+                                >
+                                  Add Note
+                                </button>
+
+                                {/* Close modal x button */}
+                                <form method="dialog">
+                                  <button
+                                    className="modal-action m-0"
+                                    onClick={closeModal}
+                                  >
+                                    <label
+                                      htmlFor={`my_modal_${ticket.id}`}
+                                      className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-white"
+                                    >
+                                      ✕
+                                    </label>
+                                  </button>
+                                </form>
+
+                                {/* Close modal button */}
+                                <form method="dialog">
+                                  <button
+                                    type="submit"
+                                    className="modal-action pb-6"
+                                    onClick={closeModal}
+                                  >
+                                    <label
+                                      htmlFor={`my_modal_${ticket.id}`}
+                                      className="btn btn-primary"
+                                    >
+                                      Close
+                                    </label>
+                                  </button>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                          <form method="dialog" className="modal-backdrop">
+                            <button onClick={closeModal}>close</button>
+                          </form>
+                        </dialog>
+
+                        {/* <TransferConfirmationModal ticket={state.openModalTicket} /> */}
+                      </li>
                     </div>
                     {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
                       <li
