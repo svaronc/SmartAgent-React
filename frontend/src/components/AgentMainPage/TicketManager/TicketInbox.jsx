@@ -127,7 +127,7 @@ function TicketInbox() {
                       onClick={(event) => event.stopPropagation()}
                     >
                       <li className="tooltip tooltip-right" data-tip="Transfer">
-                        <label htmlFor="my_modal_7">
+                        <label htmlFor="my_modal_11">
                           <LuArrowLeftRight size="1.5rem" />
                         </label>
                         <TransferConfirmationModal ticket={ticket} />

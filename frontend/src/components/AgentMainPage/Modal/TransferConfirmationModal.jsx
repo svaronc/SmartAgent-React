@@ -62,12 +62,12 @@ function TransferConfirmationModal({ ticket }) {
 
   return (
     <div className="m-0 p-0">
-      <input type="checkbox" id="my_modal_7" className="modal-toggle" />
+      <input type="checkbox" id="my_modal_11" className="modal-toggle" />
       <div className="modal" role="dialog">
         {/* Close the modal when clicking on the backdrop */}
         <label
           className="modal-backdrop"
-          htmlFor="my_modal_7"
+          htmlFor="my_modal_11"
           onClick={closeModal}
         >
           Close
@@ -80,10 +80,10 @@ function TransferConfirmationModal({ ticket }) {
           <p className="pt-6 text-2xl mb-2 dark:text-white flex flex-col items-center justify-center gap-2">
             Currently Assigned to:
             <p className="font-bold">
-              {Number(state.loggedInAgent.agent_id) === ticket.agent.id
+              {Number(state.loggedInAgent?.agent_id) === ticket.agent?.id
                 ? " Me"
-                : ticket.agent.full_name
-                ? ` ${ticket.agent.full_name}`
+                : ticket.agent?.full_name
+                ? ` ${ticket.agent?.full_name}`
                 : ""}
             </p>
             <LuArrowLeftRight />
@@ -147,7 +147,7 @@ function TransferConfirmationModal({ ticket }) {
                 {/* Other form fields go here */}
                 <div className="modal-action m-0" onClick={closeModal}>
                   <label
-                    htmlFor="my_modal_7"
+                    htmlFor="my_modal_11"
                     className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-white"
                   >
                     ✕
@@ -170,7 +170,7 @@ function TransferConfirmationModal({ ticket }) {
                     className="modal-action pb-6"
                     onClick={closeModal}
                   >
-                    <label htmlFor="my_modal_7" className="btn btn-primary">
+                    <label htmlFor="my_modal_11" className="btn btn-primary">
                       Close
                     </label>
                   </button>
