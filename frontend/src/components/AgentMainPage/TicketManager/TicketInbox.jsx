@@ -286,7 +286,14 @@ function TicketInbox() {
                                   Add Note
                                 </button>
 
-                                
+                                {/* View ticket button */}
+                                <button
+                                  className="btn btn-primary btn-outline ml-2"
+                                  onClick={() => setTicketView(ticket.id)}
+                                >
+                                  View Ticket
+                                </button>
+
                                 {/* Close modal x button */}
                                 <form method="dialog">
                                   <button
