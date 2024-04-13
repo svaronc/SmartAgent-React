@@ -8,9 +8,11 @@ function DeleteConfirmationModal({ ticket_id }) {
       <input type="checkbox" id="my_modal_7" className="modal-toggle" />
       <div className="modal" role="dialog">
         {/* Close the modal when clicking on the backdrop */}
-        <label className="modal-backdrop" htmlFor="my_modal_7">Close</label>
-        
-        <div className="modal-box pb-1">
+        <label className="modal-backdrop" htmlFor="my_modal_7">
+          Close
+        </label>
+
+        <div className="modal-box pb-1  flex flex-col items-center">
           <h3 className="text-lg font-bold dark:text-white">
             This action is reversible!
           </h3>
@@ -24,18 +26,16 @@ function DeleteConfirmationModal({ ticket_id }) {
               event.stopPropagation();
             }}
           >
-            <label
-              htmlFor="my_modal_7"
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-white"
+            <button
+              onClick={() => document.getElementById("modal-box").Modal.close()}
             >
-              <div
-                onClick={() =>
-                  document.getElementById("modal-box").Modal.close()
-                }
+              <label
+                htmlFor="my_modal_7"
+                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-white"
               >
                 ✕
-              </div>
-            </label>
+              </label>
+            </button>
           </div>
 
           <div className="flex flex-row justify-center items-center gap-10">
