@@ -370,7 +370,7 @@ function TicketInbox() {
                         id={`delete_modal_${ticket.id}`}
                         className="modal"
                       >
-                        <div className="modal-box pb-1">
+                        <div className="modal-box pb-1  flex flex-col items-center">
                           <h3 className="text-lg font-bold dark:text-white">
                             This action is reversible!
                           </h3>
@@ -387,6 +387,7 @@ function TicketInbox() {
                             {/* Close modal x button */}
                             <form method="dialog">
                               <button
+                                className="modal-action m-0"
                                 onClick={() =>
                                   document
                                     .getElementById("modal-box")
