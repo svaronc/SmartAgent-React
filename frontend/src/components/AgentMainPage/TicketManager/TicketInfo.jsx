@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 
 // Icons
 import { MdDelete } from "react-icons/md";
-// import { LuArrowLeftRight } from "react-icons/lu";
+import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO, CgNotes } from "react-icons/cg";
 import { FaReply } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
@@ -53,14 +53,14 @@ function TicketInfo() {
   const ticket = state.ticketData;
 
   return (
-    <section className="flex-col w-[97%] h-screen m-4 overflow-y-auto bg-base-200">
+    <section className="flex-col w-[97%] h-screen m-2 overflow-y-auto bg-base-200">
       <div
         id="ticket-info-header"
         className="flex flex-row justify-between items-center"
       >
         <h1 className="lg:text-4xl font-bold mb-4 text-gray-700 dark:text-white text-xl">
           {`${ticket.id}: ${ticket.title}`}
- 
+    </h1>
         {/* <div className="flex flex-row items-center">
           <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
             <li>
@@ -99,7 +99,6 @@ function TicketInfo() {
         <button onClick={() => setNotesPanel(prev => !prev)} className="btn btn-ghost">
         <CgNotes />
         </button>
-        </div>
         <h1 className="font-bold lg:text-2xl text-gray-500 dark:text-white ">
           {ticket.agent &&
           Number(state.loggedInAgent.agent_id) === ticket.agent.id
@@ -108,6 +107,7 @@ function TicketInfo() {
             ? `Assigned to: ${ticket.agent.full_name}`
             : ""}
         </h1>
+        </div>
       </div>
       {notesPanel && <NotesSidePanel ticket_id = {ticket_id} />}
       <div className="bg-base-100 border-2  overflow-y-auto w-[100%] h-[86%]">

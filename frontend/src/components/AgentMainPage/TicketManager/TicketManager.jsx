@@ -10,7 +10,7 @@ function TicketManager() {
   const { getTicketCounts } = useApplicationData();
   getTicketCounts();
   return (
-    <section className="flex flex-col overflow-y-scroll overflow-x-auto w-[100%]">
+    <section className="flex flex-col overflow-x-auto w-[100%]">
       {state.ticketInboxView ? <TicketInbox /> : <TicketInfo />}
     </section>
   );
