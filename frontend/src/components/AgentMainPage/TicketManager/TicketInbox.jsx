@@ -31,7 +31,7 @@ function TicketInbox() {
   const { state } = useAppContext();
   const tickets = state.inboxTickets;
   const agents = state.agents;
-
+  const [searchTerm, setSearchTerm] = useState("");
   // For transfer modal
   // const inboxInputRef = useRef(null);
   // const clearInboxInputRef = () => {
@@ -78,8 +78,10 @@ function TicketInbox() {
               type="search"
               name="search"
               id="search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)} 
               placeholder=" Search"
-              className="bg-slate-100"
+              className="bg-slate-100 rounded-lg dark:bg-gray-700 dark:text-white dark:placeholder-gray-300 p-2 w-96 focus:outline-none focus:ring-2 focus:ring-slate-300 dark:focus:ring-gray-500 dark:focus:ring-opacity-50"
             />
           </div>
         </div>
@@ -112,7 +114,9 @@ function TicketInbox() {
             </tr>
           </thead>
           <tbody>
-            {tickets.map((ticket) => (
+            {tickets
+            .filter((ticket) => ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) || ticket.customer_name.toLowerCase().includes(searchTerm.toLowerCase()))
+            .map((ticket) => (
               <tr
                 key={ticket.id}
                 className={getTicketRowClassName(ticket)}
@@ -150,8 +154,8 @@ function TicketInbox() {
                   state.loggedInAgent.agent_id === ticket.agent.id
                     ? "Me"
                     : ticket.agent
-                    ? ticket.agent.full_name
-                    : ""}
+                      ? ticket.agent.full_name
+                      : ""}
                 </td>
 
                 {/* Actions */}
@@ -185,8 +189,8 @@ function TicketInbox() {
                                   ticket.agent?.id
                                     ? " Me"
                                     : ticket.agent?.full_name
-                                    ? ` ${ticket.agent?.full_name}`
-                                    : ""}
+                                      ? ` ${ticket.agent?.full_name}`
+                                      : ""}
                                 </p>
                                 <LuArrowLeftRight />
                               </p>
