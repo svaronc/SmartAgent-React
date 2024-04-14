@@ -6,7 +6,6 @@ import Login from "./components/Login/Login";
 // import IconSidebar from "./components/AgentMainPage/SidePanel/IconSidebar";
 // import Navbar from "./components/AgentMainPage/Navbar";
 import AgentMainPage from "./components/AgentMainPage/AgentMainPage";
-import Agents from "./components/Agents/Agents";
 import Dashboard from "./components/Dashboard/Dashboard";
 import { AppProvider } from "./context/AppContext";
 import useApplicationData from "./hooks/useApplicationData";
@@ -23,7 +22,6 @@ const AppRoutes = () => {
     { path: "/", element: <Hero /> },
     { path: "/login", element: <Login /> },
     { path: "/main", element: <PrivateRoute><AgentMainPage/></PrivateRoute>},
-    { path: "/agents", element: <PrivateRoute><Agents/></PrivateRoute>},
     { path: "/dashboard", element: <PrivateRoute><Dashboard/></PrivateRoute>},
     { path: "/chat", element: <PrivateRoute><Chat/></PrivateRoute>},
     { path: "/profile", element: <PrivateRoute><Profile/></PrivateRoute>},
