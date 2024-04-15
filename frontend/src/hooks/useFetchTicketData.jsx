@@ -2,8 +2,10 @@ import { useEffect } from "react";
 import { ACTIONS } from "../context/AppContext";
 import axios from "axios";
 import ActionCable from "actioncable";
+import { useAppContext } from "../context/AppContext";
 
 const useFetchTicketData = (API_URL, dispatch, ticket_id) => {
+  const { state } = useAppContext();
   useEffect(() => {
 
     if (API_URL && dispatch && ticket_id) {
@@ -33,6 +35,10 @@ const useFetchTicketData = (API_URL, dispatch, ticket_id) => {
                 if (data.ticket_id === ticket_id) {
                   dispatch({ type: ACTIONS.ADD_CONVERSATION, payload: data });
                 }
+                if (state.ticketData.agent_id !== data.agent_id) {
+                  console.log(">>", data.agent_id)
+                  dispatch({ type: ACTIONS.GET_TICKET_AFTER_TRANSFER, payload:data });
+                }
               },
             }
           );
@@ -47,7 +53,7 @@ const useFetchTicketData = (API_URL, dispatch, ticket_id) => {
         console.error("Error fetching ticket data", error);
       });
     }
-  }, [API_URL, dispatch, ticket_id]);
+  }, [API_URL, dispatch, ticket_id, state.ticketData.agent_id]);
 };
 
 export default useFetchTicketData;
