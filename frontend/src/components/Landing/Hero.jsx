@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import RequestForm from "./RequestForm";
 import Footer from "../Footer/Footer";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 
 function Hero() {
+  const { isAuthenticated } = useContext(AuthContext);
   return (
     <div className="flex-col">
       <div
@@ -26,7 +29,7 @@ function Hero() {
               <a href="#customer-request-form" className="btn btn-primary w-[40%]">
               Customer
               </a>
-              <Link to="/login" className="btn btn-primary w-[40%]">
+              <Link to={isAuthenticated ? "/main" : "/login"} className="btn btn-primary w-[40%]">
               SmartAgent
               </Link>
             </div>
