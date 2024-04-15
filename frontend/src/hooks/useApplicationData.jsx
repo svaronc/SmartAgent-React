@@ -69,16 +69,18 @@ const useApplicationData = () => {
   };
 
   /**
-   * This resolves the ticket
+   * This transfers the ticket
    * PATCH /tickets/:id/:status_id
    * @function
    * @returns {void}
    */
   const transferTicket = (ticket_id, agent_id) => {
+    console.log(state.ticketData.agent_id)
     axios
       .patch(`api/v1/tickets/${ticket_id}`, { agent_id })
       .then(() => {
-        dispatch({ type: ACTIONS.SET_VIEW, payload: state.ticketManagerView });
+        console.log(state.ticketData.agent_id)
+        // dispatch({ type: ACTIONS.SET_VIEW, payload: state.ticketManagerView });
       })
       .catch((error) => {
         console.error("Error fetching requests", error);
