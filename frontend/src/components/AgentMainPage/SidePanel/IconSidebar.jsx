@@ -1,9 +1,9 @@
 import { menuItems } from "../../../constants/sidebar-menu-items";
 import { Link } from "react-router-dom";
-import { CgProfile } from "react-icons/cg";
 import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
+import { GrLogout } from "react-icons/gr";
 
 function IconSidebar() {
   const { logout } = useContext(AuthContext);
@@ -20,50 +20,48 @@ function IconSidebar() {
   };
 
   return (
-    <ul className=" flex flex-col items-center bg-base-100 border-r-8 border-double h-full">
-      {menuItems.map((item, index) => (
-        <li key={index}>
-          <Link
-            to={item.path}
-            className="tooltip tooltip-right mt-10"
-            data-tip={item.tooltip}
-          >
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
+    <div className="flex flex-col justify-between">
+      <ul className=" flex flex-col items-center bg-base-100 dark:bg-slate-700 dark:text-white border-r-8 border-double h-full m-1 pr-2">
+        {menuItems.map((item, index) => (
+          <li key={index}>
+            <Link
+              to={item.path}
+              className="tooltip tooltip-right mt-10"
+              data-tip={item.tooltip}
             >
-              {item.icon}
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
+                {item.icon}
+              </div>
+            </Link>
+          </li>
+        ))}
+        <li className="absolute bottom-20">
+          <div className="flex-none gap-2">
+            <div className="dropdown dropdown-right">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
+                <GrLogout className="w-[30px] h-[30px]" />
+              </div>
+              <ul
+                tabIndex={0}
+                className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <button onClick={handleLogout}>Logout</button>
+                </li>
+              </ul>
             </div>
-          </Link>
-        </li>
-      ))}
-      <li className="mt-10">
-        <div className="flex-none gap-2">
-          <div className="dropdown dropdown-right">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
-            >
-              <CgProfile className="w-[30px] h-[30px]" />
-            </div>
-            <ul
-              tabIndex={0}
-              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
-            >
-              <li>
-                <Link to="/Profile">Profile</Link>
-              </li>
-
-              <li>
-                <button onClick={handleLogout}>Logout</button>
-              </li>
-            </ul>
           </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
   );
 }
 
