@@ -8,7 +8,7 @@ import { modules, formats } from "../../constants/draft-editor-format";
 function DraftEditor({ value, onChange }) {
   return (
     <div>
-      <div className="pb-10">
+      <div className="pb-10 dark:text-white">
         <ReactQuill
           theme="snow"
           modules={modules}
@@ -18,9 +18,6 @@ function DraftEditor({ value, onChange }) {
           style={{ height: "17em", width: "100%" }}
         ></ReactQuill>
       </div>
-      {/* Delete the below after testing is completed */}
-      {/* <h2 className="mt-10">Editor Content:</h2>
-      <p>{value}</p> Display the editor content */}
     </div>
   );
 }
