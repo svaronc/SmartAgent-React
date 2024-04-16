@@ -1,6 +1,7 @@
 import { sidePanelItems } from "../../../constants/side-panel-items"
 import useApplicationData from "../../../hooks/useApplicationData";
 import { useAppContext } from "../../../context/AppContext";
+import { Link } from "react-router-dom";
 
 function TicketSidePanel() {
   const { state } = useAppContext();
@@ -8,9 +9,9 @@ function TicketSidePanel() {
   return (
     <div className="bg-base-200 border-r-4 border-double mt-2">
       <div className="flex-1 p-3">          
-          <a className="btn btn-ghost lg:text-3xl text-xl font-bold mb-8">
+          <Link to="/" className="btn btn-ghost lg:text-3xl text-xl font-bold mb-8">
             <img src="/SmartAgent-icon.svg" alt="SmartAgent icon" width="45" />SmartAgent
-          </a>
+          </Link>
         </div>
       
       <h1 className="text-2xl font-bold mb-4 ml-4 mt-2">Tickets</h1>
