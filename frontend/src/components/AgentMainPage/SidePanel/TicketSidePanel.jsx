@@ -9,7 +9,7 @@ function TicketSidePanel() {
 
   const getsidePanelItemClassName = (title) => {
     return title === state.ticketManagerView
-      ? "ring-yellow-600/20 ml-2 mr-2 mb-1 pt-1 pb-1 pl-2 pr-2 bg-slate-300 text-white dark:text-black font-bold rounded cursor-pointer"
+      ? "ring-yellow-600/20 ml-2 mr-2 mb-1 pt-1 pb-1 pl-2 pr-2 bg-slate-600 dark:bg-slate-300 text-white dark:text-black font-bold rounded cursor-pointer"
       : "ring-yellow-600/20 ml-2 mr-2 mb-1 pt-1 pb-1 pl-2 pr-2 hover:bg-slate-600 hover:text-white font-bold rounded cursor-pointer";
   };
 
