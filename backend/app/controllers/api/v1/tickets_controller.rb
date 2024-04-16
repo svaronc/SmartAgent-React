@@ -69,12 +69,14 @@ class Api::V1::TicketsController < ApplicationController
     @ticket = Ticket.includes(:conversations).find(params[:ticket_id])
 
     response = params[:response]
+    agent_id = params[:agent_id]
+    agent_name = params[:agent_name]
     attachments = params[:attachments] ? params[:attachments].values : []
 
     return render json: { error: 'Response is missing' }, status: :unprocessable_entity if response.blank?
 
     
-    ApplicationMailer.ticket_response(@ticket, response, attachments).deliver_now
+    ApplicationMailer.ticket_response(@ticket, response, attachments,agent_id,agent_name).deliver_now
 
     render json: { message: 'Response sent' }, status: :ok
   rescue ActiveRecord::RecordNotFound

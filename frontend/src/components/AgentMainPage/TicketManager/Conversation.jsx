@@ -14,6 +14,7 @@ function Conversation({
   created_at,
   body,
   attachments_urls,
+  agent_name,
 }) {
   const getConversationDivClassName = (from_customer) => {
     return from_customer
@@ -46,7 +47,7 @@ function Conversation({
             </div>
           ) : (
             <div>
-              <ConversationAuthor initial="S" author="SmartAgent" />
+              <ConversationAuthor initial="S" author={`SmartAgent (${agent_name}) `} />
 
               {/* To customer email details */}
               <p>From: SmartAgent &lt;smartagents3@gmail.com&gt;</p>

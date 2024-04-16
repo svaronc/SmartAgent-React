@@ -39,6 +39,7 @@ function TicketInfo() {
     useApplicationData();
   const ticket_id = state.viewTicketId;
   const agents = state.agents;
+  const logAgent = state.loggedInAgent;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
   const [notesPanel, setNotesPanel] = useState(false)
   const [editorState, setEditorState] = useState();
@@ -51,7 +52,7 @@ function TicketInfo() {
 
   useFetchTicketData(`api/v1/tickets/${ticket_id}`, dispatch, ticket_id);
   const ticket = state.ticketData;
-
+  console.log("agent", logAgent);
   return (
     <section className="flex-col w-[97%] h-screen m-2 overflow-y-auto bg-base-200">
       <div
@@ -121,6 +122,7 @@ function TicketInfo() {
               created_at={conversation.created_at}
               body={conversation.body}
               attachments_urls={conversation.attachments_urls}
+              agent_name={conversation.agent_name}
             />
           ))}
 
@@ -200,7 +202,7 @@ function TicketInfo() {
               <button
                 className="btn btn-primary flex items-center gap-2"
                 onClick={() => {
-                  sendRespond(ticket_id, editorState, attachments);
+                  sendRespond(ticket_id, editorState, attachments, logAgent.agent_id, logAgent.full_name);
                   setReplyIsVisible(!replyIsVisible);
                 }}
               >

@@ -2,15 +2,19 @@ class ApplicationMailer < ActionMailer::Base
   default from: 'smartagents3@gmail.com'
   layout 'mailer'
 
-  def ticket_response(ticket, response, attachments = [])
+  def ticket_response(ticket, response, attachments = [],agent_id,agent_name)
     @ticket = ticket
     @response = ActionController::Base.helpers.sanitize(response).html_safe
     @attachments = Array(attachments)
+    @agent_id = agent_id
+    @agent_name = agent_name
 
     # Create a new conversation for the ticket with the body of the response
     conversation = @ticket.conversations.create!(
       body: @response,
-      from_customer: false
+      from_customer: false,
+      agent_id: @agent_id,
+      agent_name: @agent_name
     )
     @attachments.each do |attachment|
       filename = attachment.original_filename

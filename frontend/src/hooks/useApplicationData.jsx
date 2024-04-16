@@ -104,9 +104,11 @@ const useApplicationData = () => {
       });
   };
 
-  const sendRespond = (ticket_id, message, attachments) => {
+  const sendRespond = (ticket_id, message, attachments,agent_id,agent_name) => {
     let formData = new FormData();
     formData.append("response", message);
+    formData.append("agent_id", agent_id);
+    formData.append("agent_name", agent_name);
     if (attachments) {
       Array.from(attachments).forEach((file, index) => {
         formData.append(`attachments[${index}]`, file);
