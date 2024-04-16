@@ -4,9 +4,6 @@ import { CgAttachment } from "react-icons/cg";
 import ReactTimeAgo from 'react-time-ago';
 import PropTypes from 'prop-types';
 
-// Render conversations as Markdown
-import Markdown from "react-markdown"
-
 function Conversation({
   customer_name,
   from_customer,
@@ -65,7 +62,9 @@ function Conversation({
       <div className="flex-grow border-t dark:inherit mb-4"></div>
 
       {/* Body of conversation */}
-      <Markdown className="dark:text-white">{body}</Markdown>
+      <div className="dark:text-white">
+        {body}
+      </div>
       
       {/* Attachments */}
       <div className="mt-5">

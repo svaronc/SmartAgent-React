@@ -8,7 +8,6 @@ import { CgCheckO, CgNotes } from "react-icons/cg";
 import { FaReply } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { IoIosMailOpen } from "react-icons/io";
-import ConversationAuthor from "./ConversationAuthor";
 import TransferConfirmationModal from "../Modal/TransferConfirmationModal";
 
 // import { FaArrowsUpDown } from "react-icons/fa6";
@@ -35,10 +34,9 @@ import DeleteConfirmationModal from "../Modal/DeleteConfirmationModal";
 
 function TicketInfo() {
   const { state, dispatch } = useAppContext();
-  const { resolveTicket, transferTicket, openTicket, sendRespond } =
+  const { resolveTicket, openTicket, sendRespond } =
     useApplicationData();
   const ticket_id = state.viewTicketId;
-  const agents = state.agents;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
   const [notesPanel, setNotesPanel] = useState(false)
   const [editorState, setEditorState] = useState();

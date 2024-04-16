@@ -54,7 +54,7 @@ function RequestForm() {
       });
   };
   return (
-    <div className="max-w-3xl mx-auto p-6 shadow-md rounded-md m-5">
+    <div className="max-w-3xl mx-auto p-6 shadow-md rounded-md m-5 bg-white dark:bg-gray-900">
       {submitted ? ( // Conditional rendering for thank you message
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">
@@ -66,7 +66,7 @@ function RequestForm() {
         </div>
       ) : (
         <div>
-          <h1 className="m-5 text-4xl font-bold">
+          <h1 className="m-5 text-4xl font-bold dark:text-white">
             Customer Support Request Form
           </h1>
           <Formik
@@ -87,7 +87,7 @@ function RequestForm() {
                 <div className="mb-4">
                   <label
                     htmlFor="customer_name"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
                     Name
                   </label>
@@ -96,7 +96,7 @@ function RequestForm() {
                     id="customer_name"
                     type="text"
                     placeholder="Name"
-                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
+                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500 dark:text-white"
                   />
                   <ErrorMessage
                     name="customer_name"
@@ -108,7 +108,7 @@ function RequestForm() {
                 <div className="mb-4">
                   <label
                     htmlFor="from_email"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
                     Email
                   </label>
@@ -117,7 +117,7 @@ function RequestForm() {
                     id="from_email"
                     type="from_email"
                     placeholder="your-email@email.com"
-                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
+                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500  dark:text-white"
                   />
                   <ErrorMessage
                     name="from_email"
@@ -129,7 +129,7 @@ function RequestForm() {
                 <div className="mb-4">
                   <label
                     htmlFor="title"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
                     Title
                   </label>
@@ -138,7 +138,7 @@ function RequestForm() {
                     id="title"
                     type="text"
                     placeholder="Title"
-                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
+                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500  dark:text-white"
                   />
                   <ErrorMessage
                     name="title"
@@ -150,7 +150,7 @@ function RequestForm() {
                 <div className="mb-4">
                   <label
                     htmlFor="body"
-                    className="block text-sm font-medium text-gray-700 mb-2"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                   >
                     Request
                   </label>
@@ -176,7 +176,7 @@ function RequestForm() {
                         name="attachments"
                         type="file"
                         multiple
-                        className="form-control block w-full py-2 dark:text-white cursor-pointer font-normal text-gray-700"
+                        className="form-control block w-full py-2 dark:text-white cursor-pointer font-normal text-gray-700 dark:text-gray-300"
                         onChange={(event) => {
                           const files = event.currentTarget.files;
                           form.setFieldValue("attachments", files);
