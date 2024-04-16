@@ -21,7 +21,7 @@ function IconSidebar() {
 
   return (
     <div className="flex flex-col justify-between">
-      <ul className=" flex flex-col items-center bg-base-100 border-r-8 border-double h-full m-1 pr-2">
+      <ul className=" flex flex-col items-center bg-base-100 dark:bg-slate-700 dark:text-white border-r-8 border-double h-full m-1 pr-2">
         {menuItems.map((item, index) => (
           <li key={index}>
             <Link

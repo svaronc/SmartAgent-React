@@ -7,7 +7,7 @@ function TicketSidePanel() {
   const { state } = useAppContext();
   const { setTicketManagerView } = useApplicationData();
   return (
-    <div className="bg-base-200 border-r-4 border-double mt-2">
+    <div className="bg-base-300 border-r-4 border-double mt-2">
       <div className="flex-1 p-3 mb-6">          
           <Link to="/" className="btn btn-ghost lg:text-3xl text-xl font-bold mb-8 dark:text-white">
             <img src="/SmartAgent-icon.svg" alt="SmartAgent icon" width="45" />SmartAgent
@@ -21,7 +21,7 @@ function TicketSidePanel() {
           {sidePanelItems.map((item, index) => (
             <li 
               key={index} 
-              className="ring-yellow-600/20 ml-2 mr-2 mb-1 pt-1 pb-1 pl-2 pr-2 hover:bg-slate-200 rounded cursor-pointer"
+              className="ring-yellow-600/20 ml-2 mr-2 mb-1 pt-1 pb-1 pl-2 pr-2 hover:bg-slate-600 hover:text-white font-bold rounded cursor-pointer"
               onClick={() => setTicketManagerView(item.title)}
             >
               <span className="inline-flex items-center mr-2 rounded-full bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
