@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
 import RequestForm from "./RequestForm";
 import Footer from "../Footer/Footer";
+import { BubbleChat } from 'flowise-embed-react'
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
 
 function Hero() {
+  const CHATFLOW_ID = import.meta.env.VITE_CHATFLOW_ID;
+  const API_HOST = import.meta.env.VITE_API_HOST;
+
   const { isAuthenticated } = useContext(AuthContext);
   return (
     <div className="flex-col">
@@ -40,7 +44,45 @@ function Hero() {
       <div id="customer-request-form">
         <RequestForm />
       </div>
-
+      <BubbleChat 
+        chatflowid={CHATFLOW_ID} 
+        apiHost={API_HOST}
+        theme={{
+          button: {
+              backgroundColor: "#3B81F6",
+              right: 50,
+              bottom: 20,
+              size: "large",
+              iconColor: "white",
+              customIconSrc: "https://raw.githubusercontent.com/glowiep/SmartAgent/c52ad7bca41042bbb63371377b9e3c2666a7ef74/frontend/public/SmartAgent-icon.svg",
+          },
+          chatWindow: {
+              welcomeMessage: "Hello! This is custom welcome message",
+              backgroundColor: "#ffffff",
+              height: 700,
+              width: 500,
+              fontSize: 16,
+              poweredByTextColor: "#ffffff",
+              botMessage: {
+                  backgroundColor: "#f7f8ff",
+                  textColor: "#303235",
+                  showAvatar: true,
+                  avatarSrc: "https://raw.githubusercontent.com/glowiep/SmartAgent/c52ad7bca41042bbb63371377b9e3c2666a7ef74/frontend/public/SmartAgent-icon.svg",
+              },
+              userMessage: {
+                  backgroundColor: "#3B81F6",
+                  textColor: "#ffffff",
+                  showAvatar: true,
+                  avatarSrc: "https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/usericon.png",
+              },
+              textInput: {
+                  placeholder: "Type your question",
+                  backgroundColor: "#ffffff",
+                  textColor: "#303235",
+                  sendButtonColor: "#3B81F6",
+              }
+          }
+      }} />
       <Footer />
     </div>
   );
