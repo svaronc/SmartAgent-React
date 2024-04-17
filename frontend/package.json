@@ -15,6 +15,8 @@
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
     "dompurify": "^3.0.11",
+    "flowise-embed": "^1.2.1",
+    "flowise-embed-react": "^1.0.2",
     "formik": "^2.4.5",
     "javascript-time-ago": "^2.5.9",
     "localforage": "^1.10.0",
@@ -32,6 +34,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@rollup/plugin-replace": "^5.0.5",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
