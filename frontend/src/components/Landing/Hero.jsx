@@ -57,7 +57,7 @@ function Hero() {
               customIconSrc: "https://raw.githubusercontent.com/glowiep/SmartAgent/c52ad7bca41042bbb63371377b9e3c2666a7ef74/frontend/public/SmartAgent-icon.svg",
           },
           chatWindow: {
-              welcomeMessage: "Hello! This is custom welcome message",
+              welcomeMessage: "Hello! Feel free to ask me anything about SmartAgent.",
               backgroundColor: "#ffffff",
               height: 700,
               width: 500,
