@@ -63,9 +63,10 @@ function Conversation({
       <div className="flex-grow border-t dark:inherit mb-4"></div>
 
       {/* Body of conversation */}
-      <div className="dark:text-white">
-        {body}
-      </div>
+      <div
+        className="dark:text-white"
+        dangerouslySetInnerHTML={{ __html: body }}
+      />
       
       {/* Attachments */}
       <div className="mt-5">
