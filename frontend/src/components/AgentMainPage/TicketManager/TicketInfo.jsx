@@ -98,12 +98,7 @@ function TicketInfo() {
           className="py-2 flex items-center justify-center"
           onClick={(event) => event.stopPropagation()}
         >
-          <button
-            onClick={() => setNotesPanel((prev) => !prev)}
-            className="btn btn-ghost"
-          >
-            <CgNotes />
-          </button>
+          
           <h1 className="font-bold lg:text-2xl text-gray-500 dark:text-white ">
             {ticket.agent &&
             Number(state.loggedInAgent.agent_id) === ticket.agent.id
@@ -194,22 +189,6 @@ function TicketInfo() {
                 </button>
               </div>
             </div>
-            {/* <div className="justify-end relative mt-5">
-              <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
-                <li>
-                  <button
-                    className="flex items-center gap-2"
-                    onClick={() => {
-                      sendRespond(ticket_id, editorState, attachments);
-                      setReplyIsVisible(!replyIsVisible);
-                    }}
-                  >
-                    <IoSend size="1.5rem" />
-                    Send
-                  </button>
-                </li>
-              </ul>
-            </div> */}
           </div>
         )}
         <div ref={conversationsEndRef} />
@@ -255,23 +234,38 @@ function TicketInfo() {
               </button>
             </li>
           )}
+
+          {/* Notes button */}
           <li>
-            <button className="btn btn-ghost">
-              <label htmlFor="my_modal_7" className="flex items-center gap-2">
-                <MdDelete size="1.5rem" />
-                Delete
-              </label>
+            <button
+              onClick={() => setNotesPanel((prev) => !prev)}
+              className="btn btn-ghost"
+            >
+              <CgNotes size="1.5rem" />
+              Ticket Notes
             </button>
-            <DeleteConfirmationModal ticket_id={ticket.id} />
           </li>
+          
+          {/* Transfer button */}
           <li>
             <button className="btn btn-ghost">
               <label htmlFor="my_modal_11" className="flex items-center gap-2">
                 <LuArrowLeftRight size="1.5rem" />
-                Transfer
+                Transfer Ticket
               </label>
             </button>
             <TransferConfirmationModal ticket={ticket} />
+          </li>
+
+          {/* Delete button */}
+          <li>
+            <button className="btn btn-ghost">
+              <label htmlFor="my_modal_7" className="flex items-center gap-2">
+                <MdDelete size="1.5rem" />
+                Delete Ticket
+              </label>
+            </button>
+            <DeleteConfirmationModal ticket_id={ticket.id} />
           </li>
         </ul>
       </div>
