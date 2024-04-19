@@ -66,7 +66,7 @@ function TicketInbox() {
   useFetchInboxTickets();
 
   const getTicketRowClassName = (ticket) => {
-    switch (ticket.status.description) {
+    switch (ticket.status?.description) {
       case "Open":
         return "bg-yellow-100 border-b dark:bg-gray-300 dark:border-gray-700 hover:bg-yellow-200  dark:hover:text-black dark:hover:bg-gray-100 rounded cursor-pointer dark:text-black";
       case "Answered":
@@ -175,7 +175,7 @@ function TicketInbox() {
                   <td className="px-2 py-4">{ticket.id}</td>
 
                   {/* Status */}
-                  <td className="px-6 py-4">{ticket.status.description}</td>
+                  <td className="px-6 py-4">{ticket.status?.description}</td>
 
                   {/* Created At */}
                   <td className="px-6 py-4">
@@ -415,8 +415,8 @@ function TicketInbox() {
                       </div>
 
                       {/* Show the open ticket icon if the ticket is open */}
-                      {ticket.status.description === "Open" ||
-                      ticket.status.description === "Answered" ? (
+                      {ticket.status?.description === "Open" ||
+                      ticket.status?.description === "Answered" ? (
                         <li
                           className="tooltip tooltip-right px-3 py-4"
                           data-tip="Resolve"
