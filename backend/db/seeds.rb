@@ -35,7 +35,7 @@ Agent.create(email: 'glorialimartt@gmail.com', full_name: 'Gloria lim', password
             end
 # Seed data for statuses
 Status.create(description: 'Open')
-Status.create(description: 'Pending')
+Status.create(description: 'Answered')
 Status.create(description: 'Resolved')
 # Create some tickets
 

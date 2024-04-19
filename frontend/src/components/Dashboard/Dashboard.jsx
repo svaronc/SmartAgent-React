@@ -12,9 +12,9 @@ import {
 import { useEffect, useState } from "react";
 import { Line, Doughnut } from "react-chartjs-2";
 import axios from "axios";
-import { BsFillEnvelopeCheckFill, BsEnvelopeOpenFill } from "react-icons/bs";
-import { MdPending } from "react-icons/md";
+import { BsFillEnvelopeCheckFill, BsEnvelopeOpenFill, BsFillSendCheckFill } from "react-icons/bs";
 import { useAppContext } from "../../context/AppContext";
+import { motion } from "framer-motion"
 
 ChartJS.register(
   CategoryScale,
@@ -56,8 +56,8 @@ const Dashboard = () => {
   const openTickets = agentTickets.filter(
     (ticket) => ticket.status_id === 1 // Filtering open tickets
   ).length;
-  const pendingTickets = agentTickets.filter(
-    (ticket) => ticket.status_id === 2 // Filtering pending tickets
+  const answeredTickets = agentTickets.filter(
+    (ticket) => ticket.status_id === 2 // Filtering answered tickets
   ).length;
   const allResolvedTickets = tickets.filter((ticket) => ticket.status_id === 3); // Filtering all resolved tickets
   const resolvedTicketsPerAgent = agentsIds.map((agent) => {
@@ -88,12 +88,20 @@ const Dashboard = () => {
         text: "Tickets per Agent",
       },
     },
+    scales: {
+      y: {
+        min: 0,
+        ticks: {
+            stepSize: 1
+        }
+      },
+  },
   };
   const data2 = {
-    labels: ["Open Tickets", "Pending Tickets", "Resolved Tickets"],
+    labels: [`Open Tickets (${openTickets})`, `Answered Tickets (${answeredTickets})`, `Resolved Tickets (${resolvedTickets})`],
     datasets: [
       {
-        data: [openTickets, pendingTickets, resolvedTickets], // Data for the doughnut chart
+        data: [openTickets, answeredTickets, resolvedTickets], // Data for the doughnut chart
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)",
           "rgba(54, 162, 235, 0.6)",
@@ -111,35 +119,9 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex items-center justify-center lg:pl-52 w-[95%]">
       <div className="grid grid-cols-4 gap-4 cursor-pointer">
-        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
-          <div className="flex mt-3">
-            <BsEnvelopeOpenFill className="w-5 h-5 mx-3 text-blue-600" />
-            <p className="text-2xl text-blue-600">
-              <span>{openTickets}</span>
-            </p>
-          </div>
-          <h2 className="text-2xl">Open Tickets</h2>
-        </div>
-        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
-          <div className="flex mt-3">
-            <MdPending className="w-5 h-5 mx-3 text-blue-600" />
-            <p className="text-2xl text-blue-600">
-              <span>{pendingTickets}</span>
-            </p>
-          </div>
-          <h2 className="text-2xl">Pending Tickets</h2>
-        </div>
-        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
-          <div className="flex mt-3">
-            <BsFillEnvelopeCheckFill className="w-5 h-5 mx-3 text-blue-600" />
-            <p className="text-2xl text-blue-600">
-              <span>{resolvedTickets}</span>
-            </p>
-          </div>
-          <h2 className="text-2xl">Resolved Tickets</h2>
-        </div>
-        <div className=" bg-white shadow-lg rounded-xl col-span-1 row-span-3">
-          <div className="flex flex-col justify-center mt-5 items-center">
+        {/* Profile panel */}
+      <div className="flex flex-row justify-center bg-white shadow-lg rounded-xl col-span-1 row-span-3">
+          <div className="flex flex-col justify-center items-center mb-10">
             <div className="avatar">
               <div className="w-24 rounded-full">
               <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
@@ -151,12 +133,43 @@ const Dashboard = () => {
             ) : (
               <p></p>
             )}
-            <div className="h-44 w-72 mt-16 flex flex-col items-center justify-center">
+            <div className="h-44 w-72 mt-5 flex flex-col items-center justify-center">
               <Doughnut data={data2} />
             </div>
           </div>
         </div>
-        <div className="bg-white shadow-lg rounded-xl col-span-3 h-96 row-span-2">
+        {/* Open Tickets */}
+        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
+          <div className="flex mt-3">
+            <BsEnvelopeOpenFill className="w-5 h-5 mx-3 text-blue-600" />
+            <p className="text-2xl text-blue-600">
+              <span>{openTickets}</span>
+            </p>
+          </div>
+          <h2 className="text-2xl">Open Tickets</h2>
+        </div>
+        {/* Answered Tickets */}
+        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
+          <div className="flex mt-3">
+            <BsFillSendCheckFill className="w-5 h-5 mx-3 text-blue-600" />
+            <p className="text-2xl text-blue-600">
+              <span>{answeredTickets}</span>
+            </p>
+          </div>
+          <h2 className="text-2xl">Answered Tickets</h2>
+        </div>
+        {/* Resolved Tickets */}
+        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
+          <div className="flex mt-3">
+            <BsFillEnvelopeCheckFill className="w-5 h-5 mx-3 text-blue-600" />
+            <p className="text-2xl text-blue-600">
+              <span>{resolvedTickets}</span>
+            </p>
+          </div>
+          <h2 className="text-2xl">Resolved Tickets</h2>
+        </div>
+        {/* Agent tickets line graph */}
+        <div className="flex flex-row justify-center bg-white shadow-lg rounded-xl col-span-3 h-96 row-span-2 pl-2 pr-5">
           <Line data={data} options={options} />
         </div>
       </div>
