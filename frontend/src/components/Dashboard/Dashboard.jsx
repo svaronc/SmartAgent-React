@@ -87,6 +87,14 @@ const Dashboard = () => {
         text: "Tickets per Agent",
       },
     },
+    scales: {
+      y: {
+        min: 0,
+        ticks: {
+            stepSize: 1
+        }
+      },
+  },
   };
   const data2 = {
     labels: ["Open Tickets", "Answered Tickets", "Resolved Tickets"],
