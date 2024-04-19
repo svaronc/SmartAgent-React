@@ -109,7 +109,7 @@ function TicketInfo() {
           </h1>
         </div>
       </div>
-      {notesPanel && <NotesSidePanel ticket_id={ticket_id} />}
+      {notesPanel && <NotesSidePanel ticket_id={ticket_id} setNotesPanel={setNotesPanel}/>}
       <div className="bg-base-100 border-2  overflow-y-auto w-[100%] h-[86%]">
         {ticket.conversations &&
           ticket.conversations.map((conversation) => (
