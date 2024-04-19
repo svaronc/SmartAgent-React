@@ -56,7 +56,7 @@ function TicketInbox() {
 
   const createNote = (value, ticket_id) => {
     axios
-      .post("api/v1/notes", { ticket_id: ticket_id, body: value })
+      .post("api/v1/notes", { ticket_id: ticket_id, body: value, agent_id: state.loggedInAgent.agent_id })
       .then((response) => {
         console.log(response.data);
       });
@@ -308,7 +308,7 @@ function TicketInbox() {
                                   <button
                                     className="btn btn-success ml-2"
                                     onClick={() => {
-                                      createNote(newNoteBody, ticket.id);
+                                      createNote(newNoteBody, ticket.id, state.loggedInAgent.agent_id);
                                       console.log(newNoteBody);
                                       setNewNoteBody("");
                                       setSubmitNote(true);

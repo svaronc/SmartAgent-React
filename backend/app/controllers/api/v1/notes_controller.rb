@@ -5,7 +5,11 @@ class Api::V1::NotesController < ApplicationController
   # GET /notes.json
   def index
     @notes = Note.order(created_at: :desc)
-    render json: @notes
+    render json: @notes.as_json(include: {
+      agent: {
+        only: [:full_name]
+      }
+    })
   end
 
   # GET /notes/1
@@ -50,6 +54,6 @@ class Api::V1::NotesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def note_params
-      params.require(:note).permit(:ticket_id, :body)
+      params.require(:note).permit(:ticket_id, :body, :agent_id)
     end
 end
