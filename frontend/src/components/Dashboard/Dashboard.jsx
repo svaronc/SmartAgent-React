@@ -118,34 +118,8 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex items-center justify-center lg:pl-52 w-[95%]">
       <div className="grid grid-cols-4 gap-4 cursor-pointer">
-        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
-          <div className="flex mt-3">
-            <BsEnvelopeOpenFill className="w-5 h-5 mx-3 text-blue-600" />
-            <p className="text-2xl text-blue-600">
-              <span>{openTickets}</span>
-            </p>
-          </div>
-          <h2 className="text-2xl">Open Tickets</h2>
-        </div>
-        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
-          <div className="flex mt-3">
-            <BsFillSendCheckFill className="w-5 h-5 mx-3 text-blue-600" />
-            <p className="text-2xl text-blue-600">
-              <span>{answeredTickets}</span>
-            </p>
-          </div>
-          <h2 className="text-2xl">Answered Tickets</h2>
-        </div>
-        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
-          <div className="flex mt-3">
-            <BsFillEnvelopeCheckFill className="w-5 h-5 mx-3 text-blue-600" />
-            <p className="text-2xl text-blue-600">
-              <span>{resolvedTickets}</span>
-            </p>
-          </div>
-          <h2 className="text-2xl">Resolved Tickets</h2>
-        </div>
-        <div className=" bg-white shadow-lg rounded-xl col-span-1 row-span-3">
+        {/* Profile panel */}
+      <div className=" bg-white shadow-lg rounded-xl col-span-1 row-span-3">
           <div className="flex flex-col justify-center mt-5 items-center">
             <div className="avatar">
               <div className="w-24 rounded-full">
@@ -163,6 +137,37 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+        {/* Open Tickets */}
+        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
+          <div className="flex mt-3">
+            <BsEnvelopeOpenFill className="w-5 h-5 mx-3 text-blue-600" />
+            <p className="text-2xl text-blue-600">
+              <span>{openTickets}</span>
+            </p>
+          </div>
+          <h2 className="text-2xl">Open Tickets</h2>
+        </div>
+        {/* Answered Tickets */}
+        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
+          <div className="flex mt-3">
+            <BsFillSendCheckFill className="w-5 h-5 mx-3 text-blue-600" />
+            <p className="text-2xl text-blue-600">
+              <span>{answeredTickets}</span>
+            </p>
+          </div>
+          <h2 className="text-2xl">Answered Tickets</h2>
+        </div>
+        {/* Resolved Tickets */}
+        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
+          <div className="flex mt-3">
+            <BsFillEnvelopeCheckFill className="w-5 h-5 mx-3 text-blue-600" />
+            <p className="text-2xl text-blue-600">
+              <span>{resolvedTickets}</span>
+            </p>
+          </div>
+          <h2 className="text-2xl">Resolved Tickets</h2>
+        </div>
+        {/* Agent tickets line graph */}
         <div className="bg-white shadow-lg rounded-xl col-span-3 h-96 row-span-2 pl-5 pr-5">
           <Line data={data} options={options} />
         </div>
