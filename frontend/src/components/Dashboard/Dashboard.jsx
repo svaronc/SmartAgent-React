@@ -155,7 +155,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="bg-white shadow-lg rounded-xl col-span-3 h-96 row-span-2">
+        <div className="bg-white shadow-lg rounded-xl col-span-3 h-96 row-span-2 pl-5 pr-5">
           <Line data={data} options={options} />
         </div>
       </div>
