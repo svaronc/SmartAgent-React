@@ -202,6 +202,7 @@ Ticket.all.each do |ticket|
   3.times do
     Note.create(
       ticket_id: ticket.id,
+      agent_id: [1,2,3,4,5,6,7,8,9,10].sample,
       body: Faker::Lorem.sentence(word_count: 10)
     )
   end
