@@ -97,7 +97,7 @@ const Dashboard = () => {
   },
   };
   const data2 = {
-    labels: ["Open Tickets", "Answered Tickets", "Resolved Tickets"],
+    labels: [`Open Tickets (${openTickets})`, `Answered Tickets (${answeredTickets})`, `Resolved Tickets (${resolvedTickets})`],
     datasets: [
       {
         data: [openTickets, answeredTickets, resolvedTickets], // Data for the doughnut chart
