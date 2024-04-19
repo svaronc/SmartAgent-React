@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import { Line, Doughnut } from "react-chartjs-2";
 import axios from "axios";
-import { BsFillEnvelopeCheckFill, BsEnvelopeOpenFill } from "react-icons/bs";
+import { BsFillEnvelopeCheckFill, BsEnvelopeOpenFill, BsFillSendCheckFill } from "react-icons/bs";
 import { MdPending } from "react-icons/md";
 import { useAppContext } from "../../context/AppContext";
 
@@ -56,8 +56,8 @@ const Dashboard = () => {
   const openTickets = agentTickets.filter(
     (ticket) => ticket.status_id === 1 // Filtering open tickets
   ).length;
-  const pendingTickets = agentTickets.filter(
-    (ticket) => ticket.status_id === 2 // Filtering pending tickets
+  const answeredTickets = agentTickets.filter(
+    (ticket) => ticket.status_id === 2 // Filtering answered tickets
   ).length;
   const allResolvedTickets = tickets.filter((ticket) => ticket.status_id === 3); // Filtering all resolved tickets
   const resolvedTicketsPerAgent = agentsIds.map((agent) => {
@@ -90,10 +90,10 @@ const Dashboard = () => {
     },
   };
   const data2 = {
-    labels: ["Open Tickets", "Pending Tickets", "Resolved Tickets"],
+    labels: ["Open Tickets", "Answered Tickets", "Resolved Tickets"],
     datasets: [
       {
-        data: [openTickets, pendingTickets, resolvedTickets], // Data for the doughnut chart
+        data: [openTickets, answeredTickets, resolvedTickets], // Data for the doughnut chart
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)",
           "rgba(54, 162, 235, 0.6)",
@@ -122,12 +122,12 @@ const Dashboard = () => {
         </div>
         <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
           <div className="flex mt-3">
-            <MdPending className="w-5 h-5 mx-3 text-blue-600" />
+            <BsFillSendCheckFill className="w-5 h-5 mx-3 text-blue-600" />
             <p className="text-2xl text-blue-600">
-              <span>{pendingTickets}</span>
+              <span>{answeredTickets}</span>
             </p>
           </div>
-          <h2 className="text-2xl">Pending Tickets</h2>
+          <h2 className="text-2xl">Answered Tickets</h2>
         </div>
         <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
           <div className="flex mt-3">
