@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md";
 import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
 import { IoIosMailOpen } from "react-icons/io";
+import { BsFillSendCheckFill } from "react-icons/bs";
 
 // Date formatting
 import TimeAgo from "javascript-time-ago";
@@ -17,7 +18,7 @@ import ReactTimeAgo from "react-time-ago";
 import useApplicationData from "../../../hooks/useApplicationData";
 import useFetchInboxTickets from "../../../hooks/inbox/useFetchInboxTickets";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 function TicketInbox() {
@@ -32,17 +33,11 @@ function TicketInbox() {
   const tickets = state.inboxTickets;
   const agents = state.agents;
   const [searchTerm, setSearchTerm] = useState("");
-  // For transfer modal
-  // const inboxInputRef = useRef(null);
-  // const clearInboxInputRef = () => {
-  //   console.log("Input clearinboxInputRef");
-  //   if (inboxInputRef.current) {
-  //     return (inboxInputRef.current.value = ""); // Clear the input value
-  //   }
-  // };
+  const [transferToAgentId, setTransferToAgentId] = useState("");
+  const [inputValue, setInputValue] = useState("");
 
   const closeModal = () => {
-    // clearInboxInputRef();
+    setInputValue("");
     setNewNoteBody("");
     setSubmitNote(false);
     setAddNoteVisible(false);
@@ -53,10 +48,16 @@ function TicketInbox() {
   const [newNoteBody, setNewNoteBody] = useState("");
   const [submitNote, setSubmitNote] = useState(false);
   const [addNoteVisible, setAddNoteVisible] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   const createNote = (value, ticket_id) => {
+    if (value.trim() === "") return;
     axios
-      .post("api/v1/notes", { ticket_id: ticket_id, body: value, agent_id: state.loggedInAgent.agent_id })
+      .post("api/v1/notes", {
+        ticket_id: ticket_id,
+        body: value,
+        agent_id: state.loggedInAgent.agent_id,
+      })
       .then((response) => {
         console.log(response.data);
       });
@@ -65,9 +66,16 @@ function TicketInbox() {
   useFetchInboxTickets();
 
   const getTicketRowClassName = (ticket) => {
-    return ticket.status_id === 1
-      ? "bg-white border-b dark:bg-gray-600 dark:border-gray-700 hover:bg-blue-50  dark:hover:text-black rounded cursor-pointer dark:text-gray-100"
-      : "bg-grey border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-50  dark:hover:text-black rounded cursor-pointer text-gray-500";
+    switch (ticket.status?.description) {
+      case "Open":
+        return "bg-yellow-100 border-b dark:bg-gray-300 dark:border-gray-700 hover:bg-yellow-200  dark:hover:text-black dark:hover:bg-gray-100 rounded cursor-pointer dark:text-black";
+      case "Answered":
+        return "bg-white border-b dark:bg-gray-600 dark:border-gray-700 hover:bg-blue-50  dark:hover:text-black rounded cursor-pointer dark:text-gray-200";
+      case "Resolved":
+        return "bg-grey border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-50  dark:hover:text-black rounded cursor-pointer text-gray-500";
+      default:
+        break;
+    }
   };
 
   return (
@@ -87,6 +95,26 @@ function TicketInbox() {
             />
           </div>
         </div>
+        {showToast && (
+          <div className="toast toast-top toast-end">
+            <div className="alert alert-success">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="stroke-current shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>The ticket has been transferred.</span>
+            </div>
+          </div>
+        )}
       </section>
       <div className="relative">
         <table className="w-full text-sm text-left rtl:text-right">
@@ -147,9 +175,7 @@ function TicketInbox() {
                   <td className="px-2 py-4">{ticket.id}</td>
 
                   {/* Status */}
-                  <td className="px-6 py-4">
-                    {ticket.status_id === 1 ? "Open" : "Resolved"}
-                  </td>
+                  <td className="px-6 py-4">{ticket.status?.description}</td>
 
                   {/* Created At */}
                   <td className="px-6 py-4">
@@ -167,8 +193,8 @@ function TicketInbox() {
                     state.loggedInAgent.agent_id === ticket.agent.id
                       ? "Me"
                       : ticket.agent
-                      ? ticket.agent.full_name
-                      : ""}
+                        ? ticket.agent.full_name
+                        : ""}
                   </td>
 
                   {/* Actions */}
@@ -196,70 +222,69 @@ function TicketInbox() {
                             <div className="modal-box">
                               <div className="flex flex-col items-center">
                                 <h3 className="text-4xl font-bold dark:text-white">
-                                  {addNoteVisible
-                                    ? "Add Note"
-                                    : "Transfer Ticket"}
+                                  Transfer Ticket
                                 </h3>
-                                {!addNoteVisible && (
-                                  <div>
-                                    <p className="pt-6 text-2xl mb-2 dark:text-white flex flex-col items-center justify-center gap-2">
-                                      Currently Assigned to:
-                                      <p className="font-bold">
-                                        {Number(
-                                          state.loggedInAgent?.agent_id
-                                        ) === ticket.agent?.id
-                                          ? " Me"
-                                          : ticket.agent?.full_name
+
+                                <div>
+                                  <p className="pt-6 text-2xl mb-2 dark:text-white flex flex-col items-center justify-center gap-2">
+                                    Currently Assigned to:
+                                    <p className="font-bold">
+                                      {Number(state.loggedInAgent?.agent_id) ===
+                                      ticket.agent?.id
+                                        ? " Me"
+                                        : ticket.agent?.full_name
                                           ? ` ${ticket.agent?.full_name}`
                                           : ""}
-                                      </p>
-                                      <LuArrowLeftRight />
                                     </p>
+                                    <LuArrowLeftRight />
+                                    Transfer to:
+                                  </p>
 
-                                    <input
-                                      // ref={inboxInputRef}
-                                      list="agents"
-                                      placeholder="Transfer to..."
-                                      className="input input-bordered dark:text-white"
-                                      onFocus={() => setSubmitNote(false)}
-                                      onChange={(event) => {
-                                        const agent = agents.find(
-                                          (agent) =>
-                                            agent.full_name ===
-                                            event.target.value
-                                        );
-                                        if (agent) {
-                                          transferTicket(ticket.id, agent.id);
-                                        }
-                                      }}
-                                    />
-                                    <datalist id="agents">
-                                      {agents.map((agent) => (
-                                        <option
-                                          key={agent.id}
-                                          value={agent.full_name}
-                                        >
-                                          {state.loggedInAgent.agent_id ===
-                                          agent.id
-                                            ? "Me"
-                                            : agent.full_name}
-                                        </option>
-                                      ))}
-                                    </datalist>
-                                  </div>
-                                )}
-                                {/* Bug with clear name button for resolved tickets in inbox view */}
-                                {/* <button
-                                type="submit"
-                                className="modal-action"
-                                onClick={clearInboxInputRef}
-                              >
-                                <label className="btn bg-grey dark:bg-gray-700">
-                                  Clear Name
-                                </label>
-                              </button> */}
+                                  <input
+                                    value={inputValue}
+                                    list="agents"
+                                    placeholder="Transfer to..."
+                                    className="input input-bordered dark:text-white"
+                                    onFocus={() => setSubmitNote(false)}
+                                    onChange={(event) => {
+                                      setInputValue(event.target.value);
+                                      const agent = agents.find(
+                                        (agent) =>
+                                          agent.full_name === event.target.value
+                                      );
+                                      if (agent) {
+                                        setInputValue(event.target.value);
+                                        setTransferToAgentId(agent.id);
+                                        setAddNoteVisible(true);
+                                      }
+                                    }}
+                                  />
+                                  <datalist id="agents">
+                                    <option key="empty" value=" " />
+                                    {agents.map((agent) => (
+                                      <option
+                                        key={agent.id}
+                                        value={agent.full_name}
+                                      >
+                                        {state.loggedInAgent.agent_id ===
+                                        agent.id
+                                          ? "Me"
+                                          : agent.full_name}
+                                      </option>
+                                    ))}
+                                  </datalist>
+                                  <button
+                                    className="btn btn-neutral ml-2"
+                                    onClick={() => {
+                                      setInputValue("");
+                                      setAddNoteVisible(false);
+                                    }}
+                                  >
+                                    Clear
+                                  </button>
+                                </div>
                               </div>
-                              <div className="flex flex-col justify-center items-center gap-2 mt-5">
+                              <div>
                                 {addNoteVisible && (
                                   <textarea
                                     id="note"
@@ -300,45 +325,51 @@ function TicketInbox() {
                                         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                                       />
                                     </svg>
-                                    <span>Your note has been added!</span>
+                                    <span>
+                                      The ticket has been transferred!
+                                    </span>
                                   </div>
                                 </div>
-                                {/* Submit Note button */}
-                                {addNoteVisible && (
-                                  <button
-                                    className="btn btn-success ml-2"
-                                    onClick={() => {
-                                      createNote(newNoteBody, ticket.id, state.loggedInAgent.agent_id);
-                                      console.log(newNoteBody);
-                                      setNewNoteBody("");
-                                      setSubmitNote(true);
-                                      setAddNoteVisible(false);
-                                    }}
-                                  >
-                                    Submit
-                                  </button>
-                                )}
 
                                 <div className="flex flex-row justify-center items-center">
-                                  {/* Add Note button */}
-                                  <button
-                                    className="btn btn-primary ml-2"
-                                    onClick={() => {
-                                      setAddNoteVisible(!addNoteVisible);
-                                    }}
-                                  >
-                                    {addNoteVisible
-                                      ? "Transfer Ticket"
-                                      : "Add Note"}
-                                  </button>
+                                  {/* Transfer button */}
+                                  {addNoteVisible && (
+                                    <button
+                                      className="btn btn-primary ml-2"
+                                      onClick={() => {
+                                        createNote(
+                                          newNoteBody,
+                                          ticket.id,
+                                          state.loggedInAgent.agent_id
+                                        );
+                                        setSubmitNote(true);
+                                        transferTicket(
+                                          ticket.id,
+                                          transferToAgentId
+                                        );
+                                        setNewNoteBody("");
+                                        setAddNoteVisible(false);
+                                        setInputValue("");
+                                        setShowToast(true);
+                                        setTimeout(() => {
+                                          closeModal();
+                                        }, 1000);
+                                        setTimeout(() => {
+                                          setShowToast(false);
+                                        }, 3000);
+                                      }}
+                                    >
+                                      Transfer Ticket
+                                    </button>
+                                  )}
 
                                   {/* View ticket button */}
-                                  <button
+                                  {/* <button
                                     className="btn btn-primary btn-outline ml-2"
                                     onClick={() => setTicketView(ticket.id)}
                                   >
                                     View Ticket
-                                  </button>
+                                  </button> */}
 
                                   {/* Close modal x button */}
                                   <form method="dialog">
@@ -358,6 +389,7 @@ function TicketInbox() {
                                   {/* Close modal button */}
                                   <form method="dialog">
                                     <button
+                                      id="close-modal"
                                       type="submit"
                                       className="modal-action pb-6"
                                       onClick={closeModal}
@@ -379,11 +411,12 @@ function TicketInbox() {
                             </form>
                           </dialog>
                           {/* Transfer Modal ends here */}
-
-                          {/* <TransferConfirmationModal ticket={state.openModalTicket} /> - old */}
                         </li>
                       </div>
-                      {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
+
+                      {/* Show the open ticket icon if the ticket is open */}
+                      {ticket.status?.description === "Open" ||
+                      ticket.status?.description === "Answered" ? (
                         <li
                           className="tooltip tooltip-right px-3 py-4"
                           data-tip="Resolve"
@@ -393,8 +426,10 @@ function TicketInbox() {
                           }}
                         >
                           <CgCheckO size="1.5rem" />
-                        </li> // Show the open ticket icon if the ticket has been resolved
+                        </li>
                       ) : (
+                        // Otherwise show resolve icon
+
                         <li
                           className="tooltip tooltip-right px-3 py-4"
                           data-tip="Reopen"
