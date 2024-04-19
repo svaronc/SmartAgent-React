@@ -14,6 +14,7 @@ import { Line, Doughnut } from "react-chartjs-2";
 import axios from "axios";
 import { BsFillEnvelopeCheckFill, BsEnvelopeOpenFill, BsFillSendCheckFill } from "react-icons/bs";
 import { useAppContext } from "../../context/AppContext";
+import { motion } from "framer-motion"
 
 ChartJS.register(
   CategoryScale,
