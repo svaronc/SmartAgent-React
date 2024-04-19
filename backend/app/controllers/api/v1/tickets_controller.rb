@@ -11,6 +11,9 @@ class Api::V1::TicketsController < ApplicationController
                                     },
                                     agent: { 
                                       only: [:id, :full_name] 
+                                    },
+                                    status: {
+                                      only: [:description]
                                     }
                                   })
   end

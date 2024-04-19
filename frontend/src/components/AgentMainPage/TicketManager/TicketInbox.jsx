@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md";
 import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO } from "react-icons/cg";
 import { IoIosMailOpen } from "react-icons/io";
+import { BsFillSendCheckFill } from "react-icons/bs";
 
 // Date formatting
 import TimeAgo from "javascript-time-ago";
@@ -65,9 +66,16 @@ function TicketInbox() {
   useFetchInboxTickets();
 
   const getTicketRowClassName = (ticket) => {
-    return ticket.status_id === 1
-      ? "bg-white border-b dark:bg-gray-600 dark:border-gray-700 hover:bg-blue-50  dark:hover:text-black rounded cursor-pointer dark:text-gray-100"
-      : "bg-grey border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-50  dark:hover:text-black rounded cursor-pointer text-gray-500";
+    switch (ticket.status.description) {
+      case "Open":
+        return "bg-yellow-100 border-b dark:bg-gray-300 dark:border-gray-700 hover:bg-yellow-200  dark:hover:text-black dark:hover:bg-gray-100 rounded cursor-pointer dark:text-black";
+      case "Answered":
+        return "bg-white border-b dark:bg-gray-600 dark:border-gray-700 hover:bg-blue-50  dark:hover:text-black rounded cursor-pointer dark:text-gray-200";
+      case "Resolved":
+        return "bg-grey border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-50  dark:hover:text-black rounded cursor-pointer text-gray-500";
+      default:
+        break;
+    }
   };
 
   return (
@@ -167,9 +175,7 @@ function TicketInbox() {
                   <td className="px-2 py-4">{ticket.id}</td>
 
                   {/* Status */}
-                  <td className="px-6 py-4">
-                    {ticket.status_id === 1 ? "Open" : "Resolved"}
-                  </td>
+                  <td className="px-6 py-4">{ticket.status.description}</td>
 
                   {/* Created At */}
                   <td className="px-6 py-4">
@@ -347,7 +353,7 @@ function TicketInbox() {
                                         setShowToast(true);
                                         setTimeout(() => {
                                           closeModal();
-                                        }, 1000)
+                                        }, 1000);
                                         setTimeout(() => {
                                           setShowToast(false);
                                         }, 3000);
@@ -407,7 +413,10 @@ function TicketInbox() {
                           {/* Transfer Modal ends here */}
                         </li>
                       </div>
-                      {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
+
+                      {/* Show the open ticket icon if the ticket is open */}
+                      {ticket.status.description === "Open" ||
+                      ticket.status.description === "Answered" ? (
                         <li
                           className="tooltip tooltip-right px-3 py-4"
                           data-tip="Resolve"
@@ -417,8 +426,10 @@ function TicketInbox() {
                           }}
                         >
                           <CgCheckO size="1.5rem" />
-                        </li> // Show the open ticket icon if the ticket has been resolved
+                        </li>
                       ) : (
+                        // Otherwise show resolve icon
+
                         <li
                           className="tooltip tooltip-right px-3 py-4"
                           data-tip="Reopen"
