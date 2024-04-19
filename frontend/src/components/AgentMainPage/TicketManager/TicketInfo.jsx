@@ -2,7 +2,7 @@ import { useAppContext } from "../../../context/AppContext";
 import { useState, useRef, useEffect } from "react";
 
 // Icons
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdCancel } from "react-icons/md";
 import { LuArrowLeftRight } from "react-icons/lu";
 import { CgCheckO, CgNotes } from "react-icons/cg";
 import { FaReply } from "react-icons/fa6";
@@ -34,13 +34,12 @@ import DeleteConfirmationModal from "../Modal/DeleteConfirmationModal";
 
 function TicketInfo() {
   const { state, dispatch } = useAppContext();
-  const { resolveTicket, openTicket, sendRespond } =
-    useApplicationData();
+  const { resolveTicket, openTicket, sendRespond } = useApplicationData();
   const ticket_id = state.viewTicketId;
   const agents = state.agents;
   const logAgent = state.loggedInAgent;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
-  const [notesPanel, setNotesPanel] = useState(false)
+  const [notesPanel, setNotesPanel] = useState(false);
   const [editorState, setEditorState] = useState();
   const [attachments, setAttachments] = useState([]);
   const conversationsEndRef = useRef(null);
@@ -60,7 +59,7 @@ function TicketInfo() {
       >
         <h1 className="lg:text-4xl font-bold mb-4 text-gray-700 dark:text-white text-xl">
           {`${ticket.id}: ${ticket.title}`}
-    </h1>
+        </h1>
         {/* <div className="flex flex-row items-center">
           <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
             <li>
@@ -95,21 +94,22 @@ function TicketInfo() {
             </li>
           </ul>
         </div> */}
-        <div className="py-2 flex items-center justify-center" onClick={(event) => event.stopPropagation()}>
-        <button onClick={() => setNotesPanel(prev => !prev)} className="btn btn-ghost">
-        <CgNotes />
-        </button>
-        <h1 className="font-bold lg:text-2xl text-gray-500 dark:text-white ">
-          {ticket.agent &&
-          Number(state.loggedInAgent.agent_id) === ticket.agent.id
-            ? "Assigned to: Me"
-            : ticket.agent
-            ? `Assigned to: ${ticket.agent.full_name}`
-            : ""}
-        </h1>
+        <div
+          className="py-2 flex items-center justify-center"
+          onClick={(event) => event.stopPropagation()}
+        >
+          
+          <h1 className="font-bold lg:text-2xl text-gray-500 dark:text-white ">
+            {ticket.agent &&
+            Number(state.loggedInAgent.agent_id) === ticket.agent.id
+              ? "Assigned to: Me"
+              : ticket.agent
+                ? `Assigned to: ${ticket.agent.full_name}`
+                : ""}
+          </h1>
         </div>
       </div>
-      {notesPanel && <NotesSidePanel ticket_id = {ticket_id} />}
+      {notesPanel && <NotesSidePanel ticket_id={ticket_id} setNotesPanel={setNotesPanel}/>}
       <div className="bg-base-100 border-2  overflow-y-auto w-[100%] h-[86%]">
         {ticket.conversations &&
           ticket.conversations.map((conversation) => (
@@ -134,9 +134,9 @@ function TicketInfo() {
                     <span>S</span>
                   </div>
                 </div>
-              <span className="lg:text-4xl font-bold mb-4 text-gray-700 dark:text-white text-xl">
-                SmartAgent <span className="font-normal">Reply</span>
-              </span>
+                <span className="lg:text-4xl font-bold mb-4 text-gray-700 dark:text-white text-xl">
+                  SmartAgent <span className="font-normal">Reply</span>
+                </span>
               </div>
               <div className="flex flex-row gap-5">
                 <p>From: SmartAgent &lt;smartagents3@gmail.com&gt;</p>
@@ -163,23 +163,32 @@ function TicketInfo() {
                   setAttachments(event.target.files);
                 }}
               />
+              <div className="flex flex-row items-center gap-4 mt-4">
+                <button
+                  className="btn btn-primary flex items-center gap-2"
+                  onClick={() => {
+                    sendRespond(
+                      ticket_id,
+                      editorState,
+                      attachments,
+                      logAgent.agent_id,
+                      logAgent.full_name
+                    );
+                    setReplyIsVisible(!replyIsVisible);
+                  }}
+                >
+                  <IoSend size="1.5rem" />
+                  Send
+                </button>
+                <button
+                  className="btn btn-ghost flex items-center gap-2"
+                  onClick={() => setReplyIsVisible(!replyIsVisible)}
+                >
+                  <MdCancel size="1.5rem" />
+                  Cancel
+                </button>
+              </div>
             </div>
-            {/* <div className="justify-end relative mt-5">
-              <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
-                <li>
-                  <button
-                    className="flex items-center gap-2"
-                    onClick={() => {
-                      sendRespond(ticket_id, editorState, attachments);
-                      setReplyIsVisible(!replyIsVisible);
-                    }}
-                  >
-                    <IoSend size="1.5rem" />
-                    Send
-                  </button>
-                </li>
-              </ul>
-            </div> */}
           </div>
         )}
         <div ref={conversationsEndRef} />
@@ -196,20 +205,6 @@ function TicketInfo() {
               Reply
             </button>
           </li>
-          {replyIsVisible && (
-            <li>
-              <button
-                className="btn btn-primary flex items-center gap-2"
-                onClick={() => {
-                  sendRespond(ticket_id, editorState, attachments, logAgent.agent_id, logAgent.full_name);
-                  setReplyIsVisible(!replyIsVisible);
-                }}
-              >
-                <IoSend size="1.5rem" />
-                Send
-              </button>
-            </li>
-          )}
           {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
             <li>
               <button
@@ -239,23 +234,38 @@ function TicketInfo() {
               </button>
             </li>
           )}
+
+          {/* Notes button */}
           <li>
-            <button className="btn btn-ghost">
-              <label htmlFor="my_modal_7" className="flex items-center gap-2">
-                <MdDelete size="1.5rem" />
-                Delete
-              </label>
+            <button
+              onClick={() => setNotesPanel((prev) => !prev)}
+              className="btn btn-ghost"
+            >
+              <CgNotes size="1.5rem" />
+              Ticket Notes
             </button>
-            <DeleteConfirmationModal ticket_id={ticket.id} />
           </li>
+          
+          {/* Transfer button */}
           <li>
             <button className="btn btn-ghost">
               <label htmlFor="my_modal_11" className="flex items-center gap-2">
                 <LuArrowLeftRight size="1.5rem" />
-                Transfer
+                Transfer Ticket
               </label>
             </button>
             <TransferConfirmationModal ticket={ticket} />
+          </li>
+
+          {/* Delete button */}
+          <li>
+            <button className="btn btn-ghost">
+              <label htmlFor="my_modal_7" className="flex items-center gap-2">
+                <MdDelete size="1.5rem" />
+                Delete Ticket
+              </label>
+            </button>
+            <DeleteConfirmationModal ticket_id={ticket.id} />
           </li>
         </ul>
       </div>

@@ -44,7 +44,7 @@ function Conversation({
             </div>
           ) : (
             <div>
-              <ConversationAuthor initial="S" author={`SmartAgent (${agent_name}) `} />
+              <ConversationAuthor initial="S" author={agent_name !== null ? `SmartAgent (${agent_name}) ` : `SmartAgent`} />
 
               {/* To customer email details */}
               <p>From: SmartAgent &lt;smartagents3@gmail.com&gt;</p>
@@ -63,9 +63,10 @@ function Conversation({
       <div className="flex-grow border-t dark:inherit mb-4"></div>
 
       {/* Body of conversation */}
-      <div className="dark:text-white">
-        {body}
-      </div>
+      <div
+        className="dark:text-white"
+        dangerouslySetInnerHTML={{ __html: body }}
+      />
       
       {/* Attachments */}
       <div className="mt-5">
