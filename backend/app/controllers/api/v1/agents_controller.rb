@@ -4,7 +4,9 @@ class Api::V1::AgentsController < ApplicationController
   # GET /agents
   # GET /agents.json
   def index
-    render json: @agents = Agent.order(full_name: :asc)
+
+    render json: @agents = Agent.all.order(:full_name)
+
   end
 
   # GET /agents/1

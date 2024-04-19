@@ -1,6 +1,6 @@
 import { useAppContext } from "../../../context/AppContext";
 import { useState, useRef, useEffect } from "react";
-
+import axios from "axios";
 // Icons
 import { MdDelete, MdCancel } from "react-icons/md";
 import { LuArrowLeftRight } from "react-icons/lu";
@@ -11,6 +11,7 @@ import { IoIosMailOpen } from "react-icons/io";
 import TransferConfirmationModal from "../Modal/TransferConfirmationModal";
 
 // import { FaArrowsUpDown } from "react-icons/fa6";
+import ActionCable from "actioncable";
 
 // react-resizable-panels
 // import {
@@ -42,10 +43,35 @@ function TicketInfo() {
   const [notesPanel, setNotesPanel] = useState(false);
   const [editorState, setEditorState] = useState();
   const [attachments, setAttachments] = useState([]);
+  const [newNote, setNewNote] = useState(false);
   const conversationsEndRef = useRef(null);
+  const [notes, setNotes] = useState([]);
+
   const scrollToBottom = () => {
     conversationsEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+  useEffect(() => {
+    const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
+    const subscription = cable.subscriptions.create("NotesChannel", {
+      received: (data) => {
+        setNotes([data, ...notes]);
+        setNewNote(true);
+      },
+    });
+    return () => {
+      cable.subscriptions.remove(subscription);
+    };
+  }, [notes]);
+
+  useEffect(() => {
+    axios.get("api/v1/notes").then((response) => {
+      const filterNotes = response.data.filter(
+        (note) => note.ticket_id === ticket_id
+      );
+      setNotes(filterNotes);
+    });
+  }, [ticket_id]);
+
   useEffect(scrollToBottom, [state.ticketData, replyIsVisible]);
 
   useFetchTicketData(`api/v1/tickets/${ticket_id}`, dispatch, ticket_id);
@@ -98,7 +124,6 @@ function TicketInfo() {
           className="py-2 flex items-center justify-center"
           onClick={(event) => event.stopPropagation()}
         >
-          
           <h1 className="font-bold lg:text-2xl text-gray-500 dark:text-white ">
             {ticket.agent &&
             Number(state.loggedInAgent.agent_id) === ticket.agent.id
@@ -109,7 +134,15 @@ function TicketInfo() {
           </h1>
         </div>
       </div>
-      {notesPanel && <NotesSidePanel ticket_id={ticket_id} setNotesPanel={setNotesPanel}/>}
+      {notesPanel && (
+        <NotesSidePanel
+          ticket_id={ticket_id}
+          setNotesPanel={setNotesPanel}
+          setNewNote={setNewNote}
+          notes={notes}
+          setNotes={setNotes}
+        />
+      )}
       <div className="bg-base-100 border-2  overflow-y-auto w-[100%] h-[86%]">
         {ticket.conversations &&
           ticket.conversations.map((conversation) => (
@@ -238,14 +271,29 @@ function TicketInfo() {
           {/* Notes button */}
           <li>
             <button
-              onClick={() => setNotesPanel((prev) => !prev)}
+              onClick={() => {
+                setNewNote(false);
+                setNotesPanel((prev) => !prev);
+              }}
               className="btn btn-ghost"
             >
-              <CgNotes size="1.5rem" />
+              <div className="relative">
+                {newNote ? (
+                  <div>
+                    <span className="absolute top-[-10px] left-[19px] w-[15px] h-[15px] bg-green-600 rounded-[50%] text-white">{notes.length}</span>{" "}
+                    <CgNotes size="1.5rem" />
+                  </div>
+                ) : (
+                  <div>
+                    <span className="absolute top-[-10px] left-[19px] w-[15px] h-[15px] rounded-[50%]">{notes.length}</span>{" "}
+                    <CgNotes size="1.5rem" />
+                  </div>
+                )}
+              </div>
               Ticket Notes
             </button>
           </li>
-          
+
           {/* Transfer button */}
           <li>
             <button className="btn btn-ghost">

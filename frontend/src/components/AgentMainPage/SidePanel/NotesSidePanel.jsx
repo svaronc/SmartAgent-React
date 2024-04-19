@@ -3,34 +3,15 @@ import { useEffect, useState } from "react";
 import { FaNotesMedical } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
 import { BiSend } from "react-icons/bi";
-import ActionCable from "actioncable";
 import { useAppContext } from "../../../context/AppContext";
 
-function NotesSidePanel({ ticket_id, setNotesPanel }) {
-  const [notes, setNotes] = useState([]);
+function NotesSidePanel({ ticket_id, setNotesPanel,setNewNote, notes, setNotes }) {
   const [isCreatingNote, setIsCreatingNote] = useState(false);
   const [newNoteBody, setNewNoteBody] = useState("");
   const { state } = useAppContext();
 
-  useEffect(() => {
-    const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
-    const subscription = cable.subscriptions.create("NotesChannel", {
-      received: (data) => {
-        setNotes([data, ...notes]);
-      },
-    });
-    return () => {
-      cable.subscriptions.remove(subscription);
-    };
-  }, [notes]);
-  useEffect(() => {
-    axios.get("api/v1/notes").then((response) => {
-      const filterNotes = response.data.filter(
-        (note) => note.ticket_id === ticket_id
-      );
-      setNotes(filterNotes);
-    });
-  }, [ticket_id]);
+  
+  
 
   const createNote = (value) => {
     axios
@@ -48,7 +29,7 @@ function NotesSidePanel({ ticket_id, setNotesPanel }) {
           <img src="/SmartAgent-icon.svg" alt="SmartAgent icon" width="45" />
           Ticket Notes
         </a>
-        <div className="flex flex-row justify-center items-center gap-4">
+        <div className="flex flex-row justify-center items-center gap-4 lg:mt-10 mt-0">
           <button
             className="btn dark:btn-primary text-sm font-bold mb-2"
             onClick={() => setIsCreatingNote(prev => !prev)}
