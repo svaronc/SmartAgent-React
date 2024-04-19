@@ -1,6 +1,6 @@
 import useApplicationData from "../../../hooks/useApplicationData";
 import { useAppContext } from "../../../context/AppContext";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 import { LuArrowLeftRight } from "react-icons/lu";
@@ -11,16 +11,12 @@ function TransferConfirmationModal({ ticket }) {
 
   const agents = state.agents;
 
-  const inputRef = useRef(null);
-
-  const clearRef = () => {
-    if (inputRef.current) {
-      inputRef.current.value = ""; // Clear the input value
-    }
-  };
+  // For input
+  const [inputValue, setInputValue] = useState("");
+  const [transferToAgentId, setTransferToAgentId] = useState("");
 
   const closeModal = () => {
-    clearRef();
+    setInputValue("");
     setNewNoteBody("");
     setSubmitNote(false);
     document.getElementById("modal-box")?.Modal.close();
@@ -29,9 +25,16 @@ function TransferConfirmationModal({ ticket }) {
   // For Notes
   const [newNoteBody, setNewNoteBody] = useState("");
   const [submitNote, setSubmitNote] = useState(false);
+  const [addNoteVisible, setAddNoteVisible] = useState(false);
+
   const createNote = (value, ticket_id, agent_id) => {
+    if (value.trim() === "") return;
     axios
-      .post("api/v1/notes", { ticket_id: ticket_id, body: value, agent_id: agent_id })
+      .post("api/v1/notes", {
+        ticket_id: ticket_id,
+        body: value,
+        agent_id: agent_id,
+      })
       .then((response) => {
         console.log(response.data);
       });
@@ -61,62 +64,69 @@ function TransferConfirmationModal({ ticket }) {
                 {Number(state.loggedInAgent?.agent_id) === ticket.agent?.id
                   ? " Me"
                   : ticket.agent?.full_name
-                  ? ` ${ticket.agent?.full_name}`
-                  : ""}
+                    ? ` ${ticket.agent?.full_name}`
+                    : ""}
               </p>
               <LuArrowLeftRight />
             </p>
-
-            <input
-              ref={inputRef}
-              list="agents"
-              placeholder="Transfer to..."
-              className="input input-bordered dark:text-white"
-              onChange={(event) => {
-                const agent = agents.find(
-                  (agent) => agent.full_name === event.target.value
-                );
-                if (agent) {
-                  transferTicket(ticket.id, agent.id);
-                }
-              }}
-            />
-            <datalist id="agents">
-              {agents.map((agent) => (
-                <option key={agent.id} value={agent.full_name}>
-                  {state.loggedInAgent.agent_id === agent.id
-                    ? "Me"
-                    : agent.full_name}
-                </option>
-              ))}
-            </datalist>
+            <div>
+              <input
+                value={inputValue}
+                list="agents"
+                placeholder="Transfer to..."
+                className="input input-bordered dark:text-white"
+                onChange={(event) => {
+                  setInputValue(event.target.value);
+                  const agent = agents.find(
+                    (agent) => agent.full_name === event.target.value
+                  );
+                  if (agent) {
+                    // transferTicket(ticket.id, agent.id);
+                    setInputValue(event.target.value);
+                    setTransferToAgentId(agent.id);
+                    setAddNoteVisible(true);
+                  }
+                }}
+              />
+              <datalist id="agents">
+                <option key="empty" value=" " />
+                {agents.map((agent) => (
+                  <option key={agent.id} value={agent.full_name}>
+                    {state.loggedInAgent.agent_id === agent.id
+                      ? "Me"
+                      : agent.full_name}
+                  </option>
+                ))}
+              </datalist>
+              <button
+                className="btn btn-neutral ml-2"
+                onClick={() => {
+                  setInputValue("");
+                  setAddNoteVisible(false);
+                }}
+              >
+                Clear
+              </button>
+            </div>
           </div>
-
-          {/* <button
-              type="submit"
-              className="modal-action"
-              onClick={clearRef}
-            >
-              <label className="btn bg-grey dark:bg-gray-700">
-                Clear Name
-              </label>
-            </button> */}
 
           {/* Form fields */}
           <div className="flex flex-col justify-center items-center gap-2 mt-5">
-            <textarea
-              id="note"
-              name="note"
-              value={newNoteBody}
-              onChange={(e) => {
-                setNewNoteBody(e.target.value);
-                setSubmitNote(false);
-              }}
-              placeholder="Add a note"
-              className="textarea textarea-bordered textarea-lg mt-4 w-full max-w-xs dark:text-white"
-              component="textarea"
-              rows="2"
-            />
+            {addNoteVisible && (
+              <textarea
+                id="note"
+                name="note"
+                value={newNoteBody}
+                onChange={(e) => {
+                  setNewNoteBody(e.target.value);
+                  setSubmitNote(false);
+                }}
+                placeholder="Add a note"
+                className="textarea textarea-bordered textarea-lg mt-4 w-full max-w-xs dark:text-white"
+                component="textarea"
+                rows="2"
+              />
+            )}
 
             <div className={`mt-5 ${submitNote ? "visible" : "invisible"}`}>
               <div
@@ -136,7 +146,7 @@ function TransferConfirmationModal({ ticket }) {
                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <span>Your note has been added!</span>
+                <span>The ticket has been transferred!</span>
               </div>
             </div>
           </div>
@@ -146,12 +156,25 @@ function TransferConfirmationModal({ ticket }) {
             <button
               className="btn btn-primary"
               onClick={() => {
-                createNote(newNoteBody, ticket.id, state.loggedInAgent.agent_id);
-                setNewNoteBody("");
+                // createNote(newNoteBody, ticket.id, state.loggedInAgent.agent_id);
+                // setNewNoteBody("");
+                // setSubmitNote(true);
+                createNote(
+                  newNoteBody,
+                  ticket.id,
+                  state.loggedInAgent.agent_id
+                );
                 setSubmitNote(true);
+                transferTicket(ticket.id, transferToAgentId);
+                setNewNoteBody("");
+                setAddNoteVisible(false);
+                setInputValue("");
+                setTimeout(() => {
+                  closeModal();
+                }, 3000);
               }}
             >
-              Add Note
+              Transfer Ticket
             </button>
 
             {/* Close modal x button */}

@@ -23,7 +23,7 @@ function NotesSidePanel({ ticket_id, setNotesPanel,setNewNote, notes, setNotes }
       });
   };
   return (
-    <div className="bg-gray-200 dark:bg-gray-400 text-black border-r-4 border-double absolute z-10 h-[90%] lg:w-[25%] w-[40%] right-0 rounded-2xl shadow-2xl overflow-y-scroll">
+    <div className="bg-gray-200 dark:bg-gray-400 text-black border border-white dark:border-gray-200 border-8 absolute z-10 h-[90%] lg:w-[25%] w-[40%] right-0 rounded-2xl shadow-2xl overflow-y-scroll">
       <div className="flex flex-col justify-between mt-5 p-3 pb-0">
         <a className="btn btn-ghost lg:text-3xl text-xl font-bold mb-4">
           <img src="/SmartAgent-icon.svg" alt="SmartAgent icon" width="45" />
