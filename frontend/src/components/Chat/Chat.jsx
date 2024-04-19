@@ -47,19 +47,37 @@ const Agents = () => {
     setSelecAgent(agent);
   };
 
+  const sortedAgents = [...agents].sort((a, b) => {
+    const aUnreadMessages = state.unreadMessages.some(
+      (chat) => Number(chat.sender_id) === Number(a.id) && chat.read === false
+    );
+    const bUnreadMessages = state.unreadMessages.some(
+      (chat) => Number(chat.sender_id) === Number(b.id) && chat.read === false
+    );
+  
+    if (aUnreadMessages && !bUnreadMessages) {
+      return -1;
+    } else if (!aUnreadMessages && bUnreadMessages) {
+      return 1;
+    } else {
+      return a.full_name.localeCompare(b.full_name);
+    }
+  });
+  
   return (
     <div className="flex h-screen">
       <div className="flex h-screen flex-col bg-base-200 border-r-4 border-double w-[600px]">
         <div className="text-center mt-10">
           <h1 className="text-2xl">Agents</h1>
         </div>
-        {agents.map((agent) => {
+        {sortedAgents.map((agent) => {
           const unreadMessagesFromAgent = state.unreadMessages.filter(
             (chat) =>
               Number(chat.sender_id) === Number(agent.id) && chat.read === false
           );
           return (
-            agent.id !== Number(currentAgentId) && ( // Renders the agent card only if the agent ID is not equal to the current agent's ID
+            agent.id !== Number(currentAgentId) && agent.full_name 
+            !== 'Triage' && ( // Renders the agent card only if the agent ID is not equal to the current agent's ID
               <div
                 key={agent.id}
                 className="m-4 bg-white shadow-lg rounded-lg overflow-hidden flex items-center cursor-pointer"
@@ -74,7 +92,10 @@ const Agents = () => {
                   <ReactTooltip id={agent.email} effect="solid" />
                 </div>
                 <div className="p-4 flex-grow">
-                  <h2 className="font-bold text-lg">{agent.full_name}</h2>
+                {unreadMessagesFromAgent.some(
+                      (message) => message.read === false
+                    ) ? (
+                  <h2 className="font-bold text-lg">{agent.full_name}</h2>) : (<h2 className="text-lg">{agent.full_name}</h2>)}
                 </div>
                 <div className="flex justify-end mr-5">
                   <a
@@ -86,7 +107,7 @@ const Agents = () => {
                       (message) => message.read === false
                     ) ? (
                       <MdMarkChatUnread
-                        className="self-end w-5 h-5 text-red-400"
+                        className="self-end w-5 h-5 text-green-600"
                         data-tip="Chat"
                       />
                     ) : (

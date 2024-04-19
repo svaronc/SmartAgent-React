@@ -41,7 +41,7 @@ function IconSidebar() {
                 role="button"
                 className="btn btn-ghost btn-circle avatar"
               >
-                <MdMarkChatUnread className="w-[30px] h-[30px] text-red-600"/>
+                <MdMarkChatUnread className="w-[30px] h-[30px] text-green-600"/>
               </div>
             </Link> : <Link
               to={item.path}
