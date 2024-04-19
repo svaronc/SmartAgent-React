@@ -17,7 +17,7 @@ import ReactTimeAgo from "react-time-ago";
 import useApplicationData from "../../../hooks/useApplicationData";
 import useFetchInboxTickets from "../../../hooks/inbox/useFetchInboxTickets";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 function TicketInbox() {
@@ -32,17 +32,11 @@ function TicketInbox() {
   const tickets = state.inboxTickets;
   const agents = state.agents;
   const [searchTerm, setSearchTerm] = useState("");
-  // For transfer modal
-  // const inboxInputRef = useRef(null);
-  // const clearInboxInputRef = () => {
-  //   console.log("Input clearinboxInputRef");
-  //   if (inboxInputRef.current) {
-  //     return (inboxInputRef.current.value = ""); // Clear the input value
-  //   }
-  // };
+  const [transferToAgentId, setTransferToAgentId] = useState("");
+  const [inputValue, setInputValue] = useState("");
 
   const closeModal = () => {
-    // clearInboxInputRef();
+    setInputValue("");
     setNewNoteBody("");
     setSubmitNote(false);
     setAddNoteVisible(false);
@@ -55,6 +49,7 @@ function TicketInbox() {
   const [addNoteVisible, setAddNoteVisible] = useState(false);
 
   const createNote = (value, ticket_id) => {
+    if (value.trim() === '') return;
     axios
       .post("api/v1/notes", { ticket_id: ticket_id, body: value, agent_id: state.loggedInAgent.agent_id })
       .then((response) => {
@@ -200,7 +195,7 @@ function TicketInbox() {
                                     ? "Add Note"
                                     : "Transfer Ticket"}
                                 </h3>
-                                {!addNoteVisible && (
+                                
                                   <div>
                                     <p className="pt-6 text-2xl mb-2 dark:text-white flex flex-col items-center justify-center gap-2">
                                       Currently Assigned to:
@@ -214,26 +209,35 @@ function TicketInbox() {
                                           : ""}
                                       </p>
                                       <LuArrowLeftRight />
+                                      Transfer to:
                                     </p>
 
                                     <input
-                                      // ref={inboxInputRef}
+                                      value={inputValue}
                                       list="agents"
                                       placeholder="Transfer to..."
                                       className="input input-bordered dark:text-white"
                                       onFocus={() => setSubmitNote(false)}
                                       onChange={(event) => {
+                                        setInputValue(event.target.value)
                                         const agent = agents.find(
                                           (agent) =>
                                             agent.full_name ===
                                             event.target.value
                                         );
                                         if (agent) {
-                                          transferTicket(ticket.id, agent.id);
+                                          setInputValue(event.target.value)
+                                          setTransferToAgentId(agent.id);
+                                          setAddNoteVisible(true);
+                                          // transferTicket(ticket.id, agent.id);
                                         }
                                       }}
                                     />
                                     <datalist id="agents">
+                                      <option
+                                        key="empty"
+                                        value=" "
+                                      />                                  
                                       {agents.map((agent) => (
                                         <option
                                           key={agent.id}
@@ -246,20 +250,15 @@ function TicketInbox() {
                                         </option>
                                       ))}
                                     </datalist>
+                                    <button className="btn btn-neutral ml-2" 
+                                      onClick={() => {
+                                        setInputValue("");
+                                        setAddNoteVisible(false);
+                                        }}>Clear</button>
                                   </div>
-                                )}
-                                {/* Bug with clear name button for resolved tickets in inbox view */}
-                                {/* <button
-                                type="submit"
-                                className="modal-action"
-                                onClick={clearInboxInputRef}
-                              >
-                                <label className="btn bg-grey dark:bg-gray-700">
-                                  Clear Name
-                                </label>
-                              </button> */}
+                                
                               </div>
-                              <div className="flex flex-col justify-center items-center gap-2 mt-5">
+                              <div className="flex flex-col justify-center items-center gap-2">
                                 {addNoteVisible && (
                                   <textarea
                                     id="note"
@@ -300,45 +299,36 @@ function TicketInbox() {
                                         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                                       />
                                     </svg>
-                                    <span>Your note has been added!</span>
+                                    <span>The ticket has been transferred!</span>
                                   </div>
                                 </div>
-                                {/* Submit Note button */}
-                                {addNoteVisible && (
-                                  <button
-                                    className="btn btn-success ml-2"
-                                    onClick={() => {
-                                      createNote(newNoteBody, ticket.id, state.loggedInAgent.agent_id);
-                                      console.log(newNoteBody);
-                                      setNewNoteBody("");
-                                      setSubmitNote(true);
-                                      setAddNoteVisible(false);
-                                    }}
-                                  >
-                                    Submit
-                                  </button>
-                                )}
 
                                 <div className="flex flex-row justify-center items-center">
-                                  {/* Add Note button */}
+                                  {/* Transfer button */}
+                                  {addNoteVisible && (
                                   <button
                                     className="btn btn-primary ml-2"
                                     onClick={() => {
-                                      setAddNoteVisible(!addNoteVisible);
+                                      createNote(newNoteBody, ticket.id, state.loggedInAgent.agent_id) 
+                                      setSubmitNote(true);
+                                      transferTicket(ticket.id, transferToAgentId)
+                                      console.log(newNoteBody);
+                                      setNewNoteBody("");
+                                      setAddNoteVisible(false);
+                                      setInputValue("");
                                     }}
                                   >
-                                    {addNoteVisible
-                                      ? "Transfer Ticket"
-                                      : "Add Note"}
+                                    Transfer Ticket
                                   </button>
+                                  )}
 
                                   {/* View ticket button */}
-                                  <button
+                                  {/* <button
                                     className="btn btn-primary btn-outline ml-2"
                                     onClick={() => setTicketView(ticket.id)}
                                   >
                                     View Ticket
-                                  </button>
+                                  </button> */}
 
                                   {/* Close modal x button */}
                                   <form method="dialog">
