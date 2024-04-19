@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :direct_chats
+      resources :direct_chats do
+        collection do
+          get 'unread/:id', to: 'direct_chats#unread'
+          put 'mark_as_read/:id', to: 'direct_chats#mark_as_read'
+        end
+      end
       resources :notes
       resources :roles
       resources :statuses

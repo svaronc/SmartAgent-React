@@ -79,6 +79,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_19_010233) do
     t.text "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "read", default: false
   end
 
   create_table "notes", force: :cascade do |t|
