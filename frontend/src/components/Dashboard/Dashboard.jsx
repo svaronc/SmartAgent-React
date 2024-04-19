@@ -15,6 +15,7 @@ import axios from "axios";
 import { BsFillEnvelopeCheckFill, BsEnvelopeOpenFill } from "react-icons/bs";
 import { MdPending } from "react-icons/md";
 import { useAppContext } from "../../context/AppContext";
+import { useChatData } from "../../hooks/useChatData";
 
 ChartJS.register(
   CategoryScale,
@@ -28,6 +29,8 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
+  useChatData();
+
   const [tickets, setTickets] = useState([]); // State to store tickets
   const { state } = useAppContext(); // Accessing state from AppContext
   const agentsNames = state.agents.map((agent) => agent.full_name); // Extracting agent names from state

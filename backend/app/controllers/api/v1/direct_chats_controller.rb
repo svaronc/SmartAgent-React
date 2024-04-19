@@ -9,9 +9,9 @@ class Api::V1::DirectChatsController < ApplicationController
         '(sender_id = :sender_id AND receiver_id = :receiver_id) OR (sender_id = :receiver_id AND receiver_id = :sender_id)', 
         sender_id: params[:sender_id], 
         receiver_id: params[:receiver_id]
-      )
+      ).order(:created_at)
     else
-      @direct_chats = DirectChat.all
+      @direct_chats = DirectChat.all.order(:created_at)
     end
     render json: @direct_chats
   end
@@ -36,7 +36,18 @@ class Api::V1::DirectChatsController < ApplicationController
       render json: @direct_chat.errors, status: :unprocessable_entity
     end
   end
-
+  # GET /direct_chats/unread/:id
+  def unread
+    @direct_chats = DirectChat.where(receiver_id: params[:id], read: false)
+    render json: @direct_chats
+  end
+  # GET /direct_chats/mark_as_read/:id
+  def mark_as_read
+    @direct_chats = DirectChat.where(sender_id: params[:id])
+    @direct_chats.update_all(read: true)
+    ActionCable.server.broadcast "direct_chat", @direct_chats
+    render json: @direct_chats.reload
+  end
   # PATCH/PUT /direct_chats/1
   # PATCH/PUT /direct_chats/1.json
   def update
@@ -61,6 +72,6 @@ class Api::V1::DirectChatsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def direct_chat_params
-      params.require(:direct_chat).permit(:sender_id, :receiver_id, :message)
+      params.require(:direct_chat).permit(:sender_id, :receiver_id, :message, :read)
     end
 end

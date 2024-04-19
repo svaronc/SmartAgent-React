@@ -2,8 +2,11 @@ import PropTypes from "prop-types";
 import { Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { useChatData } from "../../hooks/useChatData"
 import IconSidebar from "../AgentMainPage/SidePanel/IconSidebar";
 function PrivateRoute({ children }) {
+  useChatData();
+
   const { isAuthenticated } = useContext(AuthContext);
 
   return isAuthenticated ? (

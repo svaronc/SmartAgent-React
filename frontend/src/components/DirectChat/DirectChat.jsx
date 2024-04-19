@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import ActionCable from "actioncable";
+import { useAppContext } from "../../context/AppContext";
 
 /**
  * DirectChat component represents a chat interface for direct messaging between agents.
@@ -14,6 +15,7 @@ const DirectChat = ({ agent, currentAgentId }) => {
   const [text, setText] = useState("");
   const [apiMessages, setApiMessages] = useState([]);
   const messagesEndRef = useRef(null);
+  const { state, dispatch } = useAppContext();
 
   /**
    * Scrolls to the bottom of the message list.
@@ -26,17 +28,13 @@ const DirectChat = ({ agent, currentAgentId }) => {
 
   useEffect(() => {
     console.log("Current agent ID:", currentAgentId);
-    const endpoint = `api/v1/direct_chats?sender_id=${agent.id}&receiver_id=${currentAgentId}`;
+    const endpoint = `api/v1/direct_chats?sender_id=${currentAgentId}&receiver_id=${agent.id}`;
 
     // Fetch initial messages from the server
     axios
       .get(endpoint)
       .then((response) => {
-        const formattedMessages = response.data.map((message) => ({
-          ...message,
-          sender: message.sender_id === agent.id ? "me" : "other",
-        }));
-        setApiMessages(formattedMessages);
+        setApiMessages(response.data);
       })
       .catch((error) => {
         console.error("There was an error!", error);
@@ -47,16 +45,11 @@ const DirectChat = ({ agent, currentAgentId }) => {
 
     // Subscribe to the DirectChatChannel
     const subscription = cable.subscriptions.create("DirectChatChannel", {
-      connected: () => {
-        console.log("Connected to the WebSocket!");
-      },
       received: (response) => {
         console.log("Received a message:", response);
-        const formattedMessage = {
-          message: response.message,
-          sender: response.sender_id === agent.id ? "me" : "other",
-        };
-        setApiMessages((prevMessages) => [...prevMessages, formattedMessage]);
+        if (response.receiver_id === Number(currentAgentId)) {
+          setApiMessages((prevMessages) => [...prevMessages, response]);
+        }
       },
     });
 
@@ -88,6 +81,8 @@ const DirectChat = ({ agent, currentAgentId }) => {
         })
         .then((response) => {
           console.log(response.data); // This will log the created message to the console
+          setApiMessages((prevMessages) => [...prevMessages, response.data]);
+
         })
         .catch((error) => {
           console.error("There was an error!", error);
@@ -114,25 +109,30 @@ const DirectChat = ({ agent, currentAgentId }) => {
 
       {/* Message list */}
       <div className="overflow-y-auto max-h-screen">
-        {apiMessages.map((message, index) => (
-          <div
-            key={index}
-            className={`flex items-center mb-3 p-4 ${
-              message.sender === "me" ? "justify-start" : "justify-end"
-            }`}
-          >
-            {/* Message bubble */}
+        {apiMessages.map((message, index) => {
+          if (!message) return null;
+          return (
             <div
-              className={`px-4 py-2 rounded-lg shadow-sm ${
-                message.sender === "me"
-                  ? "bg-gray-200 text-gray-700"
-                  : "bg-blue-500 text-white"
+              key={index}
+              className={`flex items-center mb-3 p-4 ${
+                message.receiver_id === Number(currentAgentId)
+                  ? "justify-start"
+                  : "justify-end"
               }`}
             >
-              {message.message}
+              {/* Message bubble */}
+              <div
+                className={`px-4 py-2 rounded-lg shadow-sm ${
+                  message.receiver_id === Number(currentAgentId)
+                    ? "bg-gray-200 text-gray-700"
+                    : "bg-blue-500 text-white"
+                }`}
+              >
+                {message.message}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
         <div ref={messagesEndRef} />
       </div>
 
