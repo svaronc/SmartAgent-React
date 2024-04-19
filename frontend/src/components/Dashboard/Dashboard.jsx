@@ -119,8 +119,8 @@ const Dashboard = () => {
     <div className="min-h-screen flex items-center justify-center lg:pl-52 w-[95%]">
       <div className="grid grid-cols-4 gap-4 cursor-pointer">
         {/* Profile panel */}
-      <div className=" bg-white shadow-lg rounded-xl col-span-1 row-span-3">
-          <div className="flex flex-col justify-center mt-5 items-center">
+      <div className="flex flex-row justify-center bg-white shadow-lg rounded-xl col-span-1 row-span-3">
+          <div className="flex flex-col justify-center items-center mb-10">
             <div className="avatar">
               <div className="w-24 rounded-full">
               <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
@@ -132,7 +132,7 @@ const Dashboard = () => {
             ) : (
               <p></p>
             )}
-            <div className="h-44 w-72 mt-16 flex flex-col items-center justify-center">
+            <div className="h-44 w-72 mt-5 flex flex-col items-center justify-center">
               <Doughnut data={data2} />
             </div>
           </div>
