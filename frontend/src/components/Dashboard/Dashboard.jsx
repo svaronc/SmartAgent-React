@@ -168,7 +168,7 @@ const Dashboard = () => {
           <h2 className="text-2xl">Resolved Tickets</h2>
         </div>
         {/* Agent tickets line graph */}
-        <div className="bg-white shadow-lg rounded-xl col-span-3 h-96 row-span-2 pl-5 pr-5">
+        <div className="flex flex-row justify-center bg-white shadow-lg rounded-xl col-span-3 h-96 row-span-2 pl-2 pr-5">
           <Line data={data} options={options} />
         </div>
       </div>
