@@ -4,7 +4,7 @@ class Api::V1::NotesController < ApplicationController
   # GET /notes
   # GET /notes.json
   def index
-    @notes = Note.all
+    @notes = Note.order(created_at: :desc)
     render json: @notes
   end
 

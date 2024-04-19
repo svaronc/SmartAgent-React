@@ -14,7 +14,7 @@ function NotesSidePanel({ ticket_id, setNotesPanel }) {
     const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
     const subscription = cable.subscriptions.create("NotesChannel", {
       received: (data) => {
-        setNotes([...notes, data]);
+        setNotes([data, ...notes]);
       },
     });
     return () => {
