@@ -29,9 +29,9 @@ function TransferConfirmationModal({ ticket }) {
   // For Notes
   const [newNoteBody, setNewNoteBody] = useState("");
   const [submitNote, setSubmitNote] = useState(false);
-  const createNote = (value, ticket_id) => {
+  const createNote = (value, ticket_id, agent_id) => {
     axios
-      .post("api/v1/notes", { ticket_id: ticket_id, body: value })
+      .post("api/v1/notes", { ticket_id: ticket_id, body: value, agent_id: agent_id })
       .then((response) => {
         console.log(response.data);
       });
@@ -146,7 +146,7 @@ function TransferConfirmationModal({ ticket }) {
             <button
               className="btn btn-primary"
               onClick={() => {
-                createNote(newNoteBody, ticket.id);
+                createNote(newNoteBody, ticket.id, state.loggedInAgent.agent_id);
                 setNewNoteBody("");
                 setSubmitNote(true);
               }}

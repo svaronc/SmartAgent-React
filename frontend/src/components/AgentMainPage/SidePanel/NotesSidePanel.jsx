@@ -4,11 +4,13 @@ import { FaNotesMedical } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
 import { BiSend } from "react-icons/bi";
 import ActionCable from "actioncable";
+import { useAppContext } from "../../../context/AppContext";
 
 function NotesSidePanel({ ticket_id, setNotesPanel }) {
   const [notes, setNotes] = useState([]);
   const [isCreatingNote, setIsCreatingNote] = useState(false);
   const [newNoteBody, setNewNoteBody] = useState("");
+  const { state } = useAppContext();
 
   useEffect(() => {
     const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
@@ -32,7 +34,7 @@ function NotesSidePanel({ ticket_id, setNotesPanel }) {
 
   const createNote = (value) => {
     axios
-      .post("api/v1/notes", { ticket_id: ticket_id, body: value })
+      .post("api/v1/notes", { ticket_id: ticket_id, body: value, agent_id: state.loggedInAgent.agent_id })
       .then((response) => {
         // const newNote = response.data;
         // setnotes([...notes, newNote]);
@@ -87,11 +89,12 @@ function NotesSidePanel({ ticket_id, setNotesPanel }) {
         )}
         {notes.map((note) => {
           const date = new Date(note.updated_at);
-          const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+          const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
           return (
             <ul key={note.id}>
               <li className="ring-yellow-600/20 ml-2 mr-2 mb-1 pt-1 pb-1 pl-2 pr-2">
-                <p className="text-slate-400 dark:text-gray-700">{formattedDate}</p>
+                <p className="text-slate-400 dark:text-gray-700"></p>
+                <p className="text-slate-400 dark:text-gray-700">By <b>{note.agent?.full_name ? note.agent.full_name : `${state.loggedInAgent.full_name}`}</b> on {formattedDate}</p>
                 <span className="inline-flex items-center mr-2 rounded-sm bg-yellow-50 px-2 py-1 font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 whitespace-pre-wrap">
                   {note.body}
                 </span>
