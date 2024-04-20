@@ -65,10 +65,10 @@ const Agents = () => {
   });
   
   return (
-    <div className="flex h-screen">
-      <div className="flex h-screen flex-col bg-base-200 border-r-4 border-double w-[600px]">
+    <div className="flex h-screen w-full">
+      <div className="flex h-screen flex-col bg-base-200 border-r-4 border-double w-1/3">
         <div className="text-center mt-10">
-          <h1 className="text-2xl">Agents</h1>
+          <h1 className="text-3xl dark:text-white">Agents</h1>
         </div>
         {sortedAgents.map((agent) => {
           const unreadMessagesFromAgent = state.unreadMessages.filter(
@@ -80,18 +80,18 @@ const Agents = () => {
             !== 'Triage' && ( // Renders the agent card only if the agent ID is not equal to the current agent's ID
               <div
                 key={agent.id}
-                className="m-4 bg-white shadow-lg rounded-lg overflow-hidden flex items-center cursor-pointer"
+                className="hover:bg-blue-100 dark:hover:text-black dark:text-white dark:bg-gray-600 m-4 bg-white shadow-lg rounded-lg overflow-hidden flex items-center cursor-pointer"
                 onClick={() => handleChatClick(agent)}
               >
                 <div
                   data-tooltip-id={agent.email}
                   data-tooltip-content={agent.email}
-                  className="flex justify-center items-center h-8 w-8 bg-gray-200 text-gray-700 rounded-full mx-3"
+                  className="flex justify-center items-center h-8 w-8 bg-gray-300 text-gray-700 rounded-full mx-3"
                 >
                   <span className=" text-sm">{agent.full_name.charAt(0)}</span>
                   <ReactTooltip id={agent.email} effect="solid" />
                 </div>
-                <div className="p-4 flex-grow">
+                <div className="p-4 flex-grow flex">
                 {unreadMessagesFromAgent.some(
                       (message) => message.read === false
                     ) ? (
@@ -123,6 +123,7 @@ const Agents = () => {
           );
         })}
       </div>
+      <div className="flex w-full flex-row justify-center items-center">
       {selecAgent && (
         <DirectChat
           agent={selecAgent}
@@ -130,6 +131,8 @@ const Agents = () => {
           selecAgent={selecAgent}
         />
       )}
+
+      </div>
     </div>
   );
 };

@@ -30,7 +30,7 @@ class Api::V1::AgentsController < ApplicationController
   # PATCH/PUT /agents/1.json
   def update
     if @agent.update(agent_params)
-      render json: {message: 'Agent updated successfully'}
+      render json: {message: 'Password updated successfully'}
     else
       render json: @agent.errors, status: :unprocessable_entity
     end
