@@ -123,7 +123,7 @@ const Agents = () => {
           );
         })}
       </div>
-      <div className="flex w-full flex-row justify-center items-center">
+      <div className="flex w-full flex-row justify-center bg-white dark:bg-gray-600 items-center">
       {selecAgent && (
         <DirectChat
           agent={selecAgent}
