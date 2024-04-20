@@ -93,16 +93,16 @@ const DirectChat = ({ agent, currentAgentId }) => {
   };
 
   return (
-    <div className="flex flex-col h-screen  overflow-y-auto bg-gray-100  rounded-lg w-[800px]">
+    <div className="flex flex-col h-screen overflow-y-auto bg-gray-100 dark:bg-gray-300 rounded-lg w-[800px]">
       {/* Agent header */}
       <div
         key={agent.id}
-        className=" bg-white shadow-lg rounded-lg flex items-center w-full"
+        className="bg-white shadow-lg rounded-lg flex items-center w-full dark:bg-gray-700"
       >
-        <div className="flex justify-center items-center h-8 w-8 bg-gray-200 text-gray-700 rounded-full mx-3">
+        <div className="flex justify-center items-center h-8 w-8 bg-gray-300 text-gray-700 rounded-full mx-3">
           <span className=" text-sm">{agent.full_name.charAt(0)}</span>
         </div>
-        <div className="p-4 flex-grow text-center">
+        <div className="p-4 flex-grow text-center dark:bg-gray-700 dark:text-white">
           <h2 className="font-bold text-lg">{agent.full_name}</h2>
         </div>
       </div>
@@ -137,11 +137,11 @@ const DirectChat = ({ agent, currentAgentId }) => {
       </div>
 
       {/* Input field */}
-      <div className="flex mt-auto mb-3">
+      <div className="flex mt-auto p-3 w-full">
         <input
           type="text"
           placeholder="Type a message..."
-          className="flex-grow rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:border-blue-500"
+          className="flex-grow rounded-lg border border-gray-300 px-4 dark:text-white py-2 focus:outline-none focus:border-blue-500"
           value={text}
           onChange={handleInputChange}
           onKeyDown={(event) => {
