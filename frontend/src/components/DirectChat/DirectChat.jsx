@@ -4,6 +4,9 @@ import axios from "axios";
 import ActionCable from "actioncable";
 import { useAppContext } from "../../context/AppContext";
 
+// Date formatting
+import ReactTimeAgo from "react-time-ago";
+
 /**
  * DirectChat component represents a chat interface for direct messaging between agents.
  *
@@ -16,7 +19,7 @@ const DirectChat = ({ agent, currentAgentId }) => {
   const [apiMessages, setApiMessages] = useState([]);
   const messagesEndRef = useRef(null);
   const { state, dispatch } = useAppContext();
-
+  console.log(apiMessages);
   /**
    * Scrolls to the bottom of the message list.
    */
@@ -82,7 +85,6 @@ const DirectChat = ({ agent, currentAgentId }) => {
         .then((response) => {
           console.log(response.data); // This will log the created message to the console
           setApiMessages((prevMessages) => [...prevMessages, response.data]);
-
         })
         .catch((error) => {
           console.error("There was an error!", error);
@@ -93,7 +95,7 @@ const DirectChat = ({ agent, currentAgentId }) => {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-y-auto bg-gray-100 dark:bg-gray-300 rounded-lg w-[800px]">
+    <div className="flex flex-col h-screen overflow-y-auto border border-double bg-gray-100 dark:bg-gray-300 rounded-lg w-[800px]">
       {/* Agent header */}
       <div
         key={agent.id}
@@ -114,7 +116,7 @@ const DirectChat = ({ agent, currentAgentId }) => {
           return (
             <div
               key={index}
-              className={`flex items-center mb-3 p-4 ${
+              className={`flex p-4 flex flex-col items-end ${
                 message.receiver_id === Number(currentAgentId)
                   ? "justify-start"
                   : "justify-end"
@@ -130,6 +132,11 @@ const DirectChat = ({ agent, currentAgentId }) => {
               >
                 {message.message}
               </div>
+              <ReactTimeAgo
+                className=" text-gray-400 dark:text-gray-600"
+                date={Date.parse(message.created_at)}
+                locale="en-US"
+              />
             </div>
           );
         })}
