@@ -19,7 +19,7 @@ const useFetchInboxTickets = (setIsLoading) => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 6000);
+    }, 3000);
   }, [setIsLoading]);
   const fetchData = async () => {
     try {
