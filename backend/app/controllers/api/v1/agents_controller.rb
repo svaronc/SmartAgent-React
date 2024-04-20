@@ -30,7 +30,7 @@ class Api::V1::AgentsController < ApplicationController
   # PATCH/PUT /agents/1.json
   def update
     if @agent.update(agent_params)
-      render :show, status: :ok, location: @agent
+      render json: {message: 'Agent updated successfully'}
     else
       render json: @agent.errors, status: :unprocessable_entity
     end
@@ -51,6 +51,6 @@ class Api::V1::AgentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def agent_params
-    params.require(:agent).permit(:username, :password)
+    params.require(:agent).permit(:email, :password, :full_name, :role_id)
   end
 end
