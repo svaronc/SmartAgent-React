@@ -10,8 +10,9 @@ function Profile() {
   const [message, setMessage] = useState("");
 
   const { state } = useAppContext();
+  const logAgentId = localStorage.getItem("agent_id");
   const currentAgent = state.agents.find(
-    (agent) => agent.id === Number(state.loggedInAgent.agent_id)
+    (agent) => agent.id === Number(logAgentId)
   );
   console.log(currentAgent);
   const handlePasswordChange = (event) => {
@@ -46,8 +47,8 @@ function Profile() {
         src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         alt="Profile"
       />
-      <h1 className="text-xl font-semibold">{currentAgent.full_name}</h1>
-      <p className="text-gray-600">{currentAgent.email}</p>
+      <h1 className="text-xl font-semibold">{currentAgent?.full_name}</h1>
+      <p className="text-gray-600">{currentAgent?.email}</p>
       <div className="mt-4 w-full px-3">
         <label
           htmlFor="password"
