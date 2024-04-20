@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
-import { ACTIONS, useAppContext} from "../../context/AppContext";
+import { ACTIONS, useAppContext } from "../../context/AppContext";
 import axios from "axios";
 import ActionCable from "actioncable";
 
-const useFetchInboxTickets = () => {
+const useFetchInboxTickets = (setIsLoading) => {
   const { state, dispatch } = useAppContext();
   const inboxTicketsRef = useRef(state.inboxTickets);
   const API_URL = "api/v1/tickets";
@@ -14,8 +14,13 @@ const useFetchInboxTickets = () => {
 
   useEffect(() => {
     fetchData();
-  }, [state.ticketManagerView,state.ticketUpdated]); // Added state.ticketManagerView to the dependency array
+  }, [state.ticketManagerView, state.ticketUpdated]); // Added state.ticketManagerView to the dependency array
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 6000);
+  }, [setIsLoading]);
   const fetchData = async () => {
     try {
       let response = await axios.get(API_URL);
@@ -24,7 +29,9 @@ const useFetchInboxTickets = () => {
       switch (state.ticketManagerView) {
         case "Assigned to Me":
           inboxTickets = response.data.filter(
-            (ticket) => ticket.status_id === 1 && ticket.agent_id === state.loggedInAgent.agent_id
+            (ticket) =>
+              ticket.status_id === 1 &&
+              ticket.agent_id === state.loggedInAgent.agent_id
           );
           break;
         case "Triage - Open Tickets":
@@ -53,7 +60,6 @@ const useFetchInboxTickets = () => {
     }
   };
 
- 
   useEffect(() => {
     const cable = ActionCable.createConsumer("ws://localhost:3000/cable");
     const subscription = cable.subscriptions.create("TicketsChannel", {
@@ -69,7 +75,6 @@ const useFetchInboxTickets = () => {
         } else {
           dispatch({ type: ACTIONS.ADD_INBOX_TICKET, payload: data });
         }
-        
       },
     });
 
