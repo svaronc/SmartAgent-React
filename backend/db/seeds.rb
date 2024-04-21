@@ -141,7 +141,7 @@ ticket4 = Ticket.create!(
   title: "Cancel Subscription ",
   from_email:  Faker::Internet.email,
   customer_name: Faker::Name.name,
-  agent_id: 3,
+  agent_id: 2,
   status_id: 2
 )
 
@@ -246,9 +246,53 @@ agent_id: 3,
 status_id: 1
 )
 
-conversation25 = ticket9.conversations.create!(
+conversation25 = ticket10.conversations.create!(
 body: "<p>Hi SmartAgent,</p><p><br></p><p>What currencies does Shopify work with?</p><p><br></p><p>Thanks.</p>",
 from_customer: true
+)
+
+ticket11 = Ticket.create!(
+title: "Shipping with Shopify",
+from_email:  "glorialim.dev@gmail.com",
+customer_name: "Gloria",
+agent_id: 2,
+status_id: 1
+)
+
+conversation26 = ticket11.conversations.create!(
+body: "<p>Hi SmartAgent,</p><p><br></p><p>Do I need to ship items myself?</p><p><br></p><p>Thanks.</p>",
+from_customer: true
+)
+
+ticket12 = Ticket.create!(
+title: "Third-party payment processor",
+from_email:  Faker::Internet.email,
+customer_name: Faker::Name.name,
+agent_id: 2,
+status_id: 2
+)
+
+conversation26 = ticket12.conversations.create!(
+body: "<p>Hi SmartAgent,</p><p><br></p><p>What is a third-party payment processor?</p><p><br></p><p>Thanks.</p>",
+from_customer: true
+)
+
+ticket13 = Ticket.create!(
+title: "Third-party payment processor",
+from_email:  Faker::Internet.email,
+customer_name: Faker::Name.name,
+agent_id: 2,
+status_id: 1
+)
+
+conversation27 = ticket13.conversations.create!(
+body: "<p>Hi SmartAgent,</p><p><br></p><p>What is a third-party payment processor?</p><p><br></p><p>Thanks.</p>",
+from_customer: true
+)
+
+conversation28 = ticket13.conversations.create!(
+body: "<p>Hello,</p><p><br></p><p>A third-party payment processor (also knows as a payment provider or&nbsp;<a href='https://www.shopify.com/ca/payment-gateways' rel='noopener noreferrer' target='_blank'>payment gateway</a>) lets you accept online payments.</p><p><br></p><p>Let me know if you have any other questions.</p><p><br></p><p>Regards,</p><p><br></p><p><strong>SmartAgent</strong></p><p>Customer Support</p><p><a href='mailto:smartagents3@gmail.com' rel='noopener noreferrer' target='_blank'>smartagents3@gmail.com</a></p>",
+from_customer: false
 )
    # db/seeds.rb
 
