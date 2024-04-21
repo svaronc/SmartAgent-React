@@ -43,13 +43,13 @@ ticket1 = Ticket.create!(
   title: "Website Traffic Help",
   from_email: Faker::Internet.email,
   customer_name: Faker::Name.name,
-  agent_id: 1,
+  agent_id: 3,
   status_id: 2
 )
 
 # Create conversations for the ticket
 conversation1 = ticket1.conversations.create!(
-  body: "<p>Hi Team,</p><p><br></p><p>I am touching base to let you know that I am experiencing a significant drop in website traffic.</p><p><br></p><p>Thanks.</p>",
+  body: "<p>Hi SmartAgent,</p><p><br></p><p>I am touching base to let you know that I am experiencing a significant drop in website traffic.</p><p><br></p><p>Thanks.</p>",
   from_customer: true
 )
 conversation1.attachments.attach(io: File.open(Rails.root.join('public', 'placeholder.jpg')), filename: 'placeholder.jpg')
@@ -111,7 +111,7 @@ ticket3 = Ticket.create!(
   title: "Facebook Ads Help",
   from_email:  Faker::Internet.email,
   customer_name: Faker::Name.name,
-  agent_id: 1,
+  agent_id: 2,
   status_id: 2
 )
 
@@ -141,7 +141,7 @@ ticket4 = Ticket.create!(
   title: "Cancel Subscription ",
   from_email:  Faker::Internet.email,
   customer_name: Faker::Name.name,
-  agent_id: 1,
+  agent_id: 3,
   status_id: 2
 )
 
@@ -173,6 +173,70 @@ conversation21 = ticket4.conversations.create!(
    from_customer: false
    )
 
+ticket5 = Ticket.create!(
+title: "Getting started with Shopify Question",
+from_email:  Faker::Internet.email,
+customer_name: Faker::Name.name,
+agent_id: 3,
+status_id: 1
+)
+
+conversation22 = ticket5.conversations.create!(
+body: "<p>Hi SmartAgent,</p><p><br></p><p>Do I need to be a designer or developer to use Shopify?</p><p><br></p><p>Thanks.</p>",
+from_customer: true
+)
+
+ticket6 = Ticket.create!(
+title: "Dropshipping Question",
+from_email:  Faker::Internet.email,
+customer_name: Faker::Name.name,
+agent_id: 1,
+status_id: 1
+)
+
+conversation23 = ticket6.conversations.create!(
+body: "<p>Hi SmartAgent,</p><p><br></p><p>What is dropshipping, and how can I dropship with Shopify?</p><p><br></p><p>Thanks.</p>",
+from_customer: true
+)
+
+ticket7 = Ticket.create!(
+title: "Domain Name Question",
+from_email:  Faker::Internet.email,
+customer_name: Faker::Name.name,
+agent_id: 1,
+status_id: 1
+)
+
+conversation24 = ticket7.conversations.create!(
+body: "<p>Hi SmartAgent,</p><p><br></p><p>Can I use my own domain name with Shopify?</p><p><br></p><p>Thanks.</p>",
+from_customer: true
+)
+
+ticket8 = Ticket.create!(
+title: "Getting Started Question",
+from_email:  Faker::Internet.email,
+customer_name: Faker::Name.name,
+agent_id: 1,
+status_id: 1
+)
+
+conversation24 = ticket8.conversations.create!(
+body: "<p>Hi SmartAgent,</p><p><br></p><p>What do I need to start selling on Shopify?</p><p><br></p><p>Thanks.</p>",
+from_customer: true
+)
+
+ticket9 = Ticket.create!(
+title: "Receiving Order Question",
+from_email:  Faker::Internet.email,
+customer_name: Faker::Name.name,
+agent_id: 1,
+status_id: 1
+)
+
+conversation25 = ticket9.conversations.create!(
+body: "<p>Hi SmartAgent,</p><p><br></p><p>What happens when I receive an order?</p><p><br></p><p>Thanks.</p>",
+from_customer: true
+)
    # db/seeds.rb
 
 # Assuming you have some agents in your database
