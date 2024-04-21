@@ -1,0 +1,44 @@
+.skele {
+  border-radius: var(--rounded-box, 1rem/* 16px */);
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)));
+  will-change: background-position;
+  animation: skeleton 0.2s ease-in-out infinite;
+  background-image: linear-gradient(
+  105deg,
+  transparent 0%,
+  transparent 40%,
+  var(--fallback-b1,oklch(var(--b1)/1)) 50%,
+  transparent 60%,
+  transparent 100%
+  );
+  background-size: 200% auto;
+  background-repeat: no-repeat;
+  background-position-x: -50%;
+}
+@media (prefers-reduced-motion) {
+  .skele {
+    animation-duration: 3s;
+  }
+}
+
+
+.ticket-skeleton {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* Ensures the loader is a circle */
+  position: relative;
+  animation: heartbeat 3s infinite; /* Apply the heartbeat animation */
+}
+
+@keyframes heartbeat {
+  0% {
+      background-color: #f0f0f0; /* Initial background color */
+  }
+  50% {
+      background-color: #c0c0c0; /* Intermediate color */
+  }
+  100% {
+      background-color: #f0f0f0; /* Final background color */
+  }
+}
