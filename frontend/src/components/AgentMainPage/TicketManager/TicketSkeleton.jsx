@@ -9,7 +9,7 @@ export default function TicketSkeleton() {
       </th>
 
       {/* Customer name */}
-      <td className=" rounded-none ticket-skeleton w-full h-16 px-6 py-4"></td>
+      <td className=" rounded-none ticket-skeleton w-full h-20 px-6 py-4"></td>
 
       {/* Ticket ID */}
       <td className=" rounded-none ticket-skeleton w-full h-16 px-2 py-4"></td>
