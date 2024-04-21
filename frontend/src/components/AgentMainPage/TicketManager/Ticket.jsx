@@ -268,8 +268,7 @@ export default function Ticket({
           </div>
 
           {/* Show the open ticket icon if the ticket is open */}
-          {ticket.status?.description === "Open" ||
-          ticket.status?.description === "Answered" ? (
+          {ticket.status?.description !== "Resolved" ? (
             <li
               className="tooltip tooltip-right px-3 py-4"
               data-tip="Resolve"

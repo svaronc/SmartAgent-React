@@ -5,7 +5,9 @@ export const ACTIONS = {
   SET_VIEW: "SET_VIEW",
   VIEW_TICKET: "VIEW_TICKET",
   COUNT_TRIAGE: "COUNT_TRIAGE",
+  COUNT_OPEN: "COUNT_OPEN",
   COUNT_ALL: "COUNT_ALL",
+  COUNT_ANSWERED: "COUNT_ANSWERED",
   COUNT_CLOSED: "COUNT_CLOSED",
   COUNT_ASSIGNED_TO_ME: "COUNT_ASSIGNED_TO_ME",
   GET_TICKET_DATA: "GET_TICKET_DATA",
@@ -54,6 +56,10 @@ function reducer(state, action) {
       return { ...state, countAll: action.payload };
     case ACTIONS.COUNT_TRIAGE:
       return { ...state, countTriage: action.payload };
+    case ACTIONS.COUNT_OPEN:
+      return { ...state, countOpen: action.payload };
+    case ACTIONS.COUNT_ANSWERED:
+      return { ...state, countAnswered: action.payload };
     case ACTIONS.COUNT_CLOSED:
       return { ...state, countClosed: action.payload };
     case ACTIONS.COUNT_ASSIGNED_TO_ME:
@@ -114,10 +120,12 @@ function reducer(state, action) {
 }
 
 const INITIAL_STATE = {
-  ticketManagerView: "Triage - Open Tickets",
+  ticketManagerView: "Assigned to Me",
   countAssignedToMe: 0,
   countTriage: 0,
+  countOpen: 0,
   countAll: 0,
+  countAnswered: 0,
   countClosed: 0,
   viewTicketId: "",
   ticketInboxView: true,
