@@ -277,20 +277,7 @@ body: "<p>Hi SmartAgent,</p><p><br></p><p>What is a third-party payment processo
 from_customer: true
 )
 
-ticket13 = Ticket.create!(
-title: "Third-party payment processor",
-from_email:  Faker::Internet.email,
-customer_name: Faker::Name.name,
-agent_id: 2,
-status_id: 1
-)
-
-conversation27 = ticket13.conversations.create!(
-body: "<p>Hi SmartAgent,</p><p><br></p><p>What is a third-party payment processor?</p><p><br></p><p>Thanks.</p>",
-from_customer: true
-)
-
-conversation28 = ticket13.conversations.create!(
+conversation27 = ticket12.conversations.create!(
 body: "<p>Hello,</p><p><br></p><p>A third-party payment processor (also knows as a payment provider or&nbsp;<a href='https://www.shopify.com/ca/payment-gateways' rel='noopener noreferrer' target='_blank'>payment gateway</a>) lets you accept online payments.</p><p><br></p><p>Let me know if you have any further questions.</p><p><br></p><p>Regards,</p><p><br></p><p><strong>SmartAgent</strong></p><p>Customer Support</p><p><a href='mailto:smartagents3@gmail.com' rel='noopener noreferrer' target='_blank'>smartagents3@gmail.com</a></p>",
 from_customer: false
 )
