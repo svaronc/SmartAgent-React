@@ -237,6 +237,19 @@ conversation25 = ticket9.conversations.create!(
 body: "<p>Hi SmartAgent,</p><p><br></p><p>What happens when I receive an order?</p><p><br></p><p>Thanks.</p>",
 from_customer: true
 )
+
+ticket10 = Ticket.create!(
+title: "Available Currencies",
+from_email:  "glorialim.dev@gmail.com",
+customer_name: "Gloria",
+agent_id: 3,
+status_id: 1
+)
+
+conversation25 = ticket9.conversations.create!(
+body: "<p>Hi SmartAgent,</p><p><br></p><p>What currencies does Shopify work with?</p><p><br></p><p>Thanks.</p>",
+from_customer: true
+)
    # db/seeds.rb
 
 # Assuming you have some agents in your database
