@@ -59,7 +59,7 @@ const useApplicationData = () => {
    */
   const resolveTicket = (ticket_id) => {
     axios
-      .patch(`api/v1/tickets/${ticket_id}`, { status_id: 2 })
+      .patch(`api/v1/tickets/${ticket_id}`, { status_id: 3 })
       .then(() => {
         dispatch({ type: ACTIONS.SET_VIEW, payload: state.ticketManagerView });
       })

@@ -37,7 +37,6 @@ function TicketInfo() {
   const { state, dispatch } = useAppContext();
   const { resolveTicket, openTicket, sendRespond } = useApplicationData();
   const ticket_id = state.viewTicketId;
-  const agents = state.agents;
   const logAgent = state.loggedInAgent;
   const [replyIsVisible, setReplyIsVisible] = useState(false);
   const [notesPanel, setNotesPanel] = useState(false);
@@ -238,7 +237,7 @@ function TicketInfo() {
               Reply
             </button>
           </li>
-          {ticket.status_id === 1 ? ( // Show the resolve ticket icon if the ticket is open
+          {ticket.status_id !== 1 ? ( // Show the resolve ticket icon if the ticket is open
             <li>
               <button
                 className="btn btn-ghost flex items-center gap-2"

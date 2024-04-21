@@ -30,22 +30,31 @@ const useFetchInboxTickets = (setIsLoading) => {
         case "Assigned to Me":
           inboxTickets = response.data.filter(
             (ticket) =>
-              ticket.status_id === 1 &&
               ticket.agent_id === state.loggedInAgent.agent_id
           );
           break;
-        case "Triage - Open Tickets":
+        case "Triage":
           inboxTickets = response.data.filter(
             (ticket) => ticket.status_id === 1 && ticket.agent_id === 1
           );
           break;
-        case "All Tickets":
-          inboxTickets = response.data;
+        case "All Open Tickets":
+          inboxTickets = response.data.filter(
+            (ticket) => ticket.status_id === 1
+          );
           break;
-        case "Resolved Tickets":
+        case "All Answered Tickets":
           inboxTickets = response.data.filter(
             (ticket) => ticket.status_id === 2
           );
+          break;
+        case "All Resolved Tickets":
+          inboxTickets = response.data.filter(
+            (ticket) => ticket.status_id === 3
+          );
+          break;
+        case "All Tickets":
+          inboxTickets = response.data;
           break;
         default:
           break;

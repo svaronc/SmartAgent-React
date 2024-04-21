@@ -142,11 +142,9 @@ function TicketInbox() {
             {tickets
               .filter(
                 (ticket) =>
-                  ticket.title
-                    .toLowerCase()
+                  ticket.title?.toLowerCase()
                     .includes(searchTerm.toLowerCase()) ||
-                  ticket.customer_name
-                    .toLowerCase()
+                  ticket.customer_name?.toLowerCase()
                     .includes(searchTerm.toLowerCase())
               )
               .map((ticket) => {
