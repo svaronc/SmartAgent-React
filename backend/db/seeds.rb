@@ -22,7 +22,7 @@ admin_role = Role.create(role: 'Admin', description: 'Administrator role')
 Agent.create(email: 'triage@gmail.com', full_name: 'Triage', password: 'password', role_id: admin_role.id)
 Agent.create(email: 'sebastianvaron96@gmail.com', full_name: 'Sebastian varon', password: 'password',
              role_id: admin_role.id)
-Agent.create(email: 'glorialimartt@gmail.com', full_name: 'Gloria lim', password: 'password',
+Agent.create(email: 'glorialimartt@gmail.com', full_name: 'Gloria Lim', password: 'password',
              role_id: admin_role.id)
 
              7.times do
@@ -44,26 +44,24 @@ ticket1 = Ticket.create!(
   from_email: Faker::Internet.email,
   customer_name: Faker::Name.name,
   agent_id: 1,
-  status_id: 1
+  status_id: 2
 )
 
 # Create conversations for the ticket
 conversation1 = ticket1.conversations.create!(
-  body: "Hello team 
-  <br>
-  I am touching base to let you know that I am experiencing a significant drop in website traffic.",
+  body: "<p>Hi Team,</p><p><br></p><p>I am touching base to let you know that I am experiencing a significant drop in website traffic.</p><p><br></p><p>Thanks.</p>",
   from_customer: true
 )
 conversation1.attachments.attach(io: File.open(Rails.root.join('public', 'placeholder.jpg')), filename: 'placeholder.jpg')
 
 conversation2 = ticket1.conversations.create!(
-  body: "Hi,let me check the issue and get back to you.",
+  body: "<p>Hello,</p><p><br></p><p>Let me check the issue and get back to you.</p><p><br></p><p><br></p><p>Regards,</p><p><br></p><p><strong>SmartAgent</strong></p><p>Customer Support</p><p><a href='mailto:smartagents3@gmail.com' rel='noopener noreferrer' target='_blank'>smartagents3@gmail.com</a></p>",
   from_customer: false
 )
 conversation2.attachments.attach(io: File.open(Rails.root.join('public', 'placeholder.jpg')), filename: 'placeholder.jpg')
 
 conversation3 = ticket1.conversations.create!(
-  body: "I have identified the issue and it has been resolved. Your website traffic should be back to normal now.",
+  body: "<p>Hello,</p><p><br></p><p>I have identified the issue and it has been resolved. Your website traffic should be back to normal now.</p><p><br></p><p><br></p><p>Regards,</p><p><br></p><p><strong>SmartAgent</strong></p><p>Customer Support</p><p><a href='mailto:smartagents3@gmail.com' rel='noopener noreferrer' target='_blank'>smartagents3@gmail.com</a></p>",
   from_customer: false
 )
 conversation4 = ticket1.conversations.create!(
@@ -76,15 +74,16 @@ ticket2 = Ticket.create!(
   from_email:  Faker::Internet.email,
   customer_name: Faker::Name.name,
   agent_id: 1,
-  status_id: 1
+  status_id: 2
 )
 
 # Create conversations for the ticket
 conversation5 = ticket2.conversations.create!(
-  body: " I am reaching out to get some help with increasing my social media visibility. Can you help me with that?",
+  body: "<p>Hi,</p><p><br></p><p>I am reaching out to get some help with increasing my social media visibility. Can you help me with that?</p><p><br></p><p>Thanks.</p>",
   from_customer: true
 )
 conversation5.attachments.attach(io: File.open(Rails.root.join('public', 'placeholder.jpg')), filename: 'placeholder.jpg')
+
 
 conversation6 = ticket2.conversations.create!(
   body: "Sure, I can help you with that. Let me take a look at your social media accounts and get back to you.",
@@ -113,7 +112,7 @@ ticket3 = Ticket.create!(
   from_email:  Faker::Internet.email,
   customer_name: Faker::Name.name,
   agent_id: 1,
-  status_id: 1
+  status_id: 2
 )
 
 conversation10 = ticket3.conversations.create!(
@@ -122,7 +121,7 @@ conversation10 = ticket3.conversations.create!(
 )
 
 conversatio11 = ticket3.conversations.create!(
-  body: "Sure, I can help you with that. Let me take a look at your social media accounts and get back to you.",
+  body: "<p>Hello,</p><p><br></p><p>Sure, I can help you with that. Let me take a look at your social media accounts and get back to you. </p><p><br></p><p>Regards,</p><p><br></p><p><strong>SmartAgent</strong></p><p>Customer Support</p><p><a href='mailto:smartagents3@gmail.com' rel='noopener noreferrer' target='_blank'>smartagents3@gmail.com</a></p>",
   from_customer: false
 )
 conversation12 = ticket3.conversations.create!(
@@ -130,20 +129,20 @@ conversation12 = ticket3.conversations.create!(
   from_customer: true
 )
 conversation13 = ticket3.conversations.create!(
-  body: "I have reviewed your social media accounts and the problem may be with your budget. I will make some changes and get back to you.",
+  body: "<p>Hello,</p><p><br></p><p>I have reviewed your social media accounts and the problem may be with your budget. I will make some changes and get back to you.</p><p><br></p><p>Regards,</p><p><br></p><p><strong>SmartAgent</strong></p><p>Customer Support</p><p><a href='mailto:smartagents3@gmail.com' rel='noopener noreferrer' target='_blank'>smartagents3@gmail.com</a></p>",
   from_customer: false
 )
 
-conversation14 = ticket3.conversations.create!( body: "thank you for your help", from_customer: true)
+conversation14 = ticket3.conversations.create!( body: "Thank you for your help.", from_customer: true)
 
-conversation15 = ticket3.conversations.create!( body: "I have made the changes and your ads should be running smoothly now.", from_customer: false)
+conversation15 = ticket3.conversations.create!( body: "<p>Hello,</p><p><br></p><p>I have made the changes and your ads should be running smoothly now.</p><p><br></p><p>Regards,</p><p><br></p><p><strong>SmartAgent</strong></p><p>Customer Support</p><p><a href='mailto:smartagents3@gmail.com' rel='noopener noreferrer' target='_blank'>smartagents3@gmail.com</a></p>", from_customer: false)
 
 ticket4 = Ticket.create!(
   title: "Cancel Subscription ",
   from_email:  Faker::Internet.email,
   customer_name: Faker::Name.name,
   agent_id: 1,
-  status_id: 1
+  status_id: 2
 )
 
 conversation16 = ticket4.conversations.create!(
@@ -152,7 +151,7 @@ conversation16 = ticket4.conversations.create!(
 )
 
 conversatio17 = ticket4.conversations.create!(
-  body: "Sure, may I know the reason for the cancellation?",
+  body: "<p>Hello,</p><p><br></p><p>Sure, may I know the reason for the cancellation?</p><p><br></p><p>Regards,</p><p><br></p><p><strong>SmartAgent</strong></p><p>Customer Support</p><p><a href='mailto:smartagents3@gmail.com' rel='noopener noreferrer' target='_blank'>smartagents3@gmail.com</a></p>",
   from_customer: false
 )
 conversation18 = ticket4.conversations.create!(
@@ -160,7 +159,7 @@ conversation18 = ticket4.conversations.create!(
   from_customer: true
 )
 conversation19 = ticket4.conversations.create!(
-  body: "I am sorry to hear that. I will cancel the service for you.",
+  body: "<p>Hello,</p><p><br></p><p>I am sorry to hear that. I will cancel the service for you.</p><p><br></p><p>Regards,</p><p><br></p><p><strong>SmartAgent</strong></p><p>Customer Support</p><p><a href='mailto:smartagents3@gmail.com' rel='noopener noreferrer' target='_blank'>smartagents3@gmail.com</a></p>",
   from_customer: false
 )
 
@@ -170,7 +169,7 @@ conversation20 = ticket4.conversations.create!(
   )
 
 conversation21 = ticket4.conversations.create!(
-   body: "Your service has been cancelled. If you need any further assistance, feel free to reach out to us.", 
+   body: "<p>Hello,</p><p><br></p><p>Your service has been cancelled. If you need any further assistance, feel free to reach out to us.</p><p><br></p><p>Regards,</p><p><br></p><p><strong>SmartAgent</strong></p><p>Customer Support</p><p><a href='mailto:smartagents3@gmail.com' rel='noopener noreferrer' target='_blank'>smartagents3@gmail.com</a></p>", 
    from_customer: false
    )
 
@@ -188,13 +187,23 @@ DirectChat.create(sender_id: agent2.id, receiver_id: agent1.id, message: "I can'
 DirectChat.create(sender_id: agent1.id, receiver_id: agent2.id, message: "Of course. Let's see what we can do.")
 
 
-50.times do
+# 20.times do
+#   Ticket.create!(
+#     title: Faker::Lorem.sentence(word_count: 3),
+#     from_email:  Faker::Internet.email,
+#     customer_name: Faker::Name.name,
+#     agent_id: [1,2,3,4,5,6,7,8,9,10].sample,
+#     status_id: [1,2].sample
+#   )
+# end
+
+20.times do
   Ticket.create!(
     title: Faker::Lorem.sentence(word_count: 3),
     from_email:  Faker::Internet.email,
     customer_name: Faker::Name.name,
-    agent_id: [1,2,3,4,5,6,7,8,9,10].sample,
-    status_id: [1,2,3].sample
+    agent_id: [4,5,6,7,8,9,10].sample,
+    status_id: 3
   )
 end
 
