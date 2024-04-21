@@ -22,3 +22,23 @@
   }
 }
 
+
+.ticket-skeleton {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* Ensures the loader is a circle */
+  position: relative;
+  animation: heartbeat 3s infinite; /* Apply the heartbeat animation */
+}
+
+@keyframes heartbeat {
+  0% {
+      background-color: #f0f0f0; /* Initial background color */
+  }
+  50% {
+      background-color: #c0c0c0; /* Intermediate color */
+  }
+  100% {
+      background-color: #f0f0f0; /* Final background color */
+  }
+}
