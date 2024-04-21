@@ -57,9 +57,9 @@ export default function Ticket({
       </td>
 
       {/* Assigned to agent */}
-      <td className="py-4">
+      <td className="py-4 flex">
         {ticket.agent && state.loggedInAgent.agent_id === ticket.agent.id
-          ? "Me"
+          ? <b>Me</b>
           : ticket.agent
             ? ticket.agent.full_name
             : ""}
@@ -91,7 +91,7 @@ export default function Ticket({
                     </h3>
 
                     <div>
-                      <p className="pt-6 text-2xl mb-2 dark:text-white flex flex-col items-center justify-center gap-2">
+                      <div className="pt-6 text-2xl mb-2 dark:text-white flex flex-col items-center justify-center gap-2">
                         Currently Assigned to:
                         <p className="font-bold">
                           {Number(state.loggedInAgent?.agent_id) ===
@@ -103,7 +103,7 @@ export default function Ticket({
                         </p>
                         <LuArrowLeftRight />
                         Transfer to:
-                      </p>
+                      </div>
 
                       <input
                         value={inputValue}
