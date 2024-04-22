@@ -284,15 +284,15 @@ from_customer: false
    # db/seeds.rb
 
 # Assuming you have some agents in your database
-agent1 = Agent.first
-agent2 = Agent.second
+agent1 = Agent.second
+agent2 = Agent.third
 
 # Create some direct chats
-DirectChat.create(sender_id: agent1.id, receiver_id: agent2.id, message: "Hello, how can I help you?")
-DirectChat.create(sender_id: agent2.id, receiver_id: agent1.id, message: "I have a question about my account.")
-DirectChat.create(sender_id: agent1.id, receiver_id: agent2.id, message: "Sure, I'd be happy to help. What's your question?")
-DirectChat.create(sender_id: agent2.id, receiver_id: agent1.id, message: "I can't seem to access my account. Can you assist?")
-DirectChat.create(sender_id: agent1.id, receiver_id: agent2.id, message: "Of course. Let's see what we can do.")
+DirectChat.create(sender_id: agent1.id, receiver_id: agent2.id, message: "Hello, can you help me with a ticket?")
+DirectChat.create(sender_id: agent2.id, receiver_id: agent1.id, message: "Sure, you can transfer it to me with a note")
+DirectChat.create(sender_id: agent1.id, receiver_id: agent2.id, message: "Will do, thanks!")
+DirectChat.create(sender_id: agent2.id, receiver_id: agent1.id, message: "No problem. I have transferred it back to you with a note.")
+DirectChat.create(sender_id: agent1.id, receiver_id: agent2.id, message: "I see it, thanks!")
 
 
 # 20.times do
