@@ -116,10 +116,10 @@ const DirectChat = ({ agent, currentAgentId }) => {
           return (
             <div
               key={index}
-              className={`flex p-4 flex flex-col items-end ${
+              className={`flex p-4 flex-col ${
                 message.receiver_id === Number(currentAgentId)
-                  ? "justify-start"
-                  : "justify-end"
+                  ? "items-start"
+                  : "items-end"
               }`}
             >
               {/* Message bubble */}

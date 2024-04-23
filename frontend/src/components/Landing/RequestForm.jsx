@@ -41,13 +41,13 @@ function RequestForm() {
       })
       .then((response) => {
         console.log("Form submission successful:", response.data);
-        alert("Form submitted successfully!");
+        // alert("Form submitted successfully!");
         setSubmitted(true);
         actions.resetForm();
       })
       .catch((error) => {
         console.error("Error submitting form:", error);
-        alert("Error submitting form!");
+        // alert("Error submitting form!");
       })
       .finally(() => {
         actions.setSubmitting(false);

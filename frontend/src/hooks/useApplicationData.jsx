@@ -125,7 +125,7 @@ const useApplicationData = () => {
         console.error("Error fetching requests", error);
       });
   };
-
+   
     /**
    * This stores the logged in agent in state
    * @function

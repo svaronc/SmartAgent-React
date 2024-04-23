@@ -37,7 +37,9 @@ function TicketInfo() {
   const { state, dispatch } = useAppContext();
   const { resolveTicket, openTicket, sendRespond } = useApplicationData();
   const ticket_id = state.viewTicketId;
-  const logAgent = state.loggedInAgent;
+  const logAgentId = localStorage.getItem("agent_id")
+  const logAgentName = localStorage.getItem("full_name")
+  
   const [replyIsVisible, setReplyIsVisible] = useState(false);
   const [notesPanel, setNotesPanel] = useState(false);
   const [editorState, setEditorState] = useState();
@@ -75,7 +77,7 @@ function TicketInfo() {
 
   useFetchTicketData(`api/v1/tickets/${ticket_id}`, dispatch, ticket_id);
   const ticket = state.ticketData;
-  console.log("agent", logAgent);
+  console.log("agent", logAgentId);
   return (
     <section className="flex-col w-[97%] h-screen m-2 overflow-y-auto bg-base-200">
       <div
@@ -125,7 +127,7 @@ function TicketInfo() {
         >
           <h1 className="font-bold lg:text-2xl text-gray-500 dark:text-white ">
             {ticket.agent &&
-            Number(state.loggedInAgent.agent_id) === ticket.agent.id
+            Number(logAgentId) === ticket.agent.id
               ? "Assigned to: Me"
               : ticket.agent
                 ? `Assigned to: ${ticket.agent.full_name}`
@@ -203,8 +205,8 @@ function TicketInfo() {
                       ticket_id,
                       editorState,
                       attachments,
-                      logAgent.agent_id,
-                      logAgent.full_name
+                      logAgentId,
+                      logAgentName
                     );
                     setReplyIsVisible(!replyIsVisible);
                   }}
