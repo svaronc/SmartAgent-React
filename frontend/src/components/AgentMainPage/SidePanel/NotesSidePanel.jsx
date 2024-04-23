@@ -75,7 +75,7 @@ function NotesSidePanel({ ticket_id, setNotesPanel,setNewNote, notes, setNotes }
             <ul key={note.id}>
               <li className="ring-yellow-600/20 ml-2 mr-2 mb-1 pt-1 pb-1 pl-2 pr-2">
                 <p className="text-slate-400 dark:text-gray-700"></p>
-                <p className="text-slate-400 dark:text-gray-700">{note.agent?.full_name ? "By " : "Added "}<b>{note.agent?.full_name && note.agent.full_name}</b> on {formattedDate}</p>
+                <p className="text-slate-400 dark:text-gray-700">{note.agent?.full_name ? "By " : "Newly added "}<b>{note.agent?.full_name && note.agent.full_name}</b> on {formattedDate}</p>
                 <span className="inline-flex items-center mr-2 rounded-sm bg-yellow-50 px-2 py-1 font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 whitespace-pre-wrap">
                   {note.body}
                 </span>
