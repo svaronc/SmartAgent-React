@@ -30,6 +30,7 @@ function reducer(state, action) {
         ticketManagerView: action.payload,
         ticketInboxView: true,
         ticketInfoView: false,
+        ticketData: []
       };
     case ACTIONS.VIEW_TICKET:
       return {

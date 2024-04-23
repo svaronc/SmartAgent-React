@@ -69,6 +69,23 @@ const useApplicationData = () => {
   };
 
   /**
+   * This sets the ticket status as answered
+   * PATCH /tickets/:id/:status_id
+   * @function
+   * @returns {void}
+   */
+  const answeredTicket = (ticket_id) => {
+    axios
+      .patch(`api/v1/tickets/${ticket_id}`, { status_id: 2 })
+      .then(() => {
+        dispatch({ type: ACTIONS.SET_VIEW, payload: state.ticketManagerView });
+      })
+      .catch((error) => {
+        console.error("Error fetching requests", error);
+      });
+  };
+
+  /**
    * This transfers the ticket
    * PATCH /tickets/:id/:status_id
    * @function
@@ -151,6 +168,7 @@ const useApplicationData = () => {
     getTicketCounts,
     getAgents,
     resolveTicket,
+    answeredTicket,
     transferTicket,
     openTicket,
     sendRespond,
