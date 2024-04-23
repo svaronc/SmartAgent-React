@@ -85,7 +85,7 @@ function TicketInfo() {
         className="flex flex-row justify-between items-center"
       >
         <h1 className="lg:text-4xl font-bold mb-4 text-gray-700 dark:text-white text-xl">
-          {`${ticket.id}: ${ticket.title}`}
+          {ticket.id && `${ticket.id}: ${ticket.title}`}
         </h1>
         {/* <div className="flex flex-row items-center">
           <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
