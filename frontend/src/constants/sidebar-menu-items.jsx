@@ -8,6 +8,6 @@ export const menuItems = [
   { icon: <MdDashboard className="w-[30px] h-[30px] "/>, tooltip: 'Dashboard', path: '/dashboard' },
   { icon: <MdEmail className="w-[30px] h-[30px] "/>, tooltip: 'Emails', path: '/main' },
   { icon: <MdOutlineChatBubble className="w-[30px] h-[30px] "/>, tooltip: 'Chat', path: '/chat' },
-  { icon: <CgProfile className="w-[30px] h-[30px] "/>, tooltip: 'Profile', path: '/profile' },
+  { icon: <CgProfile className="w-[30px] h-[30px] "/>, tooltip: 'Reset Password', path: '/profile' },
  
 ];
