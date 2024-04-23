@@ -93,18 +93,9 @@ function Login() {
           </div>
           <button
             type="submit"
-            className="btn btn-primary w-full p-2 rounded-lg mb-6"
+            className="btn btn-primary w-full p-2 rounded-lg my-6"
           >
             Sign in
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary w-full p-2 rounded-lg mb-6"
-            onClick={() => {
-              /* handle sign in with Google */
-            }}
-          >
-           <FcGoogle className = "w-[20px] h-[20px]"/> Sign in with Google
           </button>
         </form>
       </div>

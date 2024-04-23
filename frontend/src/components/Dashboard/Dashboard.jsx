@@ -15,7 +15,6 @@ import axios from "axios";
 import { BsFillEnvelopeCheckFill, BsEnvelopeOpenFill, BsFillSendCheckFill } from "react-icons/bs";
 import { useAppContext } from "../../context/AppContext";
 import { useChatData } from "../../hooks/useChatData";
-import { motion } from "framer-motion"
 
 ChartJS.register(
   CategoryScale,
@@ -120,10 +119,10 @@ const Dashboard = () => {
     ],
   };
   return (
-    <div className="min-h-screen flex items-center justify-center lg:pl-52 w-[95%]">
+    <div className="min-h-screen flex items-center justify-center w-[95%]">
       <div className="grid grid-cols-4 gap-4 cursor-pointer">
         {/* Profile panel */}
-      <div className="flex flex-row justify-center bg-white shadow-lg rounded-xl col-span-1 row-span-3">
+      <div className="flex flex-row justify-center bg-white shadow-lg rounded-xl col-span-1 row-span-3 ">
           <div className="flex flex-col justify-center items-center mb-10">
             <div className="avatar">
               <div className="w-24 rounded-full">
@@ -142,7 +141,7 @@ const Dashboard = () => {
           </div>
         </div>
         {/* Open Tickets */}
-        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
+        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 flex flex-col items-center justify-center">
           <div className="flex mt-3">
             <BsEnvelopeOpenFill className="w-5 h-5 mx-3 text-blue-600" />
             <p className="text-2xl text-blue-600">
@@ -152,7 +151,7 @@ const Dashboard = () => {
           <h2 className="text-2xl">Open Tickets</h2>
         </div>
         {/* Answered Tickets */}
-        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
+        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44  flex flex-col items-center justify-center">
           <div className="flex mt-3">
             <BsFillSendCheckFill className="w-5 h-5 mx-3 text-blue-600" />
             <p className="text-2xl text-blue-600">
@@ -162,7 +161,7 @@ const Dashboard = () => {
           <h2 className="text-2xl">Answered Tickets</h2>
         </div>
         {/* Resolved Tickets */}
-        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44 lg:w-72 flex flex-col items-center justify-center">
+        <div className=" bg-white shadow-lg rounded-xl col-span-1 h-44  flex flex-col items-center justify-center">
           <div className="flex mt-3">
             <BsFillEnvelopeCheckFill className="w-5 h-5 mx-3 text-blue-600" />
             <p className="text-2xl text-blue-600">
