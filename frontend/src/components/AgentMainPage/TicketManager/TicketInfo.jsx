@@ -35,7 +35,7 @@ import DeleteConfirmationModal from "../Modal/DeleteConfirmationModal";
 
 function TicketInfo() {
   const { state, dispatch } = useAppContext();
-  const { resolveTicket, openTicket, sendRespond } = useApplicationData();
+  const { resolveTicket, openTicket, sendRespond, answeredTicket } = useApplicationData();
   const ticket_id = state.viewTicketId;
   const logAgentId = localStorage.getItem("agent_id")
   const logAgentName = localStorage.getItem("full_name")
@@ -208,6 +208,7 @@ function TicketInfo() {
                       logAgentId,
                       logAgentName
                     );
+                    answeredTicket(ticket_id)
                     setReplyIsVisible(!replyIsVisible);
                   }}
                 >
