@@ -63,6 +63,13 @@ function RequestForm() {
           <p className="text-2xl">
             You will receive our response by email within 2 business days.
           </p>
+          <button
+                  type="submit"
+                  className="mt-10 bg-blue-500 text-white py-2 px-4 rounded-md focus:outline-none hover:bg-blue-600"
+                  onClick={() => setSubmitted(false)}
+                >
+                  New Request
+                </button>
         </div>
       ) : (
         <div>
