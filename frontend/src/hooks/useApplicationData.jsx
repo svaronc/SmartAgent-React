@@ -78,7 +78,7 @@ const useApplicationData = () => {
     axios
       .patch(`api/v1/tickets/${ticket_id}`, { status_id: 2 })
       .then(() => {
-        dispatch({ type: ACTIONS.SET_VIEW, payload: state.ticketManagerView });
+        // dispatch({ type: ACTIONS.SET_VIEW, payload: state.ticketManagerView });
       })
       .catch((error) => {
         console.error("Error fetching requests", error);

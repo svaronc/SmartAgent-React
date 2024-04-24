@@ -22,7 +22,7 @@ function Login() {
         password
     });
     console.log(response.data);
-    // setLoggedInAgent(response.data); // {logged_in: true, agent_id: 3, full_name: 'Gloria lim'}
+    setLoggedInAgent(response.data); // {logged_in: true, agent_id: 3,full_name: 'Gloria lim'}
     localStorage.setItem('isAuthenticated', 'true');
     localStorage.setItem('full_name', response.data.full_name);
     localStorage.setItem('agent_id', response.data.agent_id);

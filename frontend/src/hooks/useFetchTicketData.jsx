@@ -18,6 +18,7 @@ const useFetchTicketData = (API_URL, dispatch, ticket_id) => {
         },
       })
       .then((res) => {
+        console.log("Ticket data", res.data);
         const ticketData = res.data;
         dispatch({ type: ACTIONS.GET_TICKET_DATA, payload: ticketData });
 
@@ -31,8 +32,8 @@ const useFetchTicketData = (API_URL, dispatch, ticket_id) => {
                 console.log("Connected to WebSocket");
               },
               received: (data) => {
-                console.log("Received data", data);
-                if (data.ticket_id === ticket_id) {
+                if (data.id === ticket_id) {
+                  console.log(" after Received data", data);
                   dispatch({ type: ACTIONS.ADD_CONVERSATION, payload: data });
                 }
                 if (state.ticketData.agent_id !== data.agent_id) {

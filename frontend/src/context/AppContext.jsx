@@ -30,7 +30,7 @@ function reducer(state, action) {
         ticketManagerView: action.payload,
         ticketInboxView: true,
         ticketInfoView: false,
-        ticketData: []
+        // ticketData: []
       };
     case ACTIONS.VIEW_TICKET:
       return {
@@ -42,16 +42,7 @@ function reducer(state, action) {
     case ACTIONS.ADD_CONVERSATION:
       return {
         ...state,
-        ticketData:
-          state.ticketData.id === action.payload.ticket_id
-            ? {
-                ...state.ticketData,
-                conversations: [
-                  ...state.ticketData.conversations,
-                  action.payload,
-                ],
-              }
-            : state.ticketData,
+        
       };
     case ACTIONS.COUNT_ALL:
       return { ...state, countAll: action.payload };
