@@ -30,6 +30,7 @@ function TicketInbox() {
   const [transferToAgentId, setTransferToAgentId] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const agentFullName = localStorage.getItem("full_name");
 
   const closeModal = () => {
     setInputValue("");
@@ -77,7 +78,7 @@ function TicketInbox() {
     <section className="flex flex-col">
       <section className="flex bg-base-100 shadow-md pl-5">
         <div className="flex-col items-start mt-2">
-          <h1 className="text-2xl font-bold mb-4">{state.ticketManagerView}</h1>
+          <h1 className="text-2xl font-bold mb-4">{state.ticketManagerView} (<span>{agentFullName}</span>)</h1>
           <div className="mb-4">
             <input
               type="search"
