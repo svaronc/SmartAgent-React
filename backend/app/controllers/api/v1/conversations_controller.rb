@@ -4,14 +4,14 @@ class Api::V1::ConversationsController < ApplicationController
   # GET /conversations
   # GET /conversations.json
   def index
-    @conversations = Conversation.all
+    @conversations = Conversation.order(created_at: :desc)
     render json: @conversations
   end
 
   # GET /conversations/1
   # GET /conversations/1.json
   def show
-    conversation = Conversation.find(params[:id])
+    conversation = Conversation.find(params[:id]).order(created_at: :desc)
     render json: conversation.as_json.merge({
                                               attachments: conversation.attachments.map do |attachment|
                                                 url_for(attachment)

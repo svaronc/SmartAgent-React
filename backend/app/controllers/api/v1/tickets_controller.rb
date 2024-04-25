@@ -4,7 +4,7 @@ class Api::V1::TicketsController < ApplicationController
   # GET api/v1/tickets
   # GET api/v1/tickets.json
   def index
-    @tickets = Ticket.order(status_id: :asc, created_at: :desc, title: :asc)
+    @tickets = Ticket.includes(:conversations).order(status_id: :asc, created_at: :desc, title: :asc).order('conversations.created_at DESC')
     render json: @tickets.as_json(include: {
                                     conversations: {
                                       methods: :attachments_urls
@@ -21,7 +21,8 @@ class Api::V1::TicketsController < ApplicationController
   # GET api/v1/tickets/1
   # GET api/v1/tickets/1.json
   def show
-    ticket = Ticket.find(params[:id])
+    ticket = Ticket.includes(:conversations).order('conversations.created_at ASC').find(params[:id])
+    ticket.conversations = ticket.conversations.order(created_at: :desc)
     render json: ticket.as_json(include: {
                                   conversations: {
                                     methods: :attachments_urls

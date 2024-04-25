@@ -77,8 +77,11 @@ function TicketInbox() {
   return (
     <section className="flex flex-col">
       <section className="flex bg-base-100 shadow-md pl-5">
-        <div className="flex-col items-start mt-2">
-          <h1 className="text-2xl font-bold mb-4">{state.ticketManagerView} (<span>{agentFullName}</span>)</h1>
+        <div className="flex-col items-start mt-2 w-[100%]">
+          <div className="flex w-[100%] justify-between">
+          <h1 className="text-2xl font-bold mb-4">{state.ticketManagerView} </h1>
+          <h2 className="text-2xl font-bold mr-8">Logged in as: {agentFullName}</h2>
+          </div>
           <div className="mb-4">
             <input
               type="search"
